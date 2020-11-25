@@ -1,0 +1,30 @@
+{
+    "name": "sunnysideup/bookings",
+    "type": "silverstripe-vendormodule",
+    "description": "bookings",
+    "keywords": [
+        "Silverstripe-CMS",
+        "CMS",
+        "Silverstripe",
+        "bookings",
+        "tourism",
+        "groups",
+        "tours"
+    ],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Nicolaas Francken",
+            "email": "modules@sunnysideup.co.nz",
+            "role": "lead developer"
+        }
+    ],
+    "require": {
+        "silverstripe/framework": "~3.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sunnysideup\\Bookings\\": "src/"
+        }
+    }
+}
