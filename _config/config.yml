@@ -1,0 +1,11 @@
+---
+Name: dev_urls-confirmation-middleware-tours
+After:
+  - 'dev_urls-confirmation-middleware'
+---
+
+SilverStripe\Core\Injector\Injector:
+  DevUrlsConfirmationMiddleware:
+    properties:
+      Bypasses:
+        - '%$Sunnysideup\Bookings\Control\Middleware\ConfirmationMiddleware\TourTasksBypass'

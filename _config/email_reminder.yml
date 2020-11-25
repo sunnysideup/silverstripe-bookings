@@ -1,0 +1,14 @@
+---
+name: EmailReminder
+---
+SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut:
+  daily_limit: 100
+  replacer_class: Sunnysideup\Bookings\Api\TourBookingsEmailReminderReplacerClass
+SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule:
+  default_data_object: Sunnysideup\Bookings\Model\Booking
+  default_email_field: InitiatingEmail
+  default_date_field: Date
+  disabled_checkbox_label: 'Only send on form submission'
+  grace_days: 0
+SunnySideUp\EmailReminder\Email\EmailReminderMailer:
+  css_file: ''
