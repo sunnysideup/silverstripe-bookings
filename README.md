@@ -1,11 +1,11 @@
-# Silverstripe bookings module
-[![Build Status](https://travis-ci.org/sunnysideup/silverstripe-bookings.svg?branch=master)](https://travis-ci.org/sunnysideup/silverstripe-bookings)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sunnysideup/silverstripe-bookings/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sunnysideup/silverstripe-bookings/?branch=master)
-[![codecov.io](https://codecov.io/github/sunnysideup/silverstripe-bookings/coverage.svg?branch=master)](https://codecov.io/github/sunnysideup/silverstripe-bookings?branch=master)
+# Silverstripe instgram-feed module
+[![Build Status](https://travis-ci.org/sunnysideup/silverstripe-instgram-feed.svg?branch=master)](https://travis-ci.org/sunnysideup/silverstripe-instgram-feed)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sunnysideup/silverstripe-instgram-feed/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sunnysideup/silverstripe-instgram-feed/?branch=master)
+[![codecov.io](https://codecov.io/github/sunnysideup/silverstripe-instgram-feed/coverage.svg?branch=master)](https://codecov.io/github/sunnysideup/silverstripe-instgram-feed?branch=master)
 
-[![Latest Stable Version](https://poser.pugx.org/sunnysideup/bookings/version)](https://packagist.org/packages/sunnysideup/bookings)
-[![License](https://poser.pugx.org/sunnysideup/bookings/license)](https://packagist.org/packages/sunnysideup/bookings)
-[![Monthly Downloads](https://poser.pugx.org/sunnysideup/bookings/d/monthly)](https://packagist.org/packages/sunnysideup/bookings)
+[![Latest Stable Version](https://poser.pugx.org/sunnysideup/instgram-feed/version)](https://packagist.org/packages/sunnysideup/instgram-feed)
+[![License](https://poser.pugx.org/sunnysideup/instgram-feed/license)](https://packagist.org/packages/sunnysideup/instgram-feed)
+[![Monthly Downloads](https://poser.pugx.org/sunnysideup/instgram-feed/d/monthly)](https://packagist.org/packages/sunnysideup/instgram-feed)
 
 
 ## Documentation
@@ -14,7 +14,7 @@
 
  * [Developer Docs](docs/en/INDEX.md)
  * [User Guide](docs/en/userguide.md)
- * [API Docs](http://docs.ssmods.com/sunnysideup/bookings/classes.xhtml)
+ * [API Docs](http://docs.ssmods.com/sunnysideup/instgram-feed/classes.xhtml)
 
 
 ## Requirements
@@ -35,19 +35,19 @@ See [composer.json](composer.json) for details
 
 
 ```
-composer require sunnysideup/bookings
+composer require sunnysideup/instgram-feed
 ```
 
 ### Configuration
 
 
 
-In the `_config` folder you will find the `bookings.yml.example`
+In the `_config` folder you will find the `instgram-feed.yml.example`
 file that shows options for the configuration of this module.
 
 We recommend that you:
 
-  1. copy these `bookings.yml.example` files into your
+  1. copy these `instgram-feed.yml.example` files into your
 `app/_config` folder (where available - otherwise search for `private static $` in the module to see what can be configured)
   2. remove the .example extension,
   3. delete the lines you do not care about, and

@@ -1,15 +1,14 @@
 {
-    "name": "sunnysideup/bookings",
+    "name": "sunnysideup/instgram-feed",
     "type": "silverstripe-vendormodule",
-    "description": "bookings",
+    "description": "instgram-feed",
     "keywords": [
         "Silverstripe-CMS",
         "CMS",
         "Silverstripe",
-        "bookings",
-        "tourism",
-        "groups",
-        "tours"
+        "Instagram",
+        "Feed",
+        "Social"
     ],
     "license": "BSD-3-Clause",
     "authors": [
@@ -24,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Sunnysideup\\Bookings\\": "src/"
+            "Sunnysideup\\InstgramFeed\\": "src/"
         }
     }
 }
