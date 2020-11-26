@@ -1,0 +1,10 @@
+---
+Only:
+  moduleexists: 'grouped-cms-menu'
+---
+
+LeftAndMain:
+  menu_groups:
+    Tours:
+      - TourBookingsAdmin
+      - EmailReminder_ModelAdmin

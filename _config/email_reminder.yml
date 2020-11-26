@@ -1,0 +1,17 @@
+---
+name: EmailReminder
+---
+
+EmailReminder_DailyMailOut:
+  daily_limit: 100
+  replacer_class: 'TourBookingsEmailReminder_ReplacerClass'
+
+EmailReminder_NotificationSchedule:
+  default_data_object: 'Booking'
+  default_email_field: 'InitiatingEmail'
+  default_date_field: 'Date'
+  disabled_checkbox_label: "Only send on form submission"
+  grace_days: 0
+
+EmailReminder_Mailer:
+  css_file: ""
