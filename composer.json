@@ -19,7 +19,10 @@
         }
     ],
     "require": {
-        "silverstripe/framework": "~3.6"
+        "silverstripe/framework": "~3.6",
+        "sunnysideup/email_reminder": "*",
+        "sunnysideup/google-calendar-interface": "*",
+        "sunnysideup/permission_provider": "*"
     },
     "autoload": {
         "psr-4": {
