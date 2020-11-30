@@ -2,46 +2,25 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-use TourBookingPage_Controller;
-use SilverStripe\Security\Member;
-use SunnySideUp\EmailReminder\Model\EmailReminder_NotificationSchedule;
-use Sunnysideup\Bookings\Model\TourBookingSettings;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\Security\Permission;
-use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
-use SilverStripe\ORM\DB;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\Control\Director;
-use Sunnysideup\PermissionProvider\Api\PermissionProviderFactory;
-use Sunnysideup\Bookings\Model\Tour;
-use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
-use SilverStripe\Security\Group;
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\TextareaField;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
-use Sunnysideup\Bookings\Model\Booking;
-use Sunnysideup\Bookings\Tasks\TourBuilder;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\TextareaField;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\DB;
+use SilverStripe\Security\Group;
+use SilverStripe\Security\Member;
+use SilverStripe\Security\Permission;
+use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
 use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
-
-
-
-
+use Sunnysideup\Bookings\Tasks\TourBuilder;
+use SunnySideUp\EmailReminder\Model\EmailReminder_NotificationSchedule;
+use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
+use Sunnysideup\PermissionProvider\Api\PermissionProviderFactory;
+use TourBookingPage_Controller;
 
 class TourBookingSettings extends TourBaseClass
 {
@@ -53,42 +32,26 @@ class TourBookingSettings extends TourBaseClass
 
     private static $monthly_tour_report_email_to = '';
 
-
     #######################
     ### Names Section
     #######################
 
     private static $singular_name = 'Tour Booking Settings';
 
-    public function i18n_singular_name()
-    {
-        return _t('TourBookingSettings.SINGULAR_NAME', 'Tour Booking Settings');
-    }
-
     private static $plural_name = 'Tour Booking Settings';
-
-    public function i18n_plural_name()
-    {
-        return _t('TourBookingSettings.PLURAL_NAME', 'Tour Booking Settings');
-    }
-
 
     #######################
     ### Model Section
     #######################
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * OLD: private static $db (case sensitive)
-  * NEW: 
-    private static $table_name = '[SEARCH_REPLACE_CLASS_NAME_GOES_HERE]';
-
+    /**
+     * ### @@@@ START REPLACEMENT @@@@ ###
+     * OLD: private static $db (case sensitive)
+     * NEW:
     private static $db (COMPLEX)
-  * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    
+     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
+     * ### @@@@ STOP REPLACEMENT @@@@ ###
+     */
     private static $table_name = 'TourBookingSettings';
 
     private static $db = [
@@ -97,7 +60,7 @@ class TourBookingSettings extends TourBaseClass
         'TourFullMessage' => 'Varchar',
         'WaitlistInfoMessage' => 'Varchar(511)',
         'GoogleCalendarVerificationCode' => 'Varchar(255)',
-        'ConfirmationPageContent' => 'HTMLText'
+        'ConfirmationPageContent' => 'HTMLText',
     ];
 
     private static $has_one = [
@@ -106,9 +69,8 @@ class TourBookingSettings extends TourBaseClass
         'UpdateConfirmationEmail' => EmailReminder_NotificationSchedule::class,
         'CancellationConfirmationEmail' => EmailReminder_NotificationSchedule::class,
         'WaitlistConfirmationEmail' => EmailReminder_NotificationSchedule::class,
-        'TourSpacesAvailableEmail' => EmailReminder_NotificationSchedule::class
+        'TourSpacesAvailableEmail' => EmailReminder_NotificationSchedule::class,
     ];
-
 
     #######################
     ### Further DB Field Details
@@ -116,17 +78,16 @@ class TourBookingSettings extends TourBaseClass
 
     private static $defaults = [
         'MaximumNumberPerGroup' => '10',
-        'NumberOfDaysToGenerateToursInAdvance' => 60
+        'NumberOfDaysToGenerateToursInAdvance' => 60,
     ];
 
     private static $default_sort = [
-        'ID' => 'ASC'
+        'ID' => 'ASC',
     ];
 
     private static $required_fields = [
-        'AdministratorID'
+        'AdministratorID',
     ];
-
 
     #######################
     ### Field Names and Presentation Section
@@ -136,19 +97,19 @@ class TourBookingSettings extends TourBaseClass
         'Administrator' => 'Tour Booking Manager',
         'TourFullMessage' => 'Tour Full Message',
         'MaximumNumberPerGroup' => 'Max Pax per Group',
-        'NumberOfDaysToGenerateToursInAdvance' => 'Tour Auto Generation'
+        'NumberOfDaysToGenerateToursInAdvance' => 'Tour Auto Generation',
     ];
 
     private static $field_labels_right = [
         'Administrator' => 'Make sure that the administrator has the right email address.',
         'TourFullMessage' => 'Message displayed to a user when a tour is fully booked',
         'MaximumNumberPerGroup' => 'Maximum number of people per group (set to zero to ignore)',
-        'NumberOfDaysToGenerateToursInAdvance' => 'The number of days in advance that tours will be auto generated. The auto generator runs at 2AM everyday, if this is set to 0 then no tours will be auto generated.'
+        'NumberOfDaysToGenerateToursInAdvance' => 'The number of days in advance that tours will be auto generated. The auto generator runs at 2AM everyday, if this is set to 0 then no tours will be auto generated.',
     ];
 
     private static $summary_fields = [
         'MaximumNumberPerGroup' => 'Max Pax',
-        'Administrator.Title' => 'Administrator'
+        'Administrator.Title' => 'Administrator',
     ];
 
     private static $email_fields = [
@@ -156,27 +117,35 @@ class TourBookingSettings extends TourBaseClass
         'UpdateConfirmationEmailID',
         'CancellationConfirmationEmailID',
         'WaitlistConfirmationEmailID',
-        'TourSpacesAvailableEmailID'
+        'TourSpacesAvailableEmailID',
     ];
 
     private static $message_fields = [
         'TourFullMessage',
         'WaitlistInfoMessage',
-        'ConfirmationPageContent'
+        'ConfirmationPageContent',
     ];
 
+    public function i18n_singular_name()
+    {
+        return _t('TourBookingSettings.SINGULAR_NAME', 'Tour Booking Settings');
+    }
+
+    public function i18n_plural_name()
+    {
+        return _t('TourBookingSettings.PLURAL_NAME', 'Tour Booking Settings');
+    }
 
     public static function inst()
     {
         $obj = DataObject::get_one(TourBookingSettings::class);
-        if (!$obj) {
+        if (! $obj) {
             $obj = TourBookingSettings::create();
             $obj->write();
         }
 
         return $obj;
     }
-
 
     #######################
     ### can Section
@@ -201,8 +170,6 @@ class TourBookingSettings extends TourBaseClass
     {
         return false;
     }
-
-
 
     #######################
     ### write Section
@@ -232,7 +199,7 @@ class TourBookingSettings extends TourBaseClass
             $baseURL = str_replace('https://', '', $baseURL);
             $baseURL = str_replace('http://', '', $baseURL);
             $baseURL = trim($baseURL, '/');
-            $email = 'tours@'.$baseURL;
+            $email = 'tours@' . $baseURL;
         }
         $group = PermissionProviderFactory::inst()
             ->setEmail($email)
@@ -249,7 +216,7 @@ class TourBookingSettings extends TourBaseClass
         if (TourBookingSettings::get()->count() === 0) {
             DB::alteration_message('Creating Tour Bookings Settings', 'created');
             $obj = TourBookingSettings::create();
-            if (!$obj->AdministratorID) {
+            if (! $obj->AdministratorID) {
                 if ($member) {
                     $obj->AdministratorID = $member->ID;
                 }
@@ -266,7 +233,6 @@ class TourBookingSettings extends TourBaseClass
         }
     }
 
-
     #######################
     ### Import / Export Section
     #######################
@@ -277,45 +243,39 @@ class TourBookingSettings extends TourBaseClass
         return parent::getExportFields();
     }
 
-
-
     #######################
     ### CMS Edit Section
     #######################
-
 
     public function CMSEditLink()
     {
         $controller = singleton(TourBookingsAdmin::class);
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-        return $controller->Link().$this->ClassName."/EditForm/field/".$this->ClassName."/item/".$this->ID."/edit";
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
+        return $controller->Link() . $this->ClassName . '/EditForm/field/' . $this->ClassName . '/item/' . $this->ID . '/edit';
     }
 
     public function CMSAddLink()
     {
         $controller = singleton(TourBookingsAdmin::class);
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-        return $controller->Link().$this->ClassName."/EditForm/field/".$this->ClassName."/item/new";
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
+        return $controller->Link() . $this->ClassName . '/EditForm/field/' . $this->ClassName . '/item/new';
     }
-
 
     public function getCMSFields()
     {
@@ -326,7 +286,7 @@ class TourBookingSettings extends TourBaseClass
         foreach ($rightFieldDescriptions as $field => $desc) {
             $formField = $fields->DataFieldByName($field);
             if (! $formField) {
-                $formField = $fields->DataFieldByName($field.'ID');
+                $formField = $fields->DataFieldByName($field . 'ID');
             }
             if ($formField) {
                 $formField->setDescription($desc);
@@ -335,10 +295,10 @@ class TourBookingSettings extends TourBaseClass
         $group = Group::get()
             ->filter(
                 [
-                    'code' =>[
+                    'code' => [
                         Config::inst()->get(TourBookingSettings::class, 'group_code'),
-                        'ADMIN'
-                    ]
+                        'ADMIN',
+                    ],
                 ]
             )->first();
         if ($group) {
@@ -363,7 +323,7 @@ class TourBookingSettings extends TourBaseClass
             )
         );
 
-        if (class_exists(GoogleCalendarInterface::class) && !Director::isDev()) {
+        if (class_exists(GoogleCalendarInterface::class) && ! Director::isDev()) {
             $calendar = new GoogleCalendarInterface();
             $calendarVerificationField = $fields->dataFieldByName('GoogleCalendarVerificationCode');
             if (empty($calendar->config())) {
@@ -378,7 +338,7 @@ class TourBookingSettings extends TourBaseClass
                     '<div id="GoogleCalendarVerificationURL_Holder" class="field text">
                         <label class="left" for="GoogleCalendarVerificationURL"></label>
                         <div class="middleColumn">
-                            '.$calendar->getAuthLink().'
+                            ' . $calendar->getAuthLink() . '
                         </div>
                     </div>'
                 ),
@@ -395,12 +355,12 @@ class TourBookingSettings extends TourBaseClass
                 'Root.Emails',
                 $formField
             );
-            if ($this->$field) {
-                $emailNotifier = EmailReminder_NotificationSchedule::get()->byID($this->$field);
+            if ($this->{$field}) {
+                $emailNotifier = EmailReminder_NotificationSchedule::get()->byID($this->{$field});
                 if ($emailNotifier) {
                     $cmsLink = $emailNotifier->CMSEditLink();
                     if ($cmsLink) {
-                        $formField->setRightTitle('<a href="'.$cmsLink.'" target="_blank">Edit</a> the content of this email');
+                        $formField->setRightTitle('<a href="' . $cmsLink . '" target="_blank">Edit</a> the content of this email');
                     }
                 }
             }
@@ -471,4 +431,3 @@ class TourBookingSettings extends TourBaseClass
         return $fields;
     }
 }
-

@@ -2,38 +2,21 @@
 
 namespace Sunnysideup\Bookings\Forms;
 
-
-
-
-
-
-
-
-
-
-
-
-
-use SilverStripe\Forms\FieldList;
-use Sunnysideup\Bookings\Model\Tour;
-use SilverStripe\Forms\OptionsetField;
-use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\FormAction;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\RequiredFields;
-use SilverStripe\Forms\Form;
+use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Convert;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\OptionsetField;
+use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\TextField;
 use Sunnysideup\Bookings\Model\Booking;
-use SilverStripe\Control\Controller;
-
-
-
-
+use Sunnysideup\Bookings\Model\Tour;
 
 class SelfCheckInForm extends Form
 {
-
     public function __construct($controller, $name)
     {
         $fieldList = FieldList::create();
@@ -42,14 +25,13 @@ class SelfCheckInForm extends Form
         $tours = Tour::get()->filter(
             [
                 'Date:GreaterThanOrEqual' => date('Y-m-d'),
-                'Date:LessThanOrEqual' => date('Y-m-d')
+                'Date:LessThanOrEqual' => date('Y-m-d'),
             ]
         );
-        if($tours->count() > 0){
+        if ($tours->count() > 0) {
             foreach ($tours as $tour) {
                 $todaysTours[$tour->ID] = $tour->TourTimeAndDate();
             }
-
 
             $fieldList->push(
                 OptionsetField::create('TodaysTours', 'Which tour are you attending today?', $todaysTours)
@@ -65,17 +47,13 @@ class SelfCheckInForm extends Form
                     'I have arrived'
                 )
             );
-        }
-        else {
+        } else {
             $fieldList->push(
                 LiteralField::create('NoTours', 'Sorry, there are no tours available today.')
             );
 
             $actions = FieldList::create();
-
         }
-
-
 
         $validator = new RequiredFields(['TodaysTours']);
 
@@ -87,7 +65,6 @@ class SelfCheckInForm extends Form
     /**
      * Form action handler for TourBookingCancellationForm.
      *
-     *
      * @param array $data The form request data submitted
      * @param Form  $form The {@link Form} this was submitted on
      */
@@ -96,7 +73,7 @@ class SelfCheckInForm extends Form
         $this->saveDataToSession();
         $data = Convert::raw2sql($data);
 
-        if(empty($data['TodaysTours'])) {
+        if (empty($data['TodaysTours'])) {
             $this->addErrorMessage(
                 'TodaysTours',
                 'Please select the tour you are attending from the list above',
@@ -104,8 +81,7 @@ class SelfCheckInForm extends Form
             );
 
             return $this->controller->redirectBack();
-        }
-        else if(empty($data['BookingData'])) {
+        } elseif (empty($data['BookingData'])) {
             $this->addErrorMessage(
                 'TodaysTours',
                 'You need to enter either your surname, email, phone number or booking code into the field below.',
@@ -113,63 +89,58 @@ class SelfCheckInForm extends Form
             );
             return $this->controller->redirectBack();
         }
-        else {
-            $bookingFound = false;
-            $fieldsToCheck = [
-                    'Code' => 'booking code',
-                    'InitiatingEmail' => 'email',
-                    'PrimaryPhone' => 'phone number',
-                    'InitiatingSurname'  => 'surname'
-            ];
+        $bookingFound = false;
+        $fieldsToCheck = [
+            'Code' => 'booking code',
+            'InitiatingEmail' => 'email',
+            'PrimaryPhone' => 'phone number',
+            'InitiatingSurname' => 'surname',
+        ];
 
-            foreach ($fieldsToCheck as $fieldToCheck => $niceFieldName) {
-                $booking = Booking::get()->filter(
-                    [
-                        'TourID' => intval($data['TodaysTours']),
-                        $fieldToCheck => $data['BookingData']
-                    ]
-                );
-                if($booking->exists()) {
-                    if($booking->count() > 1){
-                        $booking = $booking->exclude(['HasArrived' => true]);
-                        if($booking->count() > 1){
-                            $this->addErrorMessage(
-                                'BookingData',
-                                'Sorry there is more than one tour group with a booking for that ' .  $niceFieldName,
-                                'bad'
-                            );
-                            return $this->controller->redirectBack();
-                        }
-                    }
-                    $bookingFound = true;
-                    $booking = $booking->first();
-                    if($booking->HasArrived){
+        foreach ($fieldsToCheck as $fieldToCheck => $niceFieldName) {
+            $booking = Booking::get()->filter(
+                [
+                    'TourID' => intval($data['TodaysTours']),
+                    $fieldToCheck => $data['BookingData'],
+                ]
+            );
+            if ($booking->exists()) {
+                if ($booking->count() > 1) {
+                    $booking = $booking->exclude(['HasArrived' => true]);
+                    if ($booking->count() > 1) {
                         $this->addErrorMessage(
-                            'TodaysTours',
-                            'This booking has already been checked in   ',
+                            'BookingData',
+                            'Sorry there is more than one tour group with a booking for that ' . $niceFieldName,
                             'bad'
                         );
                         return $this->controller->redirectBack();
                     }
-                    else {
-                        $booking->HasArrived = true;
-                        $booking->write();
-                        $redirect = $this->controller->Link('confirmselfcheckin/'.$booking->Code);
-                        return $this->controller->redirect($redirect);
-                    }
                 }
-
+                $bookingFound = true;
+                $booking = $booking->first();
+                if ($booking->HasArrived) {
+                    $this->addErrorMessage(
+                        'TodaysTours',
+                        'This booking has already been checked in   ',
+                        'bad'
+                    );
+                    return $this->controller->redirectBack();
+                }
+                $booking->HasArrived = true;
+                $booking->write();
+                $redirect = $this->controller->Link('confirmselfcheckin/' . $booking->Code);
+                return $this->controller->redirect($redirect);
             }
+        }
 
-            if(!$bookingFound) {
-                //TODO: message should be editable from CMS
-                $this->addErrorMessage(
-                    'TodaysTours',
-                    'Oops, this booking doesn\'t seem to exist in the Peanut Butter World ether. Probably best to ask the PB guru who\'s hanging out behind the desk for some help ',
-                    'bad'
-                );
-                return $this->controller->redirectBack();
-            }
+        if (! $bookingFound) {
+            //TODO: message should be editable from CMS
+            $this->addErrorMessage(
+                'TodaysTours',
+                'Oops, this booking doesn\'t seem to exist in the Peanut Butter World ether. Probably best to ask the PB guru who\'s hanging out behind the desk for some help ',
+                'bad'
+            );
+            return $this->controller->redirectBack();
         }
     }
 
@@ -182,16 +153,14 @@ class SelfCheckInForm extends Form
     {
         $data = $this->getData();
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: Session:: (case sensitive)
-  * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
-  * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly. 
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: Session:: (case sensitive)
+         * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
+         * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly.
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         Controller::curr()->getRequest()->getSession()->set("FormInfo.{$this->FormName()}.data", $data);
     }
-
 }
-

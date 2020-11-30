@@ -2,18 +2,12 @@
 
 namespace Sunnysideup\Bookings\Search;
 
-
-
-
 use SilverStripe\ORM\DataQuery;
 use SilverStripe\ORM\FieldType\DBDate;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 
-
-
 class TourDate_Filter extends ExactMatchFilter
 {
-
     /**
      *@return SQLQuery
      **/
@@ -31,4 +25,3 @@ class TourDate_Filter extends ExactMatchFilter
         return $query;
     }
 }
-

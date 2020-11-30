@@ -2,53 +2,30 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-
-use Sunnysideup\Bookings\Model\DateInfo;
 use SilverStripe\ORM\FieldType\DBField;
-
-
-
-
 
 class TimesForTour extends TourBaseClass
 {
-
-
     #######################
     ### Names Section
     #######################
 
     private static $singular_name = 'Tour Time';
 
-    public function i18n_singular_name()
-    {
-        return _t('TimesForTour.SINGULAR_NAME', 'Tour Time');
-    }
-
     private static $plural_name = 'Tour Times';
-
-    public function i18n_plural_name()
-    {
-        return _t('TimesForTour.PLURAL_NAME', 'Tour Times');
-    }
-
 
     #######################
     ### Model Section
     #######################
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * OLD: private static $db (case sensitive)
-  * NEW: 
-    private static $table_name = '[SEARCH_REPLACE_CLASS_NAME_GOES_HERE]';
-
+    /**
+     * ### @@@@ START REPLACEMENT @@@@ ###
+     * OLD: private static $db (case sensitive)
+     * NEW:
     private static $db (COMPLEX)
-  * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    
+     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
+     * ### @@@@ STOP REPLACEMENT @@@@ ###
+     */
     private static $table_name = 'TimesForTour';
 
     private static $db = [
@@ -57,39 +34,37 @@ class TimesForTour extends TourBaseClass
         'Duration' => 'Int',
         'NumberOfSpacesAvailable' => 'Int',
         'PublicContent' => 'HTMLText',
-        'PrivateContent' => 'HTMLText'
+        'PrivateContent' => 'HTMLText',
     ];
 
     private static $belongs_many_many = [
-        'DateInfos' => DateInfo::class
+        'DateInfos' => DateInfo::class,
     ];
-
 
     #######################
     ### Further DB Field Details
     #######################
 
     private static $indexes = [
-        'Title' => true
+        'Title' => true,
     ];
 
     private static $defaults = [
         'Duration' => 60,
-        'NumberOfSpacesAvailable' => 15
+        'NumberOfSpacesAvailable' => 15,
     ];
 
     private static $default_sort = [
         'StartTime' => 'ASC',
-        'ID' => 'ASC'
+        'ID' => 'ASC',
     ];
 
     private static $required_fields = [
         'Title',
         'NumberOfSpacesAvailable',
         'StartTime',
-        'Duration'
+        'Duration',
     ];
-
 
     #######################
     ### Field Names and Presentation Section
@@ -99,32 +74,40 @@ class TimesForTour extends TourBaseClass
         'Title' => 'Name',
         'NumberOfSpacesAvailable' => 'Spaces available',
         'PrivateContent' => 'More information for staff only',
-        'PublicContent' => 'Information for public'
+        'PublicContent' => 'Information for public',
     ];
 
     private static $field_labels_right = [
         'StartTime' => 'Please enter in 24-hour clock',
         'Duration' => 'In Minutes - e.g. 90',
         'Title' => 'E.g. early morning tour, lunch tour, etc...',
-        'NumberOfSpacesAvailable' => 'Number of people who can join this tour time'
+        'NumberOfSpacesAvailable' => 'Number of people who can join this tour time',
     ];
 
     private static $summary_fields = [
         'Title' => 'Name',
         'StartTime.Nice' => 'Starts',
         'Duration' => 'Minutes',
-        'NumberOfSpacesAvailable' => 'Spaces Available'
+        'NumberOfSpacesAvailable' => 'Spaces Available',
     ];
-
 
     #######################
     ### Casting Section
     #######################
 
     private static $casting = [
-        'EndTime' => 'Time'
+        'EndTime' => 'Time',
     ];
 
+    public function i18n_singular_name()
+    {
+        return _t('TimesForTour.SINGULAR_NAME', 'Tour Time');
+    }
+
+    public function i18n_plural_name()
+    {
+        return _t('TimesForTour.PLURAL_NAME', 'Tour Times');
+    }
 
     public function EndTime()
     {
@@ -135,7 +118,7 @@ class TimesForTour extends TourBaseClass
     {
         $fakeDate = date('Y-m-d') . ' ' . $this->StartTime;
         $fakeDateTS = strtotime($fakeDate);
-        $fakeDateTS = strtotime("+".$this->Duration." minute", $fakeDateTS);
+        $fakeDateTS = strtotime('+' . $this->Duration . ' minute', $fakeDateTS);
         $v = date('H:i:s', $fakeDateTS);
 
         return DBField::create_field('Time', $v);
@@ -150,8 +133,6 @@ class TimesForTour extends TourBaseClass
     #######################
     ### write Section
     #######################
-
-
 
     public function onBeforeWrite()
     {
@@ -171,7 +152,6 @@ class TimesForTour extends TourBaseClass
         //...
     }
 
-
     #######################
     ### Import / Export Section
     #######################
@@ -182,13 +162,9 @@ class TimesForTour extends TourBaseClass
         return parent::getExportFields();
     }
 
-
-
     #######################
     ### CMS Edit Section
     #######################
-
-
 
     public function getCMSFields()
     {
@@ -196,11 +172,10 @@ class TimesForTour extends TourBaseClass
 
         $fields->dataFieldByName('PublicContent')->setRows('7');
         $fields->dataFieldByName('PrivateContent')->setRows('7');
-        if($fields->fieldByName('Root.DateInfos')) {
+        if ($fields->fieldByName('Root.DateInfos')) {
             $fields->fieldByName('Root.DateInfos')->setTitle('Info and Rules');
         }
 
         return $fields;
     }
 }
-

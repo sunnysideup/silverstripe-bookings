@@ -2,20 +2,13 @@
 
 namespace Sunnysideup\Bookings\Search;
 
-
-
-
-
 use SilverStripe\ORM\DataQuery;
 use SilverStripe\ORM\FieldType\DBDate;
-use Sunnysideup\Bookings\Model\DateInfo;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
-
-
+use Sunnysideup\Bookings\Model\DateInfo;
 
 class TourTimesToApplyForCertainDay_Filter extends ExactMatchFilter
 {
-
     /**
      *@return SQLQuery
      **/
@@ -31,7 +24,7 @@ class TourTimesToApplyForCertainDay_Filter extends ExactMatchFilter
             if ($dateTS > time()) {
                 $dateInfo = DateInfo::best_match_for_date($dateTS);
                 if ($dateInfo) {
-                    $where = '"DateInfo"."ID" = '.$dateInfo->ID;
+                    $where = '"DateInfo"."ID" = ' . $dateInfo->ID;
                 }
             }
             $query->where($where);
@@ -39,4 +32,3 @@ class TourTimesToApplyForCertainDay_Filter extends ExactMatchFilter
         return $query;
     }
 }
-

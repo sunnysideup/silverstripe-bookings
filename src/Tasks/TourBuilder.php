@@ -2,17 +2,11 @@
 
 namespace Sunnysideup\Bookings\Tasks;
 
-
-
-
-
-
+use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\DB;
 use Sunnysideup\Bookings\Model\DateInfo;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
-use SilverStripe\Dev\BuildTask;
-
 
 /**
  * @package cms
@@ -20,16 +14,15 @@ use SilverStripe\Dev\BuildTask;
  */
 class TourBuilder extends BuildTask
 {
-    private static $number_of_days_in_the_future = 70;
-
-    protected $title = "Tour Builder";
+    protected $title = 'Tour Builder';
 
     protected $description = 'Creates tours for the a number of days in the future';
 
+    private static $number_of_days_in_the_future = 70;
 
     public function Link()
     {
-        return '/dev/tasks/'.get_class($this);
+        return '/dev/tasks/' . static::class;
     }
 
     public function run($request)
@@ -40,12 +33,12 @@ class TourBuilder extends BuildTask
         //make sure to start at one not zero ....
         for ($i = 1; $i <= $this->getNumberOfDaysInFuture(); $i++) {
             $dateTS = $today + ($i * 86400);
-            $dateTS = strtotime('today +'.$i.' day');
+            $dateTS = strtotime('today +' . $i . ' day');
             $mysqlDate = date('Y-m-d', $dateTS);
-            DB::alteration_message('<strong>'.$mysqlDate.'</strong>');
+            DB::alteration_message('<strong>' . $mysqlDate . '</strong>');
             $myDateInfo = DateInfo::best_match_for_date($dateTS);
             if ($myDateInfo) {
-                DB::alteration_message('... found rule: '.$myDateInfo->Title);
+                DB::alteration_message('... found rule: ' . $myDateInfo->Title);
                 $existingToursForThatDay = Tour::get()->filter(['Date' => $mysqlDate]);
                 if ($existingToursForThatDay->count() === 0) {
                     DB::alteration_message('... no existing tours found for that day: ', 'deleted');
@@ -55,7 +48,7 @@ class TourBuilder extends BuildTask
                     DB::alteration_message('... ... no template tour times found for that day', 'deleted');
                 } else {
                     foreach ($existingTourTimesForThatDay as $tourTime) {
-                        DB::alteration_message('... ... found tour time: '.$tourTime->Title);
+                        DB::alteration_message('... ... found tour time: ' . $tourTime->Title);
                         $myTour = $existingToursForThatDay->filter(['TourTimeID' => $tourTime->ID])->last();
                         if ($myTour && $myTour->exists()) {
                             $isNew = false;
@@ -76,9 +69,9 @@ class TourBuilder extends BuildTask
                         }
                         $myTour->write();
                         if ($isNew) {
-                            DB::alteration_message('... ... ... created tour: '.$myTour->getTitle(), 'created');
+                            DB::alteration_message('... ... ... created tour: ' . $myTour->getTitle(), 'created');
                         } else {
-                            DB::alteration_message('... ... ... found tour: '.$myTour->getTitle());
+                            DB::alteration_message('... ... ... found tour: ' . $myTour->getTitle());
                         }
                     }
                 }
@@ -95,4 +88,3 @@ class TourBuilder extends BuildTask
         return $settings->NumberOfDaysToGenerateToursInAdvance;
     }
 }
-

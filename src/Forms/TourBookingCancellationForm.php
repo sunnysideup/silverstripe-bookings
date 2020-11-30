@@ -2,35 +2,19 @@
 
 namespace Sunnysideup\Bookings\Forms;
 
-
-
-
-
-
-
-
-
-
-
-
-
-use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\CheckboxField;
-use SilverStripe\Forms\EmailField;
-use SilverStripe\Forms\HiddenField;
-use SilverStripe\Forms\FormAction;
-use SilverStripe\Forms\RequiredFields;
-use SilverStripe\Forms\Form;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Convert;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\EmailField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\RequiredFields;
 use Sunnysideup\Bookings\Model\Booking;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
-use SilverStripe\Core\Injector\Injector;
 use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
-
-
-
-
 
 class TourBookingCancellationForm extends Form
 {
@@ -67,7 +51,6 @@ class TourBookingCancellationForm extends Form
     /**
      * Form action handler for TourBookingCancellationForm.
      *
-     *
      * @param array $data The form request data submitted
      * @param Form  $form The {@link Form} this was submitted on
      */
@@ -83,7 +66,7 @@ class TourBookingCancellationForm extends Form
                 $email = $settings->Administrator()->Email;
                 $this->addErrorMessage(
                     'ConfirmingEmail',
-                    'You need to enter the same email address used to create the original booking, please try again or contact the tour manager for assistance: '.$email,
+                    'You need to enter the same email address used to create the original booking, please try again or contact the tour manager for assistance: ' . $email,
                     'bad'
                 );
                 return $this->controller->redirectBack();
@@ -101,4 +84,3 @@ class TourBookingCancellationForm extends Form
         }
     }
 }
-

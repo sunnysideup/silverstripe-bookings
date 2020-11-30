@@ -2,10 +2,6 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-
-
-
-
 use CountryDropdownField;
 
 
@@ -19,73 +15,50 @@ use CountryDropdownField;
 
 
 
-use TourBookingPage_Controller;
-
-use SilverStripe\Security\Member;
-use Sunnysideup\Bookings\Model\Tour;
-use Sunnysideup\Bookings\Model\ReferralOption;
-use SilverStripe\Control\Email\Email;
-use SilverStripe\ORM\FieldType\DBDate;
-use SilverStripe\ORM\FieldType\DBField;
-use SilverStripe\Forms\CheckboxField;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\ReadonlyField;
-use SilverStripe\Core\Config\Config;
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\HeaderField;
-use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
-use SilverStripe\Forms\GridField\GridField;
-use SunnySideUp\EmailReminder\Model\EmailReminder_EmailRecord;
-use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\EmailField;
-use SilverStripe\Forms\NumericField;
-use SilverStripe\Forms\HiddenField;
-use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Control\Director;
 
-
-
-
+use SilverStripe\Control\Email\Email;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\EmailField;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
+use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\FieldType\DBDate;
+use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\Security\Member;
+use SunnySideUp\EmailReminder\Model\EmailReminder_EmailRecord;
+use TourBookingPage_Controller;
 
 class Booking extends TourBaseClass
 {
-
-
     #######################
     ### Names Section
     #######################
 
     private static $singular_name = 'Tour Booking';
 
-    public function i18n_singular_name()
-    {
-        return _t('Booking.SINGULAR_NAME', 'Tour Booking');
-    }
-
     private static $plural_name = 'Tour Bookings';
-
-    public function i18n_plural_name()
-    {
-        return _t('Booking.PLURAL_NAME', 'Tour Bookings');
-    }
-
 
     #######################
     ### Model Section
     #######################
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * OLD: private static $db (case sensitive)
-  * NEW: 
-    private static $table_name = '[SEARCH_REPLACE_CLASS_NAME_GOES_HERE]';
-
+    /**
+     * ### @@@@ START REPLACEMENT @@@@ ###
+     * OLD: private static $db (case sensitive)
+     * NEW:
     private static $db (COMPLEX)
-  * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    
+     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
+     * ### @@@@ STOP REPLACEMENT @@@@ ###
+     */
     private static $table_name = 'Booking';
 
     private static $db = [
@@ -105,16 +78,16 @@ class Booking extends TourBaseClass
         'HasArrived' => 'Boolean',
         'Cancelled' => 'Boolean',
         'TotalGuestsAdminOverride' => 'Boolean',
-        'ReferralText' => 'Varchar'
+        'ReferralText' => 'Varchar',
     ];
 
     private static $has_one = [
         'BookingMember' => Member::class,
-        'Tour' => Tour::class
+        'Tour' => Tour::class,
     ];
 
     private static $many_many = [
-        'ReferralOptions' => ReferralOption::class
+        'ReferralOptions' => ReferralOption::class,
     ];
 
     #######################
@@ -122,11 +95,11 @@ class Booking extends TourBaseClass
     #######################
 
     private static $indexes = [
-        'Code' => true
+        'Code' => true,
     ];
 
     private static $default_sort = [
-        'ID' => 'DESC'
+        'ID' => 'DESC',
     ];
 
     private static $required_fields = [
@@ -134,7 +107,7 @@ class Booking extends TourBaseClass
         'PrimaryPhone',
         'TotalNumberOfGuests',
         'InitiatingFirstName',
-        'InitiatingEmail'
+        'InitiatingEmail',
     ];
 
     private static $searchable_fields = [
@@ -146,9 +119,8 @@ class Booking extends TourBaseClass
         'PrimaryPhone' => 'PartialMatchFilter',
         'SecondaryPhone' => 'PartialMatchFilter',
         'HasArrived' => 'ExactMatchFilter',
-        'Cancelled' => 'ExactMatchFilter'
+        'Cancelled' => 'ExactMatchFilter',
     ];
-
 
     #######################
     ### Field Names and Presentation Section
@@ -177,7 +149,7 @@ class Booking extends TourBaseClass
         'PrimaryPhone' => 'If you don\'t have a mobile number, please provide a landline number',
         'SecondaryPhone' => 'Enter as +64 5 555 2222',
         'CountryOfOrigin' => 'In what country do most of the people in this group live?',
-        'TotalNumberOfGuests' => 'Including children'
+        'TotalNumberOfGuests' => 'Including children',
     ];
 
     private static $read_only_fields = [
@@ -185,7 +157,7 @@ class Booking extends TourBaseClass
         DBDate::class,
         'InitiatingSurname',
         'InitiatingFirstName',
-        'InitiatingEmail'
+        'InitiatingEmail',
     ];
 
     private static $summary_fields = [
@@ -196,14 +168,24 @@ class Booking extends TourBaseClass
         'BookingMember.Title' => 'Contact',
         'CountryOfOrigin' => 'Country',
         'TotalNumberOfGuests' => 'Guests',
-        'Cancelled.Nice' => 'Cancelled'
+        'Cancelled.Nice' => 'Cancelled',
     ];
 
     private static $casting = [
         'Title' => 'Varchar',
         'NumberOfAdults' => 'Int',
-        'BookingReference' => 'Varchar'
+        'BookingReference' => 'Varchar',
     ];
+
+    public function i18n_singular_name()
+    {
+        return _t('Booking.SINGULAR_NAME', 'Tour Booking');
+    }
+
+    public function i18n_plural_name()
+    {
+        return _t('Booking.PLURAL_NAME', 'Tour Bookings');
+    }
 
     public function getTitle()
     {
@@ -241,7 +223,6 @@ class Booking extends TourBaseClass
         return DBField::create_field('Varchar', $v);
     }
 
-
     #######################
     ### can Section
     #######################
@@ -264,20 +245,9 @@ class Booking extends TourBaseClass
         return parent::canEdit($member);
     }
 
-    protected function CurrentMemberIsOwner()
-    {
-        if (Member::currentUserID() === $this->BookingMemberID) {
-            return true;
-        }
-
-        return false;
-    }
-
     #######################
     ### write Section
     #######################
-
-
 
     public function validate()
     {
@@ -291,15 +261,14 @@ class Booking extends TourBaseClass
             if ($errorCount) {
                 $result->addError(
                     'Another booking for this tour with the same email already exists. You can only make one booking per tour per email number.',
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+                    /**
+                     * ### @@@@ START REPLACEMENT @@@@ ###
+                     * WHY: automated upgrade
+                     * OLD: $this->ClassName (case sensitive)
+                     * NEW: $this->ClassName (COMPLEX)
+                     * EXP: Check if the class name can still be used as such
+                     * ### @@@@ STOP REPLACEMENT @@@@ ###
+                     */
                     'UNIQUE_' . $this->ClassName . '_InitiatingEmail'
                 );
             }
@@ -312,23 +281,21 @@ class Booking extends TourBaseClass
                 if ($errorCount) {
                     $result->addError(
                         'Another booking for this tour with the same mobile phone already exists. You can only make one booking per tour per mobile phone number.',
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+                        /**
+                         * ### @@@@ START REPLACEMENT @@@@ ###
+                         * WHY: automated upgrade
+                         * OLD: $this->ClassName (case sensitive)
+                         * NEW: $this->ClassName (COMPLEX)
+                         * EXP: Check if the class name can still be used as such
+                         * ### @@@@ STOP REPLACEMENT @@@@ ###
+                         */
                         'UNIQUE_' . $this->ClassName . 'PrimaryPhone'
                     );
                 }
             }
             $tour = Tour::get()->byID($this->TourID);
             if ($tour) {
-
-                $availableRaw =  $tour->getNumberOfPlacesAvailable()->RAW();
+                $availableRaw = $tour->getNumberOfPlacesAvailable()->RAW();
                 if ($this->exists()) {
                     //we have to get the booking from the DB again because that value for $this->TotalNumberOfGuests has already changed
                     $beforeUpdate = Booking::get()->byID($this->ID);
@@ -345,15 +312,14 @@ class Booking extends TourBaseClass
                 if ($this->TotalNumberOfGuests > $placesAvailable && $adminOverrideNotSet) {
                     $result->addError(
                         'Sorry, there are not enough places available for your booking. Your booking is for ' . $this->TotalNumberOfGuests . ' and the places still available is: ' . $placesAvailable,
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+                        /**
+                         * ### @@@@ START REPLACEMENT @@@@ ###
+                         * WHY: automated upgrade
+                         * OLD: $this->ClassName (case sensitive)
+                         * NEW: $this->ClassName (COMPLEX)
+                         * EXP: Check if the class name can still be used as such
+                         * ### @@@@ STOP REPLACEMENT @@@@ ###
+                         */
                         'UNIQUE_' . $this->ClassName . '_NumberOfPlacesAvailable'
                     );
                 }
@@ -362,43 +328,39 @@ class Booking extends TourBaseClass
         if (intval($this->TotalNumberOfGuests) < 1) {
             $result->addError(
                 'You need to have at least one person attending to make a booking.',
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+                /**
+                 * ### @@@@ START REPLACEMENT @@@@ ###
+                 * WHY: automated upgrade
+                 * OLD: $this->ClassName (case sensitive)
+                 * NEW: $this->ClassName (COMPLEX)
+                 * EXP: Check if the class name can still be used as such
+                 * ### @@@@ STOP REPLACEMENT @@@@ ###
+                 */
                 'UNIQUE_' . $this->ClassName . '_TotalNumberOfGuests'
             );
         }
         if (intval($this->TotalNumberOfGuests) < (intval($this->NumberOfChildren) + 1)) {
             $result->addError(
                 'You need to have at least one adult attending. It appears you only have children listed for this booking.',
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+                /**
+                 * ### @@@@ START REPLACEMENT @@@@ ###
+                 * WHY: automated upgrade
+                 * OLD: $this->ClassName (case sensitive)
+                 * NEW: $this->ClassName (COMPLEX)
+                 * EXP: Check if the class name can still be used as such
+                 * ### @@@@ STOP REPLACEMENT @@@@ ###
+                 */
                 'UNIQUE_' . $this->ClassName . '_NumberOfChildren'
             );
         }
 
-
         return $result;
     }
-
 
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
-        if (!$this->Code) {
+        if (! $this->Code) {
             $this->Code = hash('md5', uniqid());
         }
         $this->Date = $this->Tour()->Date;
@@ -409,14 +371,14 @@ class Booking extends TourBaseClass
         parent::onAfterWrite();
 
         //create member ...
-        if (!$this->BookingMemberID && $this->InitiatingEmail) {
+        if (! $this->BookingMemberID && $this->InitiatingEmail) {
             $member = Member::get()->filter(['Email' => $this->InitiatingEmail])->last();
-            if (!$member) {
+            if (! $member) {
                 $member = Member::create(
                     [
                         'Email' => $this->InitiatingEmail,
                         'FirstName' => $this->InitiatingFirstName,
-                        'Surname' => $this->InitiatingSurname
+                        'Surname' => $this->InitiatingSurname,
                     ]
                 );
                 $member->write();
@@ -446,7 +408,6 @@ class Booking extends TourBaseClass
         //...
     }
 
-
     #######################
     ### Import / Export Section
     #######################
@@ -457,13 +418,9 @@ class Booking extends TourBaseClass
         return parent::getExportFields();
     }
 
-
-
     #######################
     ### CMS Edit Section
     #######################
-
-
 
     public function getCMSFields()
     {
@@ -490,7 +447,6 @@ class Booking extends TourBaseClass
                             <a href="' . $tour->CMSEditLink() . '">' . $tour->getTitle() . '</a>
                         </div>
                     </div>'
-
                 )
             );
         }
@@ -521,14 +477,14 @@ class Booking extends TourBaseClass
                 )
             );
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+            /**
+             * ### @@@@ START REPLACEMENT @@@@ ###
+             * WHY: automated upgrade
+             * OLD: $this->ClassName (case sensitive)
+             * NEW: $this->ClassName (COMPLEX)
+             * EXP: Check if the class name can still be used as such
+             * ### @@@@ STOP REPLACEMENT @@@@ ###
+             */
             $readonlyfields = Config::inst()->get($this->ClassName, 'read_only_fields');
             foreach ($readonlyfields as $replaceField) {
                 $fields->replaceField(
@@ -550,8 +506,6 @@ class Booking extends TourBaseClass
             );
         }
 
-
-        //
         $fields->removeByName('ReferralText');
         $fields->removeByName('ReferralOptions');
 
@@ -573,7 +527,7 @@ class Booking extends TourBaseClass
                 ReadonlyField::create(
                     'ReferralText',
                     'More Details'
-                )->setRightTitle('There will only be data here if the user provides more details when selecting the "other" option.')
+                )->setRightTitle('There will only be data here if the user provides more details when selecting the "other" option.'),
             ]
         );
 
@@ -591,7 +545,7 @@ class Booking extends TourBaseClass
                     'Emails Sent',
                     $emailRecords,
                     GridFieldConfig_RecordViewer::create()
-                )
+                ),
             ]
         );
 
@@ -608,24 +562,24 @@ class Booking extends TourBaseClass
     {
         $fields = parent::getFrontEndFields($params);
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         $labels = Config::inst()->get($this->ClassName, 'field_labels');
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         $fieldLabelsRight = Config::inst()->get($this->ClassName, 'field_labels_right');
         $fields->removeByName('Code');
         $fields->removeByName(DBDate::class);
@@ -655,15 +609,14 @@ class Booking extends TourBaseClass
 
         $fields->replaceField(
             'NumberOfChildren',
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: NumericField::create (case sensitive)
-  * NEW: NumericField::create (COMPLEX)
-  * EXP: check the number of decimals required and add as ->setScale(2)
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+            /**
+             * ### @@@@ START REPLACEMENT @@@@ ###
+             * WHY: automated upgrade
+             * OLD: NumericField::create (case sensitive)
+             * NEW: NumericField::create (COMPLEX)
+             * EXP: check the number of decimals required and add as ->setScale(2)
+             * ### @@@@ STOP REPLACEMENT @@@@ ###
+             */
             NumericField::create(
                 'NumberOfChildren',
                 $labels['NumberOfChildren']
@@ -703,20 +656,18 @@ class Booking extends TourBaseClass
     public function getFrontEndValidator()
     {
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         $fields = Config::inst()->get($this->ClassName, 'required_fields');
 
         return RequiredFields::create($fields);
     }
-
-
 
     /**
      * This function is used to exclude cancelled bookings from reminder and follow up emails
@@ -724,21 +675,16 @@ class Booking extends TourBaseClass
      * @param  EmailReminder_NotificationSchedule  $reminder
      * @param DataList $records
      *
-     * @return Boolean
+     * @return boolean
      */
     public function EmailReminderExclude($reminder, $records)
     {
         return $this->Cancelled;
     }
 
-
-
     #######################
     ### Links
     #######################
-
-
-
 
     public function AddLink($absolute = false)
     {
@@ -752,7 +698,7 @@ class Booking extends TourBaseClass
     public function ConfirmLink($absolute = false)
     {
         if ($this->Code) {
-            $v = TourBookingPage_Controller::find_link('confirmsignup') . substr($this->Code, 0, 9) .  '/';
+            $v = TourBookingPage_Controller::find_link('confirmsignup') . substr($this->Code, 0, 9) . '/';
             if ($absolute) {
                 $v = Director::absoluteURL($v);
             }
@@ -778,7 +724,7 @@ class Booking extends TourBaseClass
     public function CancelLink($absolute = false)
     {
         if ($this->Code) {
-            $v = TourBookingPage_Controller::find_link('cancel') . substr($this->Code, 0, 9) .  '/';
+            $v = TourBookingPage_Controller::find_link('cancel') . substr($this->Code, 0, 9) . '/';
             if ($absolute) {
                 $v = Director::absoluteURL($v);
             }
@@ -786,5 +732,13 @@ class Booking extends TourBaseClass
         }
         return 'error';
     }
-}
 
+    protected function CurrentMemberIsOwner()
+    {
+        if (Member::currentUserID() === $this->BookingMemberID) {
+            return true;
+        }
+
+        return false;
+    }
+}

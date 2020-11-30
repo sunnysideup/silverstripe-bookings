@@ -2,63 +2,35 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-
-
-
-
-
-use Sunnysideup\Bookings\Model\Waitlister;
-use Sunnysideup\Bookings\Model\Tour;
 use SilverStripe\Control\Email\Email;
-use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\EmailField;
+use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\RequiredFields;
-
-
-
-
+use SilverStripe\Forms\TextField;
 
 class Waitlister extends TourBaseClass
 {
-
-
     #######################
     ### Names Section
     #######################
 
     private static $singular_name = 'Waitlister';
 
-    public function i18n_singular_name()
-    {
-        return _t('Waitlister.SINGULAR_NAME', Waitlister::class);
-    }
-
     private static $plural_name = 'Waitlisters';
-
-    public function i18n_plural_name()
-    {
-        return _t('Waitlister.PLURAL_NAME', 'Waitlisters');
-    }
-
 
     #######################
     ### Model Section
     #######################
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * OLD: private static $db (case sensitive)
-  * NEW: 
-    private static $table_name = '[SEARCH_REPLACE_CLASS_NAME_GOES_HERE]';
-
+    /**
+     * ### @@@@ START REPLACEMENT @@@@ ###
+     * OLD: private static $db (case sensitive)
+     * NEW:
     private static $db (COMPLEX)
-  * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    
+     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
+     * ### @@@@ STOP REPLACEMENT @@@@ ###
+     */
     private static $table_name = 'Waitlister';
 
     private static $db = [
@@ -68,11 +40,11 @@ class Waitlister extends TourBaseClass
         'InitiatingSurname' => 'Varchar',
         'InitiatingEmail' => 'Varchar',
         'PrimaryPhone' => 'PhoneField',
-        'TourDate' => 'Date'
+        'TourDate' => 'Date',
     ];
 
     private static $has_one = [
-        'Tour' => Tour::class
+        'Tour' => Tour::class,
     ];
 
     private static $field_labels = [
@@ -81,12 +53,12 @@ class Waitlister extends TourBaseClass
         'InitiatingSurname' => 'Surname',
         'InitiatingEmail' => Email::class,
         'TotalNumberOfGuests' => 'Number of people in your group.',
-        'PrimaryPhone' => 'Mobile Phone'
+        'PrimaryPhone' => 'Mobile Phone',
     ];
 
     private static $field_labels_right = [
         'PrimaryPhone' => 'If you don\'t have a mobile number, please provide a landline number',
-        'TotalNumberOfGuests' => 'Including children'
+        'TotalNumberOfGuests' => 'Including children',
     ];
 
     private static $summary_fields = [
@@ -94,7 +66,7 @@ class Waitlister extends TourBaseClass
         'TotalNumberOfGuests' => 'Number of Spaces',
         'InitiatingFirstName' => 'First Name',
         'PrimaryPhone' => 'Phone',
-        'InitiatingEmail' => 'Email'
+        'InitiatingEmail' => 'Email',
     ];
 
     private static $required_fields = [
@@ -102,8 +74,18 @@ class Waitlister extends TourBaseClass
         'InitiatingSurname',
         'InitiatingEmail',
         'TotalNumberOfGuests',
-        'PrimaryPhone'
+        'PrimaryPhone',
     ];
+
+    public function i18n_singular_name()
+    {
+        return _t('Waitlister.SINGULAR_NAME', Waitlister::class);
+    }
+
+    public function i18n_plural_name()
+    {
+        return _t('Waitlister.PLURAL_NAME', 'Waitlisters');
+    }
 
     public function getCMSFields()
     {
@@ -124,24 +106,24 @@ class Waitlister extends TourBaseClass
     {
         $fields = parent::getFrontEndFields($params);
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         $labels = Config::inst()->get($this->ClassName, 'field_labels');
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         $fieldLabelsRight = Config::inst()->get($this->ClassName, 'field_labels_right');
         $fields->removeByName('Code');
         $fields->removeByName('TourDate');
@@ -172,14 +154,14 @@ class Waitlister extends TourBaseClass
     public function getFrontEndValidator()
     {
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         $fields = Config::inst()->get($this->ClassName, 'required_fields');
 
         return RequiredFields::create($fields);
@@ -199,13 +181,12 @@ class Waitlister extends TourBaseClass
     public function FutureWaitlistings()
     {
         return Waitlister::get()
-                ->filter(
-                    [
-                        'InitiatingEmail' => $this->InitiatingEmail,
-                        'TourDate:GreaterThanOrEqual' => date('Y-m-d')
-                    ]
-                )
-                ->sort('TourDate', 'ASC');
+            ->filter(
+                [
+                    'InitiatingEmail' => $this->InitiatingEmail,
+                    'TourDate:GreaterThanOrEqual' => date('Y-m-d'),
+                ]
+            )
+            ->sort('TourDate', 'ASC');
     }
 }
-

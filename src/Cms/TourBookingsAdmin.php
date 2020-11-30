@@ -2,35 +2,40 @@
 
 namespace Sunnysideup\Bookings\Cms;
 
-
-
 use GridFieldSortableRows;
 
 
 
 
 
-use Sunnysideup\Bookings\Model\TourBookingSettings;
-use Sunnysideup\Bookings\Model\TimesForTour;
-use Sunnysideup\Bookings\Model\DateInfo;
-use Sunnysideup\Bookings\Model\Tour;
-use Sunnysideup\Bookings\Model\Booking;
-use Sunnysideup\Bookings\Model\Waitlister;
-use Sunnysideup\Bookings\Model\ReferralOption;
+use SilverStripe\Admin\LeftAndMain;
+use SilverStripe\Admin\ModelAdmin;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\Core\Config\Config;
-use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\LiteralField;
-use SilverStripe\Admin\ModelAdmin;
-
-
+use SilverStripe\ORM\DataObject;
+use Sunnysideup\Bookings\Model\Booking;
+use Sunnysideup\Bookings\Model\DateInfo;
+use Sunnysideup\Bookings\Model\ReferralOption;
+use Sunnysideup\Bookings\Model\TimesForTour;
+use Sunnysideup\Bookings\Model\Tour;
+use Sunnysideup\Bookings\Model\TourBookingSettings;
+use Sunnysideup\Bookings\Model\Waitlister;
 
 class TourBookingsAdmin extends ModelAdmin
 {
+    public $showImportForm = false;
+
+    public $showSearchForm = [
+        DateInfo::class,
+        Tour::class,
+        Booking::class,
+        Waitlister::class,
+    ];
+
     private static $managed_models = [
         TourBookingSettings::class,
         TimesForTour::class,
@@ -38,7 +43,7 @@ class TourBookingsAdmin extends ModelAdmin
         Tour::class,
         Booking::class,
         Waitlister::class,
-        ReferralOption::class
+        ReferralOption::class,
     ];
 
     private static $url_segment = 'tour-bookings';
@@ -47,38 +52,30 @@ class TourBookingsAdmin extends ModelAdmin
 
     private static $menu_icon = 'tour_bookings/images/icons/TourBookingsAdmin.png';
 
-    public $showImportForm = false;
-
-    public $showSearchForm  = [
-        DateInfo::class,
-        Tour::class,
-        Booking::class,
-        Waitlister::class,
-    ];
-
     public function getList()
     {
         $list = parent::getList();
-        if ($this->modelClass==Tour::class) {
+        if ($this->modelClass === Tour::class) {
             $mysqlDate = date('Y-m-d', strtotime('-2 days'));
             $list = $list->filter(['Date:GreaterThan' => $mysqlDate]);
         }
 
         return $list;
     }
+
     public function getEditForm($id = null, $fields = null)
     {
         $form = parent::getEditForm($id, $fields);
 
         //This check is simply to ensure you are on the managed model you want adjust accordingly
-        if ($this->modelClass==TimesForTour::class && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if ($this->modelClass === TimesForTour::class && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField instanceof GridField) {
                 $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
             }
         }
 
-        if ($this->modelClass==DateInfo::class && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if ($this->modelClass === DateInfo::class && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField instanceof GridField) {
                 $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
@@ -111,7 +108,7 @@ class TourBookingsAdmin extends ModelAdmin
             }
         }
 
-        if ($this->modelClass==ReferralOption::class && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if ($this->modelClass === ReferralOption::class && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField instanceof GridField) {
                 $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
@@ -123,9 +120,7 @@ class TourBookingsAdmin extends ModelAdmin
         return $form;
     }
 
-
     /**
-     *
      * @param DataObject $record
      *
      * @return Form
@@ -155,4 +150,3 @@ class TourBookingsAdmin extends ModelAdmin
         return $form;
     }
 }
-

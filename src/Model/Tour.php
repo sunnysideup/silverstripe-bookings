@@ -2,89 +2,46 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-
-
-
-
 use DateTime;
 
 
 
 
-use TourBookingPage_Controller;
-use Sunnysideup\Bookings\Model\Tour;
-use Sunnysideup\Bookings\Model\TimesForTour;
-use Sunnysideup\Bookings\Model\DateInfo;
-use Sunnysideup\Bookings\Model\Booking;
-use Sunnysideup\Bookings\Model\Waitlister;
-use SilverStripe\ORM\FieldType\DBDate;
-use SilverStripe\ORM\FieldType\DBField;
-use SilverStripe\ORM\FieldType\DBBoolean;
-use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
-use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
 use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
-
-
-
-
+use SilverStripe\ORM\FieldType\DBBoolean;
+use SilverStripe\ORM\FieldType\DBDate;
+use SilverStripe\ORM\FieldType\DBField;
+use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
+use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
+use TourBookingPage_Controller;
 
 class Tour extends TourBaseClass
 {
-
-
-    /**
-     * @param  int $dateTS
-     * @param  int $numberOfPeople
-     *
-     * @return ArrayList
-     */
-    public static function future_tours()
-    {
-        $mysqlDate = date('Y-m-d');
-
-        return Tour::get()->filter(['Date:GreaterThan' => $mysqlDate]);
-    }
-
     #######################
     ### Names Section
     #######################
 
     private static $singular_name = 'Tour';
 
-    public function i18n_singular_name()
-    {
-        return _t('Tour.SINGULAR_NAME', Tour::class);
-    }
-
     private static $plural_name = 'Tours';
-
-    public function i18n_plural_name()
-    {
-        return _t('Tour.PLURAL_NAME', 'Tours');
-    }
-
 
     #######################
     ### Model Section
     #######################
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * OLD: private static $db (case sensitive)
-  * NEW: 
-    private static $table_name = '[SEARCH_REPLACE_CLASS_NAME_GOES_HERE]';
-
+    /**
+     * ### @@@@ START REPLACEMENT @@@@ ###
+     * OLD: private static $db (case sensitive)
+     * NEW:
     private static $db (COMPLEX)
-  * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    
+     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
+     * ### @@@@ STOP REPLACEMENT @@@@ ###
+     */
     private static $table_name = 'Tour';
 
     private static $db = [
@@ -102,14 +59,13 @@ class Tour extends TourBaseClass
 
     private static $has_one = [
         'TourTime' => TimesForTour::class,
-        'DateInfo' => DateInfo::class
+        'DateInfo' => DateInfo::class,
     ];
 
     private static $has_many = [
         'Bookings' => Booking::class,
-        'Waitlisters' => Waitlister::class
+        'Waitlisters' => Waitlister::class,
     ];
-
 
     #######################
     ### Further DB Field Details
@@ -117,18 +73,18 @@ class Tour extends TourBaseClass
 
     private static $indexes = [
         'IsClosed' => true,
-        'Date' => true
+        'Date' => true,
     ];
 
     private static $default_sort = [
         'Date' => 'ASC',
         'StartTime' => 'ASC',
-        'ID' => 'ASC'
+        'ID' => 'ASC',
     ];
 
     private static $required_fields = [
         'Date',
-        'TourTimeID'
+        'TourTimeID',
     ];
 
     private static $searchable_fields = [
@@ -138,12 +94,10 @@ class Tour extends TourBaseClass
         'Created' => [
             'field' => 'TextField',
             'filter' => 'TourDate_Filter',
-            'title' => 'Tour Date (e.g Today, 1 jan 2020, or next Thursday)'
+            'title' => 'Tour Date (e.g Today, 1 jan 2020, or next Thursday)',
         ],
         'StartTime' => 'ExactMatchFilter',
     ];
-
-
 
     #######################
     ### Field Names and Presentation Section
@@ -161,7 +115,7 @@ class Tour extends TourBaseClass
         'PrivateContentForTour' => 'Staff Only Info',
         'DateInfo' => 'Based On - RULE',
         'TourTime' => 'Type of Tour',
-        'Tours' => 'Resulting Tours'
+        'Tours' => 'Resulting Tours',
     ];
 
     private static $field_labels_right = [
@@ -173,7 +127,7 @@ class Tour extends TourBaseClass
         'PublicContent' => 'Information from Date Info and Tour Time',
         'PrivateContent' => 'Information from Date Info and Tour Time',
         'PublicContentForTour' => 'Tour specific info',
-        'PrivateContentForTour' => 'Tour specific info'
+        'PrivateContentForTour' => 'Tour specific info',
     ];
 
     private static $summary_fields = [
@@ -185,7 +139,7 @@ class Tour extends TourBaseClass
         'NumberOfPlacesAvailable' => 'Spots Left',
         'NumberOfChildren' => 'Kids Attending',
         'NumberOfGroups' => 'Groups',
-        'IsFull.Nice' => 'Full'
+        'IsFull.Nice' => 'Full',
     ];
 
     private static $readonly_fields = [
@@ -195,7 +149,7 @@ class Tour extends TourBaseClass
         'TotalSpacesAtStart',
         'TourTimeID',
         'PublicContent',
-        'PrivateContent'
+        'PrivateContent',
     ];
 
     #######################
@@ -212,8 +166,37 @@ class Tour extends TourBaseClass
         'NumberOfChildren' => 'Int',
         'NumberOfGroups' => 'Int',
         'CalculatedPublicContent' => 'HTMLText',
-        'CalculatedPrivateContent' => 'HTMLText'
+        'CalculatedPrivateContent' => 'HTMLText',
     ];
+
+    #######################
+    ### write Section
+    #######################
+
+    private $calendarDebug = false;
+
+    /**
+     * @param  int $dateTS
+     * @param  int $numberOfPeople
+     *
+     * @return ArrayList
+     */
+    public static function future_tours()
+    {
+        $mysqlDate = date('Y-m-d');
+
+        return Tour::get()->filter(['Date:GreaterThan' => $mysqlDate]);
+    }
+
+    public function i18n_singular_name()
+    {
+        return _t('Tour.SINGULAR_NAME', Tour::class);
+    }
+
+    public function i18n_plural_name()
+    {
+        return _t('Tour.PLURAL_NAME', 'Tours');
+    }
 
     public function Title()
     {
@@ -235,59 +218,16 @@ class Tour extends TourBaseClass
         return $this->collateTitleData('Short');
     }
 
-    protected function collateTitleData($type)
-    {
-        $a = [];
-        if ($this->NumberOfPlacesBooked()->RAW() == 0) {
-            $a[] = [
-                'Short' => '0/'.$this->TotalSpacesAtStart,
-                'Long' => 'No bookings ('.$this->TotalSpacesAtStart.' spots left)',
-            ];
-        } else {
-            if ($this->getIsFull()->RAW()) {
-                $a[] = [
-                    'Short' => 'Full',
-                    'Long' => 'Full: ' . $this->NumberOfPlacesBooked()
-                ];
-            } else {
-                $a[] = [
-                    'Short' => 'SL: ' . $this->NumberOfPlacesAvailable() . '/'. $this->TotalSpacesAtStart,
-                    'Long' => 'Spots Left: ' . $this->NumberOfPlacesAvailable() . '/'. $this->TotalSpacesAtStart
-                ];
-            }
-            $a[] = [
-                'Short' => 'G: ' . $this->NumberOfGroups(),
-                'Long' => 'Groups: ' . $this->NumberOfGroups()
-            ];
-            $a[] = [
-                'Short' => 'A: ' . $this->NumberOfAdults(),
-                'Long' => 'Adults: ' . $this->NumberOfAdults()
-            ];
-            $a[] = [
-                'Short' => 'C: ' . $this->NumberOfChildren(),
-                'Long' => 'Children: ' . $this->NumberOfChildren()
-            ];
-        }
-        $newData = [];
-        foreach ($a as $entry) {
-            $newData[] = $entry[$type];
-        }
-        return implode(
-            ', ',
-            $newData
-        );
-    }
-
     public function getTitle()
     {
-        $v = 'Tour on ' . date('D, jS M Y', strtotime($this->Date)) . ' at '. $this->StartTimeObj()->Nice() .' until '. $this->getEndTime()->Nice();
+        $v = 'Tour on ' . date('D, jS M Y', strtotime($this->Date)) . ' at ' . $this->StartTimeObj()->Nice() . ' until ' . $this->getEndTime()->Nice();
 
         return DBField::create_field('Varchar', $v);
     }
 
     public function getTourTimeAndDate()
     {
-        $v = date('l, jS F Y', strtotime($this->Date)) .' at '.$this->StartTimeObj->Nice();
+        $v = date('l, jS F Y', strtotime($this->Date)) . ' at ' . $this->StartTimeObj->Nice();
 
         return DBField::create_field('Varchar', $v);
     }
@@ -299,8 +239,8 @@ class Tour extends TourBaseClass
 
     public function getCalculatedPublicContent()
     {
-        $v = $this->PublicContent.$this->PublicContentForTour;
-        if($v){
+        $v = $this->PublicContent . $this->PublicContentForTour;
+        if ($v) {
             $v .= '<br>';
         }
         if ($this->IsFull()->value) {
@@ -308,7 +248,7 @@ class Tour extends TourBaseClass
             $v .= $settings->TourFullMessage;
         } else {
             $singularPlural = $this->NumberOfPlacesAvailable()->value > 1 ? ' spaces' : ' space';
-            $v .= $this->NumberOfPlacesAvailable()->value . $singularPlural .' left';
+            $v .= $this->NumberOfPlacesAvailable()->value . $singularPlural . ' left';
         }
         return DBField::create_field('HTMLText', $v);
     }
@@ -320,7 +260,7 @@ class Tour extends TourBaseClass
 
     public function getCalculatedPrivateContent()
     {
-        $v = $this->PrivateContent.$this->PrivateContentForTour;
+        $v = $this->PrivateContent . $this->PrivateContentForTour;
 
         return DBField::create_field('HTMLText', $v);
     }
@@ -334,7 +274,7 @@ class Tour extends TourBaseClass
     {
         $fakeDate = date('Y-m-d') . ' ' . $this->StartTime;
         $fakeDateTS = strtotime($fakeDate);
-        $fakeDateTS = strtotime("+".$this->Duration." minute", $fakeDateTS);
+        $fakeDateTS = strtotime('+' . $this->Duration . ' minute', $fakeDateTS);
         $v = date('H:i:s', $fakeDateTS);
 
         return DBField::create_field('Time', $v);
@@ -358,6 +298,7 @@ class Tour extends TourBaseClass
     {
         return $this->getNumberOfPlacesBooked();
     }
+
     public function getNumberOfPlacesBooked()
     {
         $v = 0;
@@ -372,6 +313,7 @@ class Tour extends TourBaseClass
     {
         return $this->getNumberOfPlacesAvailable();
     }
+
     public function getNumberOfPlacesAvailable()
     {
         if ($this->IsClosed) {
@@ -387,6 +329,7 @@ class Tour extends TourBaseClass
     {
         return $this->getIsFull();
     }
+
     public function getIsFull()
     {
         if ($this->IsClosed) {
@@ -402,6 +345,7 @@ class Tour extends TourBaseClass
     {
         return $this->getNumberOfAdults();
     }
+
     public function getNumberOfAdults()
     {
         $v = 0;
@@ -416,6 +360,7 @@ class Tour extends TourBaseClass
     {
         return $this->getNumberOfChildren();
     }
+
     public function getNumberOfChildren()
     {
         $v = 0;
@@ -430,6 +375,7 @@ class Tour extends TourBaseClass
     {
         return $this->getNumberOfGroups();
     }
+
     public function getNumberOfGroups()
     {
         $v = $this->ValidBookings()->count();
@@ -437,19 +383,14 @@ class Tour extends TourBaseClass
         return DBField::create_field('Int', $v);
     }
 
-
-
     #######################
     ### can Section
     #######################
-
-
 
     public function canCreate($member = null, $context = [])
     {
         return $this->CurrentUserIsTourManager($member);
     }
-
 
     public function canDelete($member = null, $context = [])
     {
@@ -459,21 +400,12 @@ class Tour extends TourBaseClass
         return $this->CurrentUserIsTourManager($member);
     }
 
-
-    #######################
-    ### write Section
-    #######################
-
-
-    private $calendarDebug = false;
-
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
 
-        if (!$this->TotalSpacesAtStart && $this->TourTimeID) {
-
-            if($this->TourTime()->exists()) {
+        if (! $this->TotalSpacesAtStart && $this->TourTimeID) {
+            if ($this->TourTime()->exists()) {
                 $this->StartTime = $this->TourTime()->StartTime;
                 $this->Duration = $this->TourTime()->Duration;
                 $this->TotalSpacesAtStart = $this->TourTime()->NumberOfSpacesAvailable;
@@ -489,16 +421,13 @@ class Tour extends TourBaseClass
             }
         }
 
-
-
-
         if (class_exists(GoogleCalendarInterface::class) && (Director::isLive() || $this->calendarDebug)) {
             $settings = TourBookingSettings::inst();
             $calendar = new GoogleCalendarInterface();
             if (! empty($calendar->config())) {
                 $timeZone = Config::inst()->get(GoogleCalendarInterface::class, 'time_zone');
 
-                $decription ='';
+                $decription = '';
 
                 if ($this->NumberOfGroups()->Value) {
                     $decription .= $this->NumberOfPlacesBooked()->Value . ' people attending' . '; ';
@@ -513,18 +442,17 @@ class Tour extends TourBaseClass
                     $decription = 'Tour: No Current Bookings';
                 }
 
-
                 $eventAttributes = [
                     'summary' => json_encode($decription),
                     'description' => $this->Title()->Value,
-                    'start' =>  [
-                                    'dateTime' => $this->Date.'T'.$this->StartTime,
-                                    'timeZone' => $timeZone
-                                ],
-                    'end' =>    [
-                                    'dateTime' => $this->Date.'T'.$this->EndTime(),
-                                    'timeZone' => $timeZone
-                                ],
+                    'start' => [
+                        'dateTime' => $this->Date . 'T' . $this->StartTime,
+                        'timeZone' => $timeZone,
+                    ],
+                    'end' => [
+                        'dateTime' => $this->Date . 'T' . $this->EndTime(),
+                        'timeZone' => $timeZone,
+                    ],
                 ];
 
                 if ($this->GoogleEventID && $calendar->getCalendarEvent($this->GoogleEventID)) {
@@ -537,7 +465,6 @@ class Tour extends TourBaseClass
                 }
             }
         }
-
 
         $tourDate = new DateTime($this->Date);
         $now = new DateTime(date('Y-m-d'));
@@ -575,7 +502,6 @@ class Tour extends TourBaseClass
         //...
     }
 
-
     #######################
     ### Import / Export Section
     #######################
@@ -586,41 +512,36 @@ class Tour extends TourBaseClass
         return parent::getExportFields();
     }
 
-
-
     #######################
     ### CMS Edit Section
     #######################
-
-
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
 
-        if(!$this->ID){
-            $dbFields = Config::inst()->get(Tour::class, 'db');;
-            foreach($dbFields as $dbFieldName => $dbFieldType){
+        if (! $this->ID) {
+            $dbFields = Config::inst()->get(Tour::class, 'db');
+            foreach ($dbFields as $dbFieldName => $dbFieldType) {
                 $fields->removeByName($dbFieldName);
             }
             $fields->removeByName(DBDate::class);
             $fields->removeByName('TourTimeID');
             $fields->removeByName('DateInfoID');
 
-            $times = array('' => '-- please select one --') + TimesForTour::get()->map()->toArray();
+            $times = ['' => '-- please select one --'] + TimesForTour::get()->map()->toArray();
 
             $fields->addFieldsToTab(
                 'Root.Main',
                 [
                     $dateField = DateField::create(DBDate::class, DBDate::class),
-                    $tourTimeField = DropdownField::create('TourTimeID','Type of Tour', $times),
+                    $tourTimeField = DropdownField::create('TourTimeID', 'Type of Tour', $times),
                 ]
             );
             $dateField->setConfig('showcalendar', true);
             $timesForTour = Injector::inst()->get(TimesForTour::class);
-            $tourTimeField->setRightTitle('<a href="'.$timesForTour->CMSAddLink(). '" target="_blank">Create a new tour time</a>.');
-        }
-        else {
+            $tourTimeField->setRightTitle('<a href="' . $timesForTour->CMSAddLink() . '" target="_blank">Create a new tour time</a>.');
+        } else {
             if ($fields->dataFieldByName('PublicContentForTour') instanceof HTMLEditorField) {
                 $fields->dataFieldByName('PublicContentForTour')->setRows('7');
             }
@@ -649,5 +570,47 @@ class Tour extends TourBaseClass
         }
         return $v;
     }
-}
 
+    protected function collateTitleData($type)
+    {
+        $a = [];
+        if ($this->NumberOfPlacesBooked()->RAW() === 0) {
+            $a[] = [
+                'Short' => '0/' . $this->TotalSpacesAtStart,
+                'Long' => 'No bookings (' . $this->TotalSpacesAtStart . ' spots left)',
+            ];
+        } else {
+            if ($this->getIsFull()->RAW()) {
+                $a[] = [
+                    'Short' => 'Full',
+                    'Long' => 'Full: ' . $this->NumberOfPlacesBooked(),
+                ];
+            } else {
+                $a[] = [
+                    'Short' => 'SL: ' . $this->NumberOfPlacesAvailable() . '/' . $this->TotalSpacesAtStart,
+                    'Long' => 'Spots Left: ' . $this->NumberOfPlacesAvailable() . '/' . $this->TotalSpacesAtStart,
+                ];
+            }
+            $a[] = [
+                'Short' => 'G: ' . $this->NumberOfGroups(),
+                'Long' => 'Groups: ' . $this->NumberOfGroups(),
+            ];
+            $a[] = [
+                'Short' => 'A: ' . $this->NumberOfAdults(),
+                'Long' => 'Adults: ' . $this->NumberOfAdults(),
+            ];
+            $a[] = [
+                'Short' => 'C: ' . $this->NumberOfChildren(),
+                'Long' => 'Children: ' . $this->NumberOfChildren(),
+            ];
+        }
+        $newData = [];
+        foreach ($a as $entry) {
+            $newData[] = $entry[$type];
+        }
+        return implode(
+            ', ',
+            $newData
+        );
+    }
+}

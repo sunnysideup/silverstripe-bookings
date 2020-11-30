@@ -2,45 +2,24 @@
 
 namespace Sunnysideup\Bookings\Forms;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-use SilverStripe\Core\Injector\Injector;
-use Sunnysideup\Bookings\Model\Booking;
-use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\CompositeField;
-use SilverStripe\Forms\HeaderField;
-use SilverStripe\Forms\NumericField;
-use SilverStripe\Forms\TextField;
-use Sunnysideup\Bookings\Model\ReferralOption;
-use SilverStripe\Forms\CheckboxSetField;
-use SilverStripe\Forms\HiddenField;
-use SilverStripe\Forms\EmailField;
-use SilverStripe\Forms\FormAction;
 use SilverStripe\Control\Controller;
-use SilverStripe\Forms\Form;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Convert;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\CompositeField;
+use SilverStripe\Forms\EmailField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\TextField;
+use Sunnysideup\Bookings\Model\Booking;
+use Sunnysideup\Bookings\Model\ReferralOption;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
 use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
-
-
-
-
 
 class TourBookingForm extends Form
 {
@@ -49,7 +28,7 @@ class TourBookingForm extends Form
     protected $currentTour = null;
 
     private static $show_city_field_for_countries = [
-        'NZ'
+        'NZ',
     ];
 
     /* important note: $existingBooking and $singleTour should not both exist at the same time */
@@ -84,19 +63,18 @@ class TourBookingForm extends Form
         );
 
         $column1->push(
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: NumericField::create (case sensitive)
-  * NEW: NumericField::create (COMPLEX)
-  * EXP: check the number of decimals required and add as ->setScale(2)
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+            /**
+             * ### @@@@ START REPLACEMENT @@@@ ###
+             * WHY: automated upgrade
+             * OLD: NumericField::create (case sensitive)
+             * NEW: NumericField::create (COMPLEX)
+             * EXP: check the number of decimals required and add as ->setScale(2)
+             * ### @@@@ STOP REPLACEMENT @@@@ ###
+             */
             NumericField::create('TotalNumberOfGuests', 'Number of people in this booking.')->addExtraClass('always-show')
         );
 
-        if (is_null($this->currentTour)) {
+        if ($this->currentTour === null) {
             $column1->push(
                 TextField::create('BookingDate', 'Select Your Date')
             );
@@ -122,7 +100,6 @@ class TourBookingForm extends Form
                     'How did you hear about our tours?',
                     $referralOptions->sort('SortOrder', 'ASC')->map('ID', 'Title')
                 );
-
 
                 $column2->push(
                     $referralOptionsField
@@ -180,17 +157,16 @@ class TourBookingForm extends Form
 
         parent::__construct($controller, $name, $fieldList, $actions, $validator);
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: Session:: (case sensitive)
-  * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
-  * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly. 
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: Session:: (case sensitive)
+         * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
+         * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly.
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         $oldData = Controller::curr()->getRequest()->getSession()->get("FormInfo.{$this->FormName()}.data");
-        $oldData = $oldData ? $oldData : $this->currentBooking;
+        $oldData = $oldData ?: $this->currentBooking;
 
         if ($oldData && (is_array($oldData) || is_object($oldData))) {
             $this->loadDataFrom($oldData);
@@ -201,7 +177,6 @@ class TourBookingForm extends Form
 
     /**
      * Form action handler for TourBookingForm.
-     *
      *
      * @param array $data The form request data submitted
      * @param Form  $form The {@link Form} this was submitted on
@@ -246,7 +221,7 @@ class TourBookingForm extends Form
         }
         $form->saveInto($this->currentBooking);
         $validationObject = $this->currentBooking->validate();
-        if (!$validationObject->valid()) {
+        if (! $validationObject->valid()) {
             foreach ($validationObject->messageList() as $message) {
                 $this->addErrorMessage(
                     'BookingForm',
@@ -256,39 +231,36 @@ class TourBookingForm extends Form
             }
 
             return $this->controller->redirectBack();
-        } else {
-
-            if (isset($data['ReferralOptions'])) {
-                foreach ($data['ReferralOptions'] as $referralOptionID) {
-                    $referralOptionID = intval($referralOptionID);
-                    $referralOption = ReferralOption::get()->byID($referralOptionID);
-                    if ($referralOption) {
-                        $this->currentBooking->ReferralOptions()->add($referralOption);
-                    }
+        }
+        if (isset($data['ReferralOptions'])) {
+            foreach ($data['ReferralOptions'] as $referralOptionID) {
+                $referralOptionID = intval($referralOptionID);
+                $referralOption = ReferralOption::get()->byID($referralOptionID);
+                if ($referralOption) {
+                    $this->currentBooking->ReferralOptions()->add($referralOption);
                 }
             }
-            if (isset($data['ReferralText'])) {
-                $this->currentBooking->ReferralText = $data['ReferralText'];
-            }
-            $this->currentBooking->write();
-            //$this->currentBooking->Tour()->write();
-            $code = substr($this->currentBooking->Code, 0, 9);
-            $settings = TourBookingSettings::inst();
-            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
-
-            if ($newBooking) {
-                $confirmationEmail = $settings->BookingConfirmationEmail();
-                $mailOut->runOne($confirmationEmail, $this->currentBooking);
-            } else {
-                $confirmationEmail = $settings->UpdateConfirmationEmail();
-                $mailOut->runOne($confirmationEmail, $this->currentBooking, false, true);
-            }
-
-
-            $redirect = $this->controller->Link('confirmsignup/' . $code);
-
-            return $this->controller->redirect($redirect);
         }
+        if (isset($data['ReferralText'])) {
+            $this->currentBooking->ReferralText = $data['ReferralText'];
+        }
+        $this->currentBooking->write();
+        //$this->currentBooking->Tour()->write();
+        $code = substr($this->currentBooking->Code, 0, 9);
+        $settings = TourBookingSettings::inst();
+        $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
+
+        if ($newBooking) {
+            $confirmationEmail = $settings->BookingConfirmationEmail();
+            $mailOut->runOne($confirmationEmail, $this->currentBooking);
+        } else {
+            $confirmationEmail = $settings->UpdateConfirmationEmail();
+            $mailOut->runOne($confirmationEmail, $this->currentBooking, false, true);
+        }
+
+        $redirect = $this->controller->Link('confirmsignup/' . $code);
+
+        return $this->controller->redirect($redirect);
     }
 
     /**
@@ -300,15 +272,14 @@ class TourBookingForm extends Form
     {
         $data = $this->getData();
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: Session:: (case sensitive)
-  * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
-  * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly. 
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: Session:: (case sensitive)
+         * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
+         * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly.
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         Controller::curr()->getRequest()->getSession()->set("FormInfo.{$this->FormName()}.data", $data);
     }
 }
-

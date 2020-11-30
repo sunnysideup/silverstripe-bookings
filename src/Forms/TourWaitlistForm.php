@@ -2,46 +2,26 @@
 
 namespace Sunnysideup\Bookings\Forms;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-use SilverStripe\Core\Injector\Injector;
-use Sunnysideup\Bookings\Model\Waitlister;
-use SilverStripe\Forms\FieldList;
-use Sunnysideup\Bookings\Model\TourBookingSettings;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\ReadonlyField;
-use SilverStripe\Forms\CompositeField;
-use Sunnysideup\Bookings\Model\Tour;
-use SilverStripe\Forms\CheckboxSetField;
-use SilverStripe\Forms\HiddenField;
-use SilverStripe\Forms\FormAction;
 use SilverStripe\Control\Controller;
-use SilverStripe\Forms\Form;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Convert;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\CompositeField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\ReadonlyField;
+use Sunnysideup\Bookings\Model\Tour;
+use Sunnysideup\Bookings\Model\TourBookingSettings;
+use Sunnysideup\Bookings\Model\Waitlister;
 use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
-
-
-
-
 
 class TourWaitlistForm extends Form
 {
     protected $currentTour = null;
-
 
     public function __construct($controller, $name, $selectedTour = null, $numberOfGuests = 1)
     {
@@ -63,7 +43,7 @@ class TourWaitlistForm extends Form
                     'WaitlistNotice',
                     '
                     <p class="message info">
-                        '.$settings->WaitlistInfoMessage.'
+                        ' . $settings->WaitlistInfoMessage . '
                     </p>
                     ',
                     $this->currentTour->ID
@@ -72,13 +52,11 @@ class TourWaitlistForm extends Form
         }
 
         $leftColumn = CompositeField::create(
-                        ReadonlyField::create('TourTitle', 'Requested Tour', $this->currentTour->Title)
-                    )->addExtraClass('left-column');
-
-
+            ReadonlyField::create('TourTitle', 'Requested Tour', $this->currentTour->Title)
+        )->addExtraClass('left-column');
 
         foreach ($fields as $field) {
-            if ($field->Name == 'TotalNumberOfGuests') {
+            if ($field->Name === 'TotalNumberOfGuests') {
                 $field->setValue($numberOfGuests);
                 $field->setReadOnly(true);
             }
@@ -90,20 +68,20 @@ class TourWaitlistForm extends Form
         );
 
         $tourDateAsTimeStamp = strtotime($this->currentTour->Date);
-        $oneWeekEarlier = date('Y-m-d', strtotime("-7 day", $tourDateAsTimeStamp));
-        if(strtotime($oneWeekEarlier) <  strtotime("+1 day", strtotime('now'))){
-            $oneWeekEarlier = date('Y-m-d', strtotime("+1 day", strtotime('now')));
+        $oneWeekEarlier = date('Y-m-d', strtotime('-7 day', $tourDateAsTimeStamp));
+        if (strtotime($oneWeekEarlier) < strtotime('+1 day', strtotime('now'))) {
+            $oneWeekEarlier = date('Y-m-d', strtotime('+1 day', strtotime('now')));
         }
-        $oneWeekLater = date('Y-m-d', strtotime("+7 day", $tourDateAsTimeStamp));
+        $oneWeekLater = date('Y-m-d', strtotime('+7 day', $tourDateAsTimeStamp));
         $tours = [];
         $allToursForFortnight = Tour::get()
-                                    ->filter(
-                                        [
-                                            'Date:GreaterThanOrEqual' => $oneWeekEarlier,
-                                            'Date:LessThanOrEqual' => $oneWeekLater
-                                        ]
-                                    )
-                                    ->exclude(['ID' => $this->currentTour->ID]);
+            ->filter(
+                [
+                    'Date:GreaterThanOrEqual' => $oneWeekEarlier,
+                    'Date:LessThanOrEqual' => $oneWeekLater,
+                ]
+            )
+            ->exclude(['ID' => $this->currentTour->ID]);
 
         foreach ($allToursForFortnight as $tour) {
             if ($tour->getNumberOfPlacesAvailable()->Value < $numberOfGuests) {
@@ -121,7 +99,6 @@ class TourWaitlistForm extends Form
             HiddenField::create('TourID', 'TourID', $this->currentTour->ID)
         );
 
-
         $actions = FieldList::create(
             FormAction::create(
                 'dojoinwaitlist',
@@ -133,17 +110,16 @@ class TourWaitlistForm extends Form
 
         parent::__construct($controller, $name, $fieldList, $actions, $validator);
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: Session:: (case sensitive)
-  * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
-  * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly. 
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: Session:: (case sensitive)
+         * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
+         * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly.
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         $oldData = Controller::curr()->getRequest()->getSession()->get("FormInfo.{$this->FormName()}.data");
-        $oldData = $oldData ? $oldData : [];
+        $oldData = $oldData ?: [];
 
         if ($oldData && (is_array($oldData) || is_object($oldData))) {
             $this->loadDataFrom($oldData);
@@ -155,22 +131,20 @@ class TourWaitlistForm extends Form
     /**
      * Form action handler for TourBookingForm.
      *
-     *
      * @param array $data The form request data submitted
      * @param Form  $form The {@link Form} this was submitted on
      */
     public function dojoinwaitlist(array $data, Form $form, HTTPRequest $request)
     {
-
         $this->saveDataToSession();
         $data = Convert::raw2sql($data);
 
         $waitlister = Waitlister::get()->filter(
-                            [
-                                'InitiatingEmail' => $data['InitiatingEmail'],
-                                'TourID' => $data['TourID']
-                            ]
-                        )->first();
+            [
+                'InitiatingEmail' => $data['InitiatingEmail'],
+                'TourID' => $data['TourID'],
+            ]
+        )->first();
 
         if ($waitlister && $waitlister->exists()) {
             //do nothing
@@ -185,36 +159,35 @@ class TourWaitlistForm extends Form
         $validationObject = $waitlister->validate();
         if (! $validationObject->valid()) {
             return $this->controller->redirectBack();
-        } else {
-            $waitlister->write();
-            $settings = TourBookingSettings::inst();
-            $confirmationEmail = $settings->WaitlistConfirmationEmail();
-            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
-            $mailOut->runOne($confirmationEmail, $waitlister);
-            $redirect = $this->controller->Link('confirmwaitlist/'.$waitlister->Code);
-            //extra tours have been selected
-            if (isset($data['ExtraTours'])) {
-                foreach ($data['ExtraTours'] as $tourID) {
-                    $waitlister = Waitlister::get()->filter(
-                                        [
-                                            'InitiatingEmail' => $data['InitiatingEmail'],
-                                            'TourID' => $tourID
-                                        ]
-                                    )->first();
-
-                    if ($waitlister && $waitlister->exists()) {
-                        //do nothing
-                    } else {
-                        $waitlister = Waitlister::create();
-                    }
-                    $form->saveInto($waitlister);
-                    $waitlister->TotalNumberOfGuests = intval($data['TotalNumberOfGuests']);
-                    $waitlister->TourID = $tourID;
-                    $waitlister->write();
-                }
-            }
-            return $this->controller->redirect($redirect);
         }
+        $waitlister->write();
+        $settings = TourBookingSettings::inst();
+        $confirmationEmail = $settings->WaitlistConfirmationEmail();
+        $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
+        $mailOut->runOne($confirmationEmail, $waitlister);
+        $redirect = $this->controller->Link('confirmwaitlist/' . $waitlister->Code);
+        //extra tours have been selected
+        if (isset($data['ExtraTours'])) {
+            foreach ($data['ExtraTours'] as $tourID) {
+                $waitlister = Waitlister::get()->filter(
+                    [
+                        'InitiatingEmail' => $data['InitiatingEmail'],
+                        'TourID' => $tourID,
+                    ]
+                )->first();
+
+                if ($waitlister && $waitlister->exists()) {
+                    //do nothing
+                } else {
+                    $waitlister = Waitlister::create();
+                }
+                $form->saveInto($waitlister);
+                $waitlister->TotalNumberOfGuests = intval($data['TotalNumberOfGuests']);
+                $waitlister->TourID = $tourID;
+                $waitlister->write();
+            }
+        }
+        return $this->controller->redirect($redirect);
 
         return $this->controller->redirectBack();
     }
@@ -228,15 +201,14 @@ class TourWaitlistForm extends Form
     {
         $data = $this->getData();
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: Session:: (case sensitive)
-  * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
-  * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly. 
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: Session:: (case sensitive)
+         * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
+         * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly.
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         Controller::curr()->getRequest()->getSession()->set("FormInfo.{$this->FormName()}.data", $data);
     }
 }
-

@@ -2,27 +2,16 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-
-
-
-
-
-use TourBookingPage_Controller;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
 use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
-use SilverStripe\Core\Config\Config;
-use SilverStripe\Forms\ReadonlyField;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\ORM\DataObject;
-
-
-
-
+use TourBookingPage_Controller;
 
 class TourBaseClass extends DataObject
 {
-
-
     #######################
     ### can Section
     #######################
@@ -67,17 +56,9 @@ class TourBaseClass extends DataObject
         return $this->CurrentUserIsTourManager($member);
     }
 
-    protected function CurrentMemberIsOwner()
-    {
-        return false;
-    }
-
     #######################
     ### write Section
     #######################
-
-
-
 
     public function validate()
     {
@@ -87,7 +68,7 @@ class TourBaseClass extends DataObject
         $requiredFields = $this->Config()->get('required_fields');
         if (is_array($requiredFields)) {
             foreach ($this->Config()->get('required_fields') as $field) {
-                $value = $this->$field;
+                $value = $this->{$field};
                 if (! $value) {
                     $fieldWithoutID = $field;
                     if (substr($fieldWithoutID, -2) === 'ID') {
@@ -96,53 +77,51 @@ class TourBaseClass extends DataObject
                     $myName = isset($fieldLabels[$fieldWithoutID]) ? $fieldLabels[$fieldWithoutID] : $fieldWithoutID;
                     $result->addError(
                         _t(
-                            'Booking.'.$field.'_REQUIRED',
-                            $myName.' is required'
+                            'Booking.' . $field . '_REQUIRED',
+                            $myName . ' is required'
                         ),
-                        'REQUIRED_Booking_'.$field
+                        'REQUIRED_Booking_' . $field
                     );
                 }
                 if (isset($indexes[$field]) && isset($indexes[$field]['type']) && $indexes[$field]['type'] === 'unique') {
                     $id = (empty($this->ID) ? 0 : $this->ID);
                     $count = self::get()
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-                        ->filter(array($field => $value, 'ClassName' => $this->ClassName))
-                        ->exclude(array('ID' => $id))
+                        /**
+                         * ### @@@@ START REPLACEMENT @@@@ ###
+                         * WHY: automated upgrade
+                         * OLD: $this->ClassName (case sensitive)
+                         * NEW: $this->ClassName (COMPLEX)
+                         * EXP: Check if the class name can still be used as such
+                         * ### @@@@ STOP REPLACEMENT @@@@ ###
+                         */
+                        ->filter([$field => $value, 'ClassName' => $this->ClassName])
+                        ->exclude(['ID' => $id])
                         ->count();
                     if ($count > 0) {
                         $myName = $fieldLabels['$field'];
                         $result->addError(
                             _t(
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-                                $this->ClassName.'.'.$field.'_UNIQUE',
-                                $myName.' needs to be unique'
+                                /**
+                                 * ### @@@@ START REPLACEMENT @@@@ ###
+                                 * WHY: automated upgrade
+                                 * OLD: $this->ClassName (case sensitive)
+                                 * NEW: $this->ClassName (COMPLEX)
+                                 * EXP: Check if the class name can still be used as such
+                                 * ### @@@@ STOP REPLACEMENT @@@@ ###
+                                 */
+                                $this->ClassName . '.' . $field . '_UNIQUE',
+                                $myName . ' needs to be unique'
                             ),
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-                            'UNIQUE_'.$this->ClassName.'_'.$field
+                            /**
+                             * ### @@@@ START REPLACEMENT @@@@ ###
+                             * WHY: automated upgrade
+                             * OLD: $this->ClassName (case sensitive)
+                             * NEW: $this->ClassName (COMPLEX)
+                             * EXP: Check if the class name can still be used as such
+                             * ### @@@@ STOP REPLACEMENT @@@@ ###
+                             */
+                            'UNIQUE_' . $this->ClassName . '_' . $field
                         );
                     }
                 }
@@ -151,7 +130,6 @@ class TourBaseClass extends DataObject
 
         return $result;
     }
-
 
     #######################
     ### Import / Export Section
@@ -167,64 +145,59 @@ class TourBaseClass extends DataObject
     {
         $controller = singleton(TourBookingsAdmin::class);
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-        return $controller->Link().$this->ClassName."/EditForm/field/".$this->ClassName."/item/".$this->ID."/edit";
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
+        return $controller->Link() . $this->ClassName . '/EditForm/field/' . $this->ClassName . '/item/' . $this->ID . '/edit';
     }
 
     public function CMSAddLink()
     {
         $controller = singleton(TourBookingsAdmin::class);
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-        return $controller->Link().$this->ClassName."/EditForm/field/".$this->ClassName."/item/new";
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
+        return $controller->Link() . $this->ClassName . '/EditForm/field/' . $this->ClassName . '/item/new';
     }
 
     public function CMSListLink()
     {
         $controller = singleton(TourBookingsAdmin::class);
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-        return $controller->Link().$this->ClassName;
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
+        return $controller->Link() . $this->ClassName;
     }
-
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         $readonlyfields = Config::inst()->get($this->ClassName, 'readonly_fields');
         if (is_array($readonlyfields)) {
             foreach ($readonlyfields as $replaceField) {
@@ -235,16 +208,14 @@ class TourBaseClass extends DataObject
             }
         }
 
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: $this->ClassName (case sensitive)
-  * NEW: $this->ClassName (COMPLEX)
-  * EXP: Check if the class name can still be used as such
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+         * ### @@@@ START REPLACEMENT @@@@ ###
+         * WHY: automated upgrade
+         * OLD: $this->ClassName (case sensitive)
+         * NEW: $this->ClassName (COMPLEX)
+         * EXP: Check if the class name can still be used as such
+         * ### @@@@ STOP REPLACEMENT @@@@ ###
+         */
         $castedValues = Config::inst()->get($this->ClassName, 'casting');
         $fieldLabels = $this->Config()->get('field_labels_right');
         if (is_array($castedValues)) {
@@ -255,15 +226,15 @@ class TourBaseClass extends DataObject
                     'Created',
                     'CSSClasses',
                     'ClassName',
-                    'Title'
+                    'Title',
                 ];
-                if (! in_array($fieldName, $avoid)) {
-                    $method = 'get'.$fieldName;
+                if (! in_array($fieldName, $avoid, true)) {
+                    $method = 'get' . $fieldName;
                     $fieldNameNice = $fieldName;
                     if (isset($fieldLabels[$fieldName])) {
                         $fieldNameNice = $fieldLabels[$fieldName];
                     }
-                    $value = $this->$method();
+                    $value = $this->{$method}();
                     if (is_object($value) && $value->hasMethod('Nice')) {
                         $value = $value->Nice();
                     }
@@ -280,11 +251,11 @@ class TourBaseClass extends DataObject
         }
 
         $rightFieldDescriptions = $this->Config()->get('field_labels_right');
-        if($rightFieldDescriptions){
+        if ($rightFieldDescriptions) {
             foreach ($rightFieldDescriptions as $field => $desc) {
                 $formField = $fields->DataFieldByName($field);
                 if (! $formField) {
-                    $formField = $fields->DataFieldByName($field.'ID');
+                    $formField = $fields->DataFieldByName($field . 'ID');
                 }
                 if ($formField) {
                     $formField->setDescription($desc);
@@ -295,21 +266,24 @@ class TourBaseClass extends DataObject
         return $fields;
     }
 
-
-    protected function AddUsefulLinkToFields($fields, $title, $link, $explanation = '')
-    {
-        $name = preg_replace("/[^A-Za-z0-9 ]/", '', $title);
-        $fields->addFieldsToTab(
-            'Root.UsefulLinks',
-            [
-                LiteralField::create($name.'_UseFulLink', '<h2>› <a href="'.$link.'">'.$title.'</a></h2><p>'.$explanation.'</p>'),
-            ]
-        );
-    }
-
     public function LinkToTourPage()
     {
         return TourBookingPage_Controller::find_link();
     }
-}
 
+    protected function CurrentMemberIsOwner()
+    {
+        return false;
+    }
+
+    protected function AddUsefulLinkToFields($fields, $title, $link, $explanation = '')
+    {
+        $name = preg_replace('/[^A-Za-z0-9 ]/', '', $title);
+        $fields->addFieldsToTab(
+            'Root.UsefulLinks',
+            [
+                LiteralField::create($name . '_UseFulLink', '<h2>› <a href="' . $link . '">' . $title . '</a></h2><p>' . $explanation . '</p>'),
+            ]
+        );
+    }
+}

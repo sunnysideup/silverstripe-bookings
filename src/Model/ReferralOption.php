@@ -2,34 +2,17 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-
-use Sunnysideup\Bookings\Model\Booking;
 use SilverStripe\Forms\CheckboxField;
-
-
 
 class ReferralOption extends TourBaseClass
 {
-
     #######################
     ### Names Section
     #######################
 
     private static $singular_name = 'Referral Option';
 
-    public function i18n_singular_name()
-    {
-        return _t(self::class.'.SINGULAR_NAME', 'Referral Option');
-    }
-
     private static $plural_name = 'Referral Options';
-
-    public function i18n_plural_name()
-    {
-        return _t(self::class.'.PLURAL_NAME', 'Referral Options');
-    }
-
-
 
     #######################
     ### Model Section
@@ -41,14 +24,12 @@ class ReferralOption extends TourBaseClass
         'Title' => 'Varchar',
         'SortOrder' => 'Int',
         'IsOther' => 'Boolean',
-        'Archived' => 'Boolean'
+        'Archived' => 'Boolean',
     ];
 
     private static $belongs_many_many = [
-        'Bookings' => Booking::class
+        'Bookings' => Booking::class,
     ];
-
-
 
     #######################
     ### Further DB Field Details
@@ -59,22 +40,28 @@ class ReferralOption extends TourBaseClass
     ];
 
     private static $required_fields = [
-        'Title'
+        'Title',
     ];
 
     private static $summary_fields = [
         'Title' => 'Option',
         'Bookings.Count' => 'Number of Bookings',
-        'Archived.Nice' => 'Archived'
+        'Archived.Nice' => 'Archived',
     ];
 
+    public function i18n_singular_name()
+    {
+        return _t(self::class . '.SINGULAR_NAME', 'Referral Option');
+    }
 
+    public function i18n_plural_name()
+    {
+        return _t(self::class . '.PLURAL_NAME', 'Referral Options');
+    }
 
     #######################
     ### CMS Edit Section
     #######################
-
-
 
     public function getCMSFields()
     {
@@ -83,10 +70,9 @@ class ReferralOption extends TourBaseClass
         $fields->removeByName('SortOrder');
 
         $hasOther = ReferralOption::get()->filter(['IsOther' => true])->first();
-        if ($hasOther && $this->ID != $hasOther->ID) {
+        if ($hasOther && $this->ID !== $hasOther->ID) {
             $fields->removeByName('IsOther');
-        }
-        else {
+        } else {
             $fields->replaceField(
                 'IsOther',
                 CheckboxField::create(
@@ -108,7 +94,4 @@ class ReferralOption extends TourBaseClass
         }
         return $this->CurrentUserIsTourManager($member);
     }
-
-
 }
-
