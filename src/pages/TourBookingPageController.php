@@ -9,7 +9,15 @@ class TourBookingPageController extends PageController
 
     protected $factoryIP = '';
 
-    public function init()
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * OLD:     public function init() (ignore case)
+  * NEW:     protected function init() (COMPLEX)
+  * EXP: Controller init functions are now protected  please check that is a controller.
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+    protected function init()
     {
         parent::init();
         $this->factoryIP = Config::inst()->get('TourBookingSettings', 'tour_location_ip');
