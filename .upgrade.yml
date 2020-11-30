@@ -10,8 +10,8 @@ mappings:
   TourBookingPageController: Sunnysideup\Bookings\Pages\TourBookingPageController
   FactoryTourPage_Controller: Sunnysideup\Bookings\Pages\FactoryTourPage_Controller
   FactoryTourPageController: Sunnysideup\Bookings\Pages\FactoryTourPageController
-  TourDate_Filter: Sunnysideup\Bookings\Search\TourDate_Filter
-  TourTimesToApplyForCertainDay_Filter: Sunnysideup\Bookings\Search\TourTimesToApplyForCertainDay_Filter
+  TourDate_Filter: Sunnysideup\Bookings\Search\TourDateFilter
+  TourTimesToApplyForCertainDay_Filter: Sunnysideup\Bookings\Search\TourTimesToApplyForCertainDay
   TourBookingsEmailReminder_ReplacerClass: Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass
   DateInfo: Sunnysideup\Bookings\Model\DateInfo
   TourBookingSettings: Sunnysideup\Bookings\Model\TourBookingSettings

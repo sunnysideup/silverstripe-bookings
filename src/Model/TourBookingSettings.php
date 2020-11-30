@@ -17,10 +17,10 @@ use SilverStripe\Security\Permission;
 use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
 use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
 use Sunnysideup\Bookings\Tasks\TourBuilder;
-use SunnySideUp\EmailReminder\Model\EmailReminder_NotificationSchedule;
+use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 use Sunnysideup\PermissionProvider\Api\PermissionProviderFactory;
-use TourBookingPage_Controller;
+use Sunnysideup\Bookings\Pages\TourBookingPageController;
 
 class TourBookingSettings extends TourBaseClass
 {
@@ -65,11 +65,11 @@ class TourBookingSettings extends TourBaseClass
 
     private static $has_one = [
         'Administrator' => Member::class,
-        'BookingConfirmationEmail' => EmailReminder_NotificationSchedule::class,
-        'UpdateConfirmationEmail' => EmailReminder_NotificationSchedule::class,
-        'CancellationConfirmationEmail' => EmailReminder_NotificationSchedule::class,
-        'WaitlistConfirmationEmail' => EmailReminder_NotificationSchedule::class,
-        'TourSpacesAvailableEmail' => EmailReminder_NotificationSchedule::class,
+        'BookingConfirmationEmail' => EmailReminderNotificationSchedule::class,
+        'UpdateConfirmationEmail' => EmailReminderNotificationSchedule::class,
+        'CancellationConfirmationEmail' => EmailReminderNotificationSchedule::class,
+        'WaitlistConfirmationEmail' => EmailReminderNotificationSchedule::class,
+        'TourSpacesAvailableEmail' => EmailReminderNotificationSchedule::class,
     ];
 
     #######################
@@ -201,11 +201,11 @@ class TourBookingSettings extends TourBaseClass
             $baseURL = trim($baseURL, '/');
             $email = 'tours@' . $baseURL;
         }
+
         $group = PermissionProviderFactory::inst()
             ->setEmail($email)
-            ->setFirstName(Tour::class)
+            ->setFirstName('Tour')
             ->setSurname('Manager')
-            ->setName('Tour Managers')
             ->setCode(Config::inst()->get(TourBookingSettings::class, 'group_code'))
             ->setPermissionCode('CMS_ACCESS_TOUR_ADMIN')
             ->setRoleTitle('Tour Manager Privileges')
@@ -223,6 +223,7 @@ class TourBookingSettings extends TourBaseClass
             }
             $obj->write();
         }
+
     }
 
     public function createNewGoogleCalendarAccessToken()
@@ -356,7 +357,7 @@ class TourBookingSettings extends TourBaseClass
                 $formField
             );
             if ($this->{$field}) {
-                $emailNotifier = EmailReminder_NotificationSchedule::get()->byID($this->{$field});
+                $emailNotifier = EmailReminderNotificationSchedule::get()->byID($this->{$field});
                 if ($emailNotifier) {
                     $cmsLink = $emailNotifier->CMSEditLink();
                     if ($cmsLink) {
@@ -383,7 +384,7 @@ class TourBookingSettings extends TourBaseClass
         $this->AddUsefulLinkToFields(
             $fields,
             'Open Tour Booking Page',
-            TourBookingPage_Controller::find_link()
+            TourBookingPageController::find_link()
         );
 
         $this->AddUsefulLinkToFields(
@@ -409,14 +410,14 @@ class TourBookingSettings extends TourBaseClass
         $this->AddUsefulLinkToFields(
             $fields,
             'Add adhoc tour at regular time',
-            '/admin/tour-bookings/DateInfo/EditForm/field/DateInfo/item/new',
+            '/admin/tour-bookings/Sunnysideup-Bookings-Model-DateInfo/EditForm/field/Sunnysideup-Bookings-Model-DateInfo/item/new',
             'Add new tour date(s) with all the details and then create the tours using the <a href="/dev/tasks/TourBuilder/">create tours button</a>.'
         );
 
         $this->AddUsefulLinkToFields(
             $fields,
             'Add adhoc tour at irregular time',
-            '/admin/tour-bookings/TimesForTour/EditForm/field/TimesForTour/item/new',
+            '/admin/tour-bookings/Sunnysideup-Bookings-Model-TimesForTour/EditForm/field/Sunnysideup-Bookings-Model-TimesForTour/item/new',
             'Add the new time first and then add the tour dates.
             After that you will have to create the tours using the <a href="/dev/tasks/TourBuilder/">create tours button</a>.'
         );
@@ -424,7 +425,7 @@ class TourBookingSettings extends TourBaseClass
         $this->AddUsefulLinkToFields(
             $fields,
             'Find out what tour date rule applies on a certain day',
-            '/admin/tour-bookings/DateInfo',
+            '/admin/tour-bookings/Sunnysideup-Bookings-Model-DateInfo',
             'Click on the magnifying glass and search for a particular day.'
         );
 

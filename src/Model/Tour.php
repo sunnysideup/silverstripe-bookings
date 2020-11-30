@@ -13,12 +13,13 @@ use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBBoolean;
-use SilverStripe\ORM\FieldType\DBDate;
 use SilverStripe\ORM\FieldType\DBField;
 use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
-use TourBookingPage_Controller;
+use Sunnysideup\Bookings\Pages\TourBookingPageController;
+use Sunnysideup\Bookings\Search\TourDateFilter;
 
 class Tour extends TourBaseClass
 {
@@ -34,14 +35,6 @@ class Tour extends TourBaseClass
     ### Model Section
     #######################
 
-    /**
-     * ### @@@@ START REPLACEMENT @@@@ ###
-     * OLD: private static $db (case sensitive)
-     * NEW:
-    private static $db (COMPLEX)
-     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-     * ### @@@@ STOP REPLACEMENT @@@@ ###
-     */
     private static $table_name = 'Tour';
 
     private static $db = [
@@ -92,8 +85,8 @@ class Tour extends TourBaseClass
         'Duration' => 'ExactMatchFilter',
         'IsClosed' => 'ExactMatchFilter',
         'Created' => [
-            'field' => 'TextField',
-            'filter' => 'TourDate_Filter',
+            'field' =>  TextField::class,
+            'filter' => TourDateFilter::class,
             'title' => 'Tour Date (e.g Today, 1 jan 2020, or next Thursday)',
         ],
         'StartTime' => 'ExactMatchFilter',
@@ -105,7 +98,7 @@ class Tour extends TourBaseClass
 
     private static $field_labels = [
         'IsClosed' => 'Closed',
-        'Date' => DBDate::class,
+        'Date' => 'Date',
         'StartTime' => 'Start Time',
         'Duration' => 'Minutes',
         'TotalSpacesAtStart' => 'Total Spaces',
@@ -143,7 +136,7 @@ class Tour extends TourBaseClass
     ];
 
     private static $readonly_fields = [
-        DBDate::class,
+        'Date',
         'StartTime',
         'Duration',
         'TotalSpacesAtStart',
@@ -190,7 +183,7 @@ class Tour extends TourBaseClass
 
     public function i18n_singular_name()
     {
-        return _t('Tour.SINGULAR_NAME', Tour::class);
+        return _t('Tour.SINGULAR_NAME', 'Tour');
     }
 
     public function i18n_plural_name()
@@ -414,7 +407,7 @@ class Tour extends TourBaseClass
             }
         }
 
-        if ($this->Date && $this->isChanged(DBDate::class)) {
+        if ($this->Date && $this->isChanged('Date')) {
             foreach ($this->Bookings() as $booking) {
                 $booking->Date = $this->Date;
                 $booking->write();
@@ -525,7 +518,7 @@ class Tour extends TourBaseClass
             foreach ($dbFields as $dbFieldName => $dbFieldType) {
                 $fields->removeByName($dbFieldName);
             }
-            $fields->removeByName(DBDate::class);
+            $fields->removeByName('Date');
             $fields->removeByName('TourTimeID');
             $fields->removeByName('DateInfoID');
 
@@ -534,11 +527,10 @@ class Tour extends TourBaseClass
             $fields->addFieldsToTab(
                 'Root.Main',
                 [
-                    $dateField = DateField::create(DBDate::class, DBDate::class),
+                    $dateField = DateField::create('Date', 'Date'),
                     $tourTimeField = DropdownField::create('TourTimeID', 'Type of Tour', $times),
                 ]
             );
-            $dateField->setConfig('showcalendar', true);
             $timesForTour = Injector::inst()->get(TimesForTour::class);
             $tourTimeField->setRightTitle('<a href="' . $timesForTour->CMSAddLink() . '" target="_blank">Create a new tour time</a>.');
         } else {
@@ -564,7 +556,7 @@ class Tour extends TourBaseClass
 
     public function JoinLink($absolute = false)
     {
-        $v = TourBookingPage_Controller::find_link('jointour') . $this->ID . '/';
+        $v = TourBookingPageController::find_link('jointour') . $this->ID . '/';
         if ($absolute) {
             $v = Director::absoluteURL($v);
         }

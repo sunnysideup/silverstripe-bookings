@@ -17,7 +17,7 @@ use SilverStripe\Forms\ReadonlyField;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
 use Sunnysideup\Bookings\Model\Waitlister;
-use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
+use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 
 class TourWaitlistForm extends Form
 {
@@ -163,7 +163,7 @@ class TourWaitlistForm extends Form
         $waitlister->write();
         $settings = TourBookingSettings::inst();
         $confirmationEmail = $settings->WaitlistConfirmationEmail();
-        $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
+        $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
         $mailOut->runOne($confirmationEmail, $waitlister);
         $redirect = $this->controller->Link('confirmwaitlist/' . $waitlister->Code);
         //extra tours have been selected

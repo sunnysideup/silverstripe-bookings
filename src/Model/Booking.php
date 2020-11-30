@@ -2,19 +2,7 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-use CountryDropdownField;
-
-
-
-
-
-
-
-
-
-
-
-
+use Dynamic\CountryDropdownField\Fields\CountryDropdownField;
 use SilverStripe\Control\Director;
 
 use SilverStripe\Control\Email\Email;
@@ -31,11 +19,10 @@ use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\FieldType\DBDate;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Member;
-use SunnySideUp\EmailReminder\Model\EmailReminder_EmailRecord;
-use TourBookingPage_Controller;
+use SunnySideUp\EmailReminder\Model\EmailReminderEmailRecord;
+use Sunnysideup\Bookings\Pages\TourBookingPageController;
 
 class Booking extends TourBaseClass
 {
@@ -51,14 +38,6 @@ class Booking extends TourBaseClass
     ### Model Section
     #######################
 
-    /**
-     * ### @@@@ START REPLACEMENT @@@@ ###
-     * OLD: private static $db (case sensitive)
-     * NEW:
-    private static $db (COMPLEX)
-     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-     * ### @@@@ STOP REPLACEMENT @@@@ ###
-     */
     private static $table_name = 'Booking';
 
     private static $db = [
@@ -154,7 +133,7 @@ class Booking extends TourBaseClass
 
     private static $read_only_fields = [
         'Code',
-        DBDate::class,
+        'Date',
         'InitiatingSurname',
         'InitiatingFirstName',
         'InitiatingEmail',
@@ -477,15 +456,7 @@ class Booking extends TourBaseClass
                 )
             );
 
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: $this->ClassName (case sensitive)
-             * NEW: $this->ClassName (COMPLEX)
-             * EXP: Check if the class name can still be used as such
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
-            $readonlyfields = Config::inst()->get($this->ClassName, 'read_only_fields');
+            $readonlyfields = Config::inst()->get(Booking::class, 'read_only_fields');
             foreach ($readonlyfields as $replaceField) {
                 $fields->replaceField(
                     $replaceField,
@@ -494,14 +465,14 @@ class Booking extends TourBaseClass
             }
         } else {
             $fields->removeByName('BookingMemberID');
-            $fields->removeByName(DBDate::class);
+            $fields->removeByName('Date');
             $fields->removeByName('TourID');
             $today = date('Y-m-d');
             $tours = Tour::get()->filter(
                 ['Date:GreaterThanOrEqual' => $today]
             )->map()->toArray();
             $fields->insertBefore(
-                DropdownField::create('TourID', Tour::class, $tours),
+                DropdownField::create('TourID', 'Tour', $tours),
                 'TotalNumberOfGuests'
             );
         }
@@ -531,7 +502,7 @@ class Booking extends TourBaseClass
             ]
         );
 
-        $emailRecords = EmailReminder_EmailRecord::get()->filter(['ExternalRecordID' => $this->ID]);
+        $emailRecords = EmailReminderEmailRecord::get()->filter(['ExternalRecordID' => $this->ID]);
 
         $fields->addFieldsToTab(
             'Root.Messages',
@@ -561,28 +532,10 @@ class Booking extends TourBaseClass
     public function getFrontEndFields($params = null)
     {
         $fields = parent::getFrontEndFields($params);
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $labels = Config::inst()->get($this->ClassName, 'field_labels');
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $fieldLabelsRight = Config::inst()->get($this->ClassName, 'field_labels_right');
+        $labels = Config::inst()->get(Booking::class, 'field_labels');
+        $fieldLabelsRight = Config::inst()->get(Booking::class, 'field_labels_right');
         $fields->removeByName('Code');
-        $fields->removeByName(DBDate::class);
+        $fields->removeByName('Date');
         $fields->removeByName('HasArrived');
         $fields->removeByName('Cancelled');
         $fields->removeByName('BookingMemberID');
@@ -609,18 +562,10 @@ class Booking extends TourBaseClass
 
         $fields->replaceField(
             'NumberOfChildren',
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: NumericField::create (case sensitive)
-             * NEW: NumericField::create (COMPLEX)
-             * EXP: check the number of decimals required and add as ->setScale(2)
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
             NumericField::create(
                 'NumberOfChildren',
                 $labels['NumberOfChildren']
-            )
+            )->setScale(2)
         );
 
         $fields->replaceField(
@@ -656,15 +601,7 @@ class Booking extends TourBaseClass
     public function getFrontEndValidator()
     {
 
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $fields = Config::inst()->get($this->ClassName, 'required_fields');
+        $fields = Config::inst()->get(Booking::class, 'required_fields');
 
         return RequiredFields::create($fields);
     }
@@ -672,7 +609,7 @@ class Booking extends TourBaseClass
     /**
      * This function is used to exclude cancelled bookings from reminder and follow up emails
      *
-     * @param  EmailReminder_NotificationSchedule  $reminder
+     * @param  EmailReminderNotificationSchedule  $reminder
      * @param DataList $records
      *
      * @return boolean
@@ -688,7 +625,7 @@ class Booking extends TourBaseClass
 
     public function AddLink($absolute = false)
     {
-        $v = TourBookingPage_Controller::find_link('signup');
+        $v = TourBookingPageController::find_link('signup');
         if ($absolute) {
             $v = Director::absoluteURL($v);
         }
@@ -698,7 +635,7 @@ class Booking extends TourBaseClass
     public function ConfirmLink($absolute = false)
     {
         if ($this->Code) {
-            $v = TourBookingPage_Controller::find_link('confirmsignup') . substr($this->Code, 0, 9) . '/';
+            $v = TourBookingPageController::find_link('confirmsignup') . substr($this->Code, 0, 9) . '/';
             if ($absolute) {
                 $v = Director::absoluteURL($v);
             }
@@ -711,7 +648,7 @@ class Booking extends TourBaseClass
     public function EditLink($absolute = false)
     {
         if ($this->Code) {
-            $v = TourBookingPage_Controller::find_link('update') . substr($this->Code, 0, 9) . '/';
+            $v = TourBookingPageController::find_link('update') . substr($this->Code, 0, 9) . '/';
             if ($absolute) {
                 $v = Director::absoluteURL($v);
             }
@@ -724,7 +661,7 @@ class Booking extends TourBaseClass
     public function CancelLink($absolute = false)
     {
         if ($this->Code) {
-            $v = TourBookingPage_Controller::find_link('cancel') . substr($this->Code, 0, 9) . '/';
+            $v = TourBookingPageController::find_link('cancel') . substr($this->Code, 0, 9) . '/';
             if ($absolute) {
                 $v = Director::absoluteURL($v);
             }

@@ -23,14 +23,6 @@ class Waitlister extends TourBaseClass
     ### Model Section
     #######################
 
-    /**
-     * ### @@@@ START REPLACEMENT @@@@ ###
-     * OLD: private static $db (case sensitive)
-     * NEW:
-    private static $db (COMPLEX)
-     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-     * ### @@@@ STOP REPLACEMENT @@@@ ###
-     */
     private static $table_name = 'Waitlister';
 
     private static $db = [
@@ -106,25 +98,9 @@ class Waitlister extends TourBaseClass
     {
         $fields = parent::getFrontEndFields($params);
 
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $labels = Config::inst()->get($this->ClassName, 'field_labels');
+        $labels = Config::inst()->get(Waitlister::class, 'field_labels');
 
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $fieldLabelsRight = Config::inst()->get($this->ClassName, 'field_labels_right');
+        $fieldLabelsRight = Config::inst()->get(Waitlister::class, 'field_labels_right');
         $fields->removeByName('Code');
         $fields->removeByName('TourDate');
 
@@ -153,16 +129,7 @@ class Waitlister extends TourBaseClass
      */
     public function getFrontEndValidator()
     {
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $fields = Config::inst()->get($this->ClassName, 'required_fields');
+        $fields = Config::inst()->get(Waitlister::class, 'required_fields');
 
         return RequiredFields::create($fields);
     }

@@ -11,9 +11,9 @@ SilverStripe\ORM\DatabaseAdmin:
     TourBookingPageController: Sunnysideup\Bookings\Pages\TourBookingPageController
     FactoryTourPage_Controller: Sunnysideup\Bookings\Pages\FactoryTourPage_Controller
     FactoryTourPageController: Sunnysideup\Bookings\Pages\FactoryTourPageController
-    TourDate_Filter: Sunnysideup\Bookings\Search\TourDate_Filter
-    TourTimesToApplyForCertainDay_Filter: Sunnysideup\Bookings\Search\TourTimesToApplyForCertainDay_Filter
-    TourBookingsEmailReminder_ReplacerClass: Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass
+    TourDate_Filter: Sunnysideup\Bookings\Search\TourDateFilter
+    TourTimesToApplyForCertainDay_Filter: Sunnysideup\Bookings\Search\TourTimesToApplyForCertainDayFilter
+    TourBookingsEmailReminder_ReplacerClass: Sunnysideup\Bookings\Api\TourBookingsEmailReminderReplacerClass
     DateInfo: Sunnysideup\Bookings\Model\DateInfo
     TourBookingSettings: Sunnysideup\Bookings\Model\TourBookingSettings
     Booking: Sunnysideup\Bookings\Model\Booking

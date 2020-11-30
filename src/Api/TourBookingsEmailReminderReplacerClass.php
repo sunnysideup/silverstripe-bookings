@@ -4,9 +4,9 @@ namespace Sunnysideup\Bookings\Api;
 
 use Sunnysideup\Bookings\Model\Booking;
 use Sunnysideup\Bookings\Model\Waitlister;
-use SunnySideUp\EmailReminder\Api\EmailReminder_ReplacerClassBase;
+use SunnySideUp\EmailReminder\Api\EmailReminderReplacerClassBase;
 
-class TourBookingsEmailReminder_ReplacerClass extends EmailReminder_ReplacerClassBase
+class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassBase
 {
     protected $replaceArray = [
         '[FIRST_NAME]' => [

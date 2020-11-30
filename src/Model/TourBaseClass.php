@@ -8,10 +8,11 @@ use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
 use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
-use TourBookingPage_Controller;
+use Sunnysideup\Bookings\Pages\TourBookingPageController;
 
 class TourBaseClass extends DataObject
 {
+    private static $table_name = 'TourBaseClass';
     #######################
     ### can Section
     #######################
@@ -190,14 +191,6 @@ class TourBaseClass extends DataObject
     {
         $fields = parent::getCMSFields();
 
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
         $readonlyfields = Config::inst()->get($this->ClassName, 'readonly_fields');
         if (is_array($readonlyfields)) {
             foreach ($readonlyfields as $replaceField) {
@@ -208,14 +201,7 @@ class TourBaseClass extends DataObject
             }
         }
 
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
+
         $castedValues = Config::inst()->get($this->ClassName, 'casting');
         $fieldLabels = $this->Config()->get('field_labels_right');
         if (is_array($castedValues)) {
@@ -268,7 +254,7 @@ class TourBaseClass extends DataObject
 
     public function LinkToTourPage()
     {
-        return TourBookingPage_Controller::find_link();
+        return TourBookingPageController::find_link();
     }
 
     protected function CurrentMemberIsOwner()

@@ -53,7 +53,7 @@ class FactoryTourPage extends TourBookingPage
     private static $db = [
         'IntroLeft' => 'HTMLText',
         'IntroRight' => 'HTMLText',
-        'TACertLocation' => 'enum("left, right")',
+        'TACertLocation' => 'Enum("left, right")',
         'MaxBookingsMessage' => 'HTMLText',
         'GoogleMapsEmbedLink' => 'Varchar(255)',
         'TourBookingLink' => 'Varchar(100)',

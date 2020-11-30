@@ -1,6 +1,5 @@
 ---
 Name: google_calendar_interface
-After: 'framework/*','cms/*'
 ---
 Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface:
   application_name: 'Tour Manager Calendar'

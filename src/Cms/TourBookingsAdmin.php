@@ -2,12 +2,6 @@
 
 namespace Sunnysideup\Bookings\Cms;
 
-use GridFieldSortableRows;
-
-
-
-
-
 use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Core\Config\Config;
@@ -24,6 +18,7 @@ use Sunnysideup\Bookings\Model\TimesForTour;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
 use Sunnysideup\Bookings\Model\Waitlister;
+use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 
 class TourBookingsAdmin extends ModelAdmin
 {
@@ -50,7 +45,7 @@ class TourBookingsAdmin extends ModelAdmin
 
     private static $menu_title = 'Tour Bookings';
 
-    private static $menu_icon = 'tour_bookings/images/icons/TourBookingsAdmin.png';
+    private static $menu_icon = 'sunnysideup:bookings: client/images/icons/TourBookingsAdmin.png';
 
     public function getList()
     {

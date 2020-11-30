@@ -19,7 +19,12 @@
         }
     ],
     "require": {
-        "silverstripe/recipe-cms": "^4.4"
+        "silverstripe/recipe-cms": "^4.4",
+        "sunnysideup/permission_provider": "^6.0",
+        "sunnysideup/google-calendar-interface": "^2.0",
+        "sunnysideup/email_reminder": "^3.0",
+        "dynamic/silverstripe-country-dropdown-field": "^1.2"
+
     },
     "autoload": {
         "psr-4": {

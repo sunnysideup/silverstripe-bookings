@@ -5,7 +5,9 @@ namespace Sunnysideup\Bookings\Model;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBField;
+use Sunnysideup\Bookings\Search\TourTimesToApplyForCertainDayFilter;
 use Sunnysideup\Bookings\Tasks\TourBuilder;
 
 class DateInfo extends TourBaseClass
@@ -22,14 +24,6 @@ class DateInfo extends TourBaseClass
     ### Model Section
     #######################
 
-    /**
-     * ### @@@@ START REPLACEMENT @@@@ ###
-     * OLD: private static $db (case sensitive)
-     * NEW:
-    private static $db (COMPLEX)
-     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-     * ### @@@@ STOP REPLACEMENT @@@@ ###
-     */
     private static $table_name = 'DateInfo';
 
     private static $db = [
@@ -83,8 +77,8 @@ class DateInfo extends TourBaseClass
         'Title' => 'PartialMatchFilter',
         'RepeatEvery' => 'ExactMatchFilter',
         'Created' => [
-            'field' => 'TextField',
-            'filter' => 'TourTimesToApplyForCertainDay_Filter',
+            'field' => TextField::class,
+            'filter' => TourTimesToApplyForCertainDayFilter::class,
             'title' => 'What rules applies on date? (e.g Today, 1 jan 2007, or next Thursday)',
         ],
     ];
@@ -314,9 +308,6 @@ class DateInfo extends TourBaseClass
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-
-        $fields->DataFieldByName('FromDate')->setConfig('showcalendar', 1);
-        $fields->DataFieldByName('UntilDate')->setConfig('showcalendar', 1);
 
         $fields->removeByName('TourTimes');
 

@@ -24,7 +24,6 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\FieldType\DBDate;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
@@ -147,11 +146,11 @@ class TourBookingPageController extends PageController
     {
         $actionToTest = null;
         if ($action) {
-            $allowedActions = Config::inst()->get('TourBookingPage_Controller', 'allowed_actions');
+            $allowedActions = Config::inst()->get(TourBookingPageController::class, 'allowed_actions');
             $actionToTest = explode('/', $action)[0];
         }
         if ($actionToTest === null || isset($allowedActions[$actionToTest])) {
-            $obj = Injector::inst()->get('TourBookingPage_Controller');
+            $obj = Injector::inst()->get(TourBookingPageController::class);
 
             return $obj->Link($action);
         }
@@ -289,7 +288,7 @@ class TourBookingPageController extends PageController
 
     public function MyDate()
     {
-        return DBField::create_field(DBDate::class, date('Y-m-d', $this->availabilityDateAsTS));
+        return DBField::create_field('Date', date('Y-m-d', $this->availabilityDateAsTS));
     }
 
     public function ListOfToursForOneDay()
@@ -694,7 +693,7 @@ class TourBookingPageController extends PageController
          * EXP: Check that the template location is still valid!
          * ### @@@@ STOP REPLACEMENT @@@@ ###
          */
-        return $this->RenderWith(['TourBookingPage_Controller', 'QuickView']);
+        return $this->RenderWith([TourBookingPageController::class, 'QuickView']);
     }
 
     public function checkinfortour($request)

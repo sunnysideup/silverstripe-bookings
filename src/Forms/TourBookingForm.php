@@ -19,7 +19,7 @@ use SilverStripe\Forms\TextField;
 use Sunnysideup\Bookings\Model\Booking;
 use Sunnysideup\Bookings\Model\ReferralOption;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
-use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
+use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 
 class TourBookingForm extends Form
 {
@@ -63,15 +63,7 @@ class TourBookingForm extends Form
         );
 
         $column1->push(
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: NumericField::create (case sensitive)
-             * NEW: NumericField::create (COMPLEX)
-             * EXP: check the number of decimals required and add as ->setScale(2)
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
-            NumericField::create('TotalNumberOfGuests', 'Number of people in this booking.')->addExtraClass('always-show')
+            NumericField::create('TotalNumberOfGuests', 'Number of people in this booking.')->addExtraClass('always-show')->setScale(2)
         );
 
         if ($this->currentTour === null) {
@@ -248,7 +240,7 @@ class TourBookingForm extends Form
         //$this->currentBooking->Tour()->write();
         $code = substr($this->currentBooking->Code, 0, 9);
         $settings = TourBookingSettings::inst();
-        $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
+        $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
 
         if ($newBooking) {
             $confirmationEmail = $settings->BookingConfirmationEmail();
