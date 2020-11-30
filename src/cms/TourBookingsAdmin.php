@@ -126,3 +126,4 @@ class TourBookingsAdmin extends ModelAdmin
         return $form;
     }
 }
+

@@ -239,3 +239,4 @@ class TourBookingsEmailReminder_ReplacerClass extends EmailReminder_ReplacerClas
         return $str;
     }
 }
+

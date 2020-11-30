@@ -149,3 +149,4 @@ class Waitlister extends TourBaseClass
                 ->sort('TourDate', 'ASC');
     }
 }
+

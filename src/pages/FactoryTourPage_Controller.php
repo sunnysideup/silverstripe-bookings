@@ -1,6 +1,6 @@
 <?php
 
-class FactoryTourPageController extends TourBookingPageController
+class FactoryTourPage_Controller extends TourBookingPage_Controller
 {
 
     /**

@@ -26,3 +26,4 @@ class TourTimesToApplyForCertainDay_Filter extends ExactMatchFilter
         return $query;
     }
 }
+

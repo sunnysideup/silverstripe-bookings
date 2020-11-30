@@ -398,3 +398,4 @@ class TourBookingSettings extends TourBaseClass
         return $fields;
     }
 }
+

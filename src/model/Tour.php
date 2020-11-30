@@ -605,3 +605,4 @@ class Tour extends TourBaseClass
         return $v;
     }
 }
+

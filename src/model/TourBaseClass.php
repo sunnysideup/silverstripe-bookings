@@ -223,3 +223,4 @@ class TourBaseClass extends DataObject
         return TourBookingPage_Controller::find_link();
     }
 }
+

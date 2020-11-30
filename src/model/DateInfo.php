@@ -390,3 +390,4 @@ class DateInfo extends TourBaseClass
         return $fields;
     }
 }
+

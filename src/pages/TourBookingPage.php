@@ -8,3 +8,4 @@ class TourBookingPage extends Page
 {
 
 }
+

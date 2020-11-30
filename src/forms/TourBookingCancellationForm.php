@@ -71,3 +71,4 @@ class TourBookingCancellationForm extends Form
         }
     }
 }
+

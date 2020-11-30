@@ -638,3 +638,4 @@ class Booking extends TourBaseClass
         return 'error';
     }
 }
+

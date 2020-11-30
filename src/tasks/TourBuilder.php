@@ -80,3 +80,4 @@ class TourBuilder extends BuildTask
         return $settings->NumberOfDaysToGenerateToursInAdvance;
     }
 }
+

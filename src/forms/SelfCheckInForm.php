@@ -156,3 +156,4 @@ class SelfCheckInForm extends Form
     }
 
 }
+

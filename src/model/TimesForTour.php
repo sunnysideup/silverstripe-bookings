@@ -181,3 +181,4 @@ class TimesForTour extends TourBaseClass
         return $fields;
     }
 }
+

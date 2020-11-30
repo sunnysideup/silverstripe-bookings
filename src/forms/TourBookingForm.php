@@ -244,3 +244,4 @@ class TourBookingForm extends Form
         Session::set("FormInfo.{$this->FormName()}.data", $data);
     }
 }
+
