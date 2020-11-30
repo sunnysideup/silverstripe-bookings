@@ -83,15 +83,96 @@ class FactoryTourPage extends TourBookingPage
      * @var array
      */
     private static $has_one = array(
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD:  => 'Image' (case sensitive)
+  * NEW:  => 'Image' (COMPLEX)
+  * EXP: you may want to add ownership (owns)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         'TourTimesBannerMobile' => 'Image',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD:  => 'Image' (case sensitive)
+  * NEW:  => 'Image' (COMPLEX)
+  * EXP: you may want to add ownership (owns)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         'TourTimesBannerDesktop' => 'Image',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD:  => 'Image' (case sensitive)
+  * NEW:  => 'Image' (COMPLEX)
+  * EXP: you may want to add ownership (owns)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         'BubblesBannerMobile' => 'Image',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD:  => 'Image' (case sensitive)
+  * NEW:  => 'Image' (COMPLEX)
+  * EXP: you may want to add ownership (owns)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         'BubblesBannerDesktop' => 'Image',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD:  => 'Image' (case sensitive)
+  * NEW:  => 'Image' (COMPLEX)
+  * EXP: you may want to add ownership (owns)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         'BookYourTourImage' => 'Image',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD:  => 'Image' (case sensitive)
+  * NEW:  => 'Image' (COMPLEX)
+  * EXP: you may want to add ownership (owns)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         'InsideTheFactory' => 'Image',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD:  => 'Image' (case sensitive)
+  * NEW:  => 'Image' (COMPLEX)
+  * EXP: you may want to add ownership (owns)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         'MapDownloadImage' => 'Image',
         'MapPDF' => 'File',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD:  => 'Image' (case sensitive)
+  * NEW:  => 'Image' (COMPLEX)
+  * EXP: you may want to add ownership (owns)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         'NavigationImage' => 'Image',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD:  => 'Image' (case sensitive)
+  * NEW:  => 'Image' (COMPLEX)
+  * EXP: you may want to add ownership (owns)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         'GeoTargetedHomePageImage' => 'Image'
     );
 
@@ -109,7 +190,16 @@ class FactoryTourPage extends TourBookingPage
      * mysite/images/treeicons/MyClassName
      * @var string
      */
-    private static $icon = 'mysite/images/treeicons/FactoryTourPage';
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: app/images/ (case sensitive)
+  * NEW: app: images/ (COMPLEX)
+  * EXP: check for location
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+    private static $icon = 'app: images/treeicons/FactoryTourPage';
 
     /**
      * short description of page type

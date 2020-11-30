@@ -44,6 +44,15 @@ class TourBookingPageController extends PageController
      */
     public function index($request)
     {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         if ($this->ClassName === 'TourBookingPage') {
             return $this->redirect($this->Link('signup'));
         }
@@ -121,7 +130,7 @@ class TourBookingPageController extends PageController
     ];
 
 
-    public function canEdit($member = null)
+    public function canEdit($member = null, $context = [])
     {
         return $this->currentBooking && $this->currentBooking->exists() ? true : false;
     }
@@ -161,9 +170,27 @@ class TourBookingPageController extends PageController
     {
         $this->Content = $this->BookingForm();
         if ($this->IsFactory()) {
-            return $this->renderWith(['TourBookingPage', 'Page_MainOnly']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
         }
-        return $this->renderWith(['TourBookingPage', 'Page']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['TourBookingPage', 'Page']);
     }
 
     public function availability($request)
@@ -181,7 +208,16 @@ class TourBookingPageController extends PageController
         }
 
 
-        return $this->renderWith('TourBookingsAvailableForOneDay');
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith('TourBookingsAvailableForOneDay');
     }
 
     public function confirmsignup($request)
@@ -189,12 +225,39 @@ class TourBookingPageController extends PageController
         if (!$this->currentBooking) {
             return $this->httpError(404, 'Not Found');
         }
-        $this->Content = $this->renderWith('BookingConfirmationContent');
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $this->Content = $this->RenderWith('BookingConfirmationContent');
 
         if ($this->IsFactory()) {
-            return $this->renderWith(['TourBookingPage', 'Page_MainOnly']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
         }
-        return $this->renderWith(['TourBookingPage', 'Page']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['TourBookingPage', 'Page']);
     }
 
     public function DateInformation()
@@ -250,16 +313,43 @@ class TourBookingPageController extends PageController
 
         if ($this->IsCancelled()) {
             $this->Title = 'Cancellation Confirmation';
-            $this->Content = $this->renderWith('BookingCancellationContent');
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            $this->Content = $this->RenderWith('BookingCancellationContent');
         } else {
             $this->Title = 'Update your booking';
             $this->Content = $this->BookingForm();
         }
 
         if ($this->IsFactory()) {
-            return $this->renderWith(['TourBookingPage', 'Page_MainOnly']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
         }
-        return $this->renderWith(['TourBookingPage', 'Page']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['TourBookingPage', 'Page']);
     }
 
     public function cancel($request)
@@ -273,12 +363,39 @@ class TourBookingPageController extends PageController
         if ($this->IsCancelled()) {
             $this->Title = 'Cancellation Confirmation';
         }
-        $this->Content = $this->renderWith('BookingCancellationContent');
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $this->Content = $this->RenderWith('BookingCancellationContent');
 
         if ($this->IsFactory()) {
-            return $this->renderWith(['TourBookingPage', 'Page_MainOnly']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
         }
-        return $this->renderWith(['TourBookingPage', 'Page']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['TourBookingPage', 'Page']);
     }
 
 
@@ -315,9 +432,27 @@ class TourBookingPageController extends PageController
         $this->Content = $this->WaitlistForm();
 
         if ($this->IsFactory()) {
-            return $this->renderWith(['TourBookingPage', 'Page_MainOnly']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
         }
-        return $this->renderWith(['TourBookingPage', 'Page']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['TourBookingPage', 'Page']);
     }
 
     public function confirmwaitlist($request)
@@ -331,12 +466,39 @@ class TourBookingPageController extends PageController
         }
 
         $this->Title = 'Confirmation';
-        $this->Content = $this->renderWith('WaitlistConfirmationContent');
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $this->Content = $this->RenderWith('WaitlistConfirmationContent');
 
         if ($this->IsFactory()) {
-            return $this->renderWith(['TourBookingPage', 'Page_MainOnly']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
         }
-        return $this->renderWith(['TourBookingPage', 'Page']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['TourBookingPage', 'Page']);
     }
 
     public function jointour($request)
@@ -348,13 +510,40 @@ class TourBookingPageController extends PageController
         if ($spacesLeft > 0) {
             $this->Content = $this->SingleTourBookingForm();
         } else {
-            $this->Content = $this->renderWith('TourFullMessage');
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            $this->Content = $this->RenderWith('TourFullMessage');
         }
 
         if ($this->IsFactory()) {
-            return $this->renderWith(['TourBookingPage', 'Page_MainOnly']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
         }
-        return $this->renderWith(['TourBookingPage', 'Page']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['TourBookingPage', 'Page']);
     }
 
     public function TourFullMessage()
@@ -378,12 +567,30 @@ class TourBookingPageController extends PageController
 
     public function calendar($request)
     {
-        $member = Member::currentUser();
+        $member = Security::getCurrentUser();
         if (!$member) {
             return Security::permissionFailure($this);
         } elseif (Permission::checkMember($member, "CMS_ACCESS_TOUR_ADMIN")) {
-            $this->Content = $this->renderWith('CalendarView');
-            return $this->renderWith(['TourBookingPage', 'Page']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            $this->Content = $this->RenderWith('CalendarView');
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            return $this->RenderWith(['TourBookingPage', 'Page']);
         } else {
             echo 'Sorry you don\'t have the required permissions to access this area. <a href="/Security/logout">LOG OUT</a>';
         }
@@ -482,7 +689,16 @@ class TourBookingPageController extends PageController
         if (!$this->currentTour) {
             return $this->httpError(404, 'Not Found');
         }
-        return $this->renderWith(['TourBookingPage_Controller', 'QuickView']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['TourBookingPage_Controller', 'QuickView']);
     }
 
 
@@ -492,9 +708,27 @@ class TourBookingPageController extends PageController
         if (!$this->currentTour) {
             return $this->httpError(404, 'Not Found');
         }
-        $this->Content = $this->renderWith('TourCheckinContent');
 
-        return $this->renderWith(['TourBookingPage', 'Page']);
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $this->Content = $this->RenderWith('TourCheckinContent');
+
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['TourBookingPage', 'Page']);
     }
 
     public function confirmonecheckin($request)
@@ -530,7 +764,16 @@ class TourBookingPageController extends PageController
         }
 
         //this page will always render without a header/footer - regardless of whether or not it is being accessed from the factory
-        return $this->renderWith(['SelfCheckInPage', 'Page_MainOnly']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['SelfCheckInPage', 'Page_MainOnly']);
     }
 
     public function confirmselfcheckin($request)
@@ -538,10 +781,28 @@ class TourBookingPageController extends PageController
         if (!$this->currentBooking) {
             return $this->httpError(404, 'Not Found');
         }
-        $this->Content = $this->renderWith('SelfCheckInConfirmationContent');
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $this->Content = $this->RenderWith('SelfCheckInConfirmationContent');
 
         //this page will also always render without a header/footer - regardless of whether or not it is being accessed from the factory
-        return $this->renderWith(['TourBookingPage', 'Page_MainOnly']);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->RenderWith( (ignore case)
+  * NEW: ->RenderWith( (COMPLEX)
+  * EXP: Check that the template location is still valid!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
     }
 
     public function CurrentTour()
@@ -643,12 +904,30 @@ class TourBookingPageController extends PageController
         return $finalArrayList;
     }
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className (case sensitive)
+  * NEW: $className (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
     public function TourLinks($className = '')
     {
         $modelAdmin = Injector::inst()->get('TourBookingsAdmin');
         $models = $modelAdmin->getManagedModels();
         $al = ArrayList::create();
         foreach ($models as $key => $model) {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className (case sensitive)
+  * NEW: $className (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             if ($className && $className === $key) {
                 $link = Injector::inst()->get($key)->CMSListLink();
                 return $link;
@@ -660,7 +939,7 @@ class TourBookingPageController extends PageController
 
     public function TourBookingsAdminLink()
     {
-        $member = Member::currentUser();
+        $member = Security::getCurrentUser();
         if ($member && $this->CurrentUserIsTourManager($member)) {
             return $this->Link('calendar');
         }

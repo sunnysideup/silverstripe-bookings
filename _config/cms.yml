@@ -3,7 +3,7 @@ Only:
   moduleexists: 'grouped-cms-menu'
 ---
 
-LeftAndMain:
+SilverStripe\Admin\LeftAndMain:
   menu_groups:
     Tours:
       - TourBookingsAdmin

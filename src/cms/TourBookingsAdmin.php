@@ -103,7 +103,7 @@ class TourBookingsAdmin extends ModelAdmin
      */
     public function oneItemForm($record)
     {
-        Config::inst()->update('LeftAndMain', 'tree_class', $record->ClassName);
+        Config::modify()->update('LeftAndMain', 'tree_class', $record->ClassName);
         $form = LeftAndMain::getEditForm($record);
         $idField = HiddenField::create('ID')->setValue($record->ID);
         $cssField = LiteralField::create(

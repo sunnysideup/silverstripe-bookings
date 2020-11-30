@@ -3,6 +3,15 @@
     <dl id="booking-info" class="clearfix">
         <% with $Tour %>
             <dd>Date:</dd>
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: .Format( (case sensitive)
+  * NEW: .Format( (COMPLEX)
+  * EXP: Format function for dates have changed! Please consider something like: PHP NativeFormat as an extension (see http://userguide.icu-project.org/formatparse/datetime)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             <dt>$Date.Format('l, jS M Y')</dt>
             <dd>Time:</dd>
             <dt>$StartTime.Nice - $EndTime.Nice</dt>

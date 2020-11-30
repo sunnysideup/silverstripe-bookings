@@ -44,6 +44,15 @@ class TourBookingForm extends Form
         );
 
         $column1->push(
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: NumericField::create (case sensitive)
+  * NEW: NumericField::create (COMPLEX)
+  * EXP: check the number of decimals required and add as ->setScale(2)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             NumericField::create('TotalNumberOfGuests', 'Number of people in this booking.')->addExtraClass('always-show')
         );
 
@@ -131,7 +140,16 @@ class TourBookingForm extends Form
 
         parent::__construct($controller, $name, $fieldList, $actions, $validator);
 
-        $oldData = Session::get("FormInfo.{$this->FormName()}.data");
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: Session:: (case sensitive)
+  * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
+  * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly. 
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $oldData = Controller::curr()->getRequest()->getSession()->get("FormInfo.{$this->FormName()}.data");
         $oldData = $oldData ? $oldData : $this->currentBooking;
 
         if ($oldData && (is_array($oldData) || is_object($oldData))) {
@@ -241,7 +259,16 @@ class TourBookingForm extends Form
     public function saveDataToSession()
     {
         $data = $this->getData();
-        Session::set("FormInfo.{$this->FormName()}.data", $data);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: Session:: (case sensitive)
+  * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
+  * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly. 
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        Controller::curr()->getRequest()->getSession()->set("FormInfo.{$this->FormName()}.data", $data);
     }
 }
 

@@ -1,4 +1,13 @@
 <div id="date-and-tour-information">
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: .Format( (case sensitive)
+  * NEW: .Format( (COMPLEX)
+  * EXP: Format function for dates have changed! Please consider something like: PHP NativeFormat as an extension (see http://userguide.icu-project.org/formatparse/datetime)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
     <h6>$MyDate.Format('l, jS M Y')</h6>
     <% if $DateInformation %>
         <% with $DateInformation %>

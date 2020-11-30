@@ -201,7 +201,7 @@ class Booking extends TourBaseClass
     ### can Section
     #######################
 
-    public function canEdit($member = null)
+    public function canEdit($member = null, $context = [])
     {
         if ($this->HasArrived) {
             return false;
@@ -210,7 +210,7 @@ class Booking extends TourBaseClass
         return parent::canEdit($member);
     }
 
-    public function canDelete($member = null)
+    public function canDelete($member = null, $context = [])
     {
         if ($this->HasArrived) {
             return false;
@@ -244,8 +244,17 @@ class Booking extends TourBaseClass
                 ->exclude(['ID' => intval($this->ID)])
                 ->count();
             if ($errorCount) {
-                $result->error(
+                $result->addError(
                     'Another booking for this tour with the same email already exists. You can only make one booking per tour per email number.',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                     'UNIQUE_' . $this->ClassName . '_InitiatingEmail'
                 );
             }
@@ -256,8 +265,17 @@ class Booking extends TourBaseClass
                     ->exclude(['ID' => intval($this->ID)])
                     ->count();
                 if ($errorCount) {
-                    $result->error(
+                    $result->addError(
                         'Another booking for this tour with the same mobile phone already exists. You can only make one booking per tour per mobile phone number.',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                         'UNIQUE_' . $this->ClassName . 'PrimaryPhone'
                     );
                 }
@@ -280,22 +298,49 @@ class Booking extends TourBaseClass
                 //admins can override the following validation
                 $adminOverrideNotSet = $this->TotalGuestsAdminOverride ? false : true;
                 if ($this->TotalNumberOfGuests > $placesAvailable && $adminOverrideNotSet) {
-                    $result->error(
+                    $result->addError(
                         'Sorry, there are not enough places available for your booking. Your booking is for ' . $this->TotalNumberOfGuests . ' and the places still available is: ' . $placesAvailable,
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                         'UNIQUE_' . $this->ClassName . '_NumberOfPlacesAvailable'
                     );
                 }
             }
         }
         if (intval($this->TotalNumberOfGuests) < 1) {
-            $result->error(
+            $result->addError(
                 'You need to have at least one person attending to make a booking.',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                 'UNIQUE_' . $this->ClassName . '_TotalNumberOfGuests'
             );
         }
         if (intval($this->TotalNumberOfGuests) < (intval($this->NumberOfChildren) + 1)) {
-            $result->error(
+            $result->addError(
                 'You need to have at least one adult attending. It appears you only have children listed for this booking.',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                 'UNIQUE_' . $this->ClassName . '_NumberOfChildren'
             );
         }
@@ -430,6 +475,15 @@ class Booking extends TourBaseClass
                     $this->BookingMember()->getTitle() . ' - ' . $this->BookingMember()->Email
                 )
             );
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             $readonlyfields = Config::inst()->get($this->ClassName, 'read_only_fields');
             foreach ($readonlyfields as $replaceField) {
                 $fields->replaceField(
@@ -508,7 +562,25 @@ class Booking extends TourBaseClass
     public function getFrontEndFields($params = null)
     {
         $fields = parent::getFrontEndFields($params);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $labels = Config::inst()->get($this->ClassName, 'field_labels');
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $fieldLabelsRight = Config::inst()->get($this->ClassName, 'field_labels_right');
         $fields->removeByName('Code');
         $fields->removeByName('Date');
@@ -538,6 +610,15 @@ class Booking extends TourBaseClass
 
         $fields->replaceField(
             'NumberOfChildren',
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: NumericField::create (case sensitive)
+  * NEW: NumericField::create (COMPLEX)
+  * EXP: check the number of decimals required and add as ->setScale(2)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             NumericField::create(
                 'NumberOfChildren',
                 $labels['NumberOfChildren']
@@ -576,6 +657,15 @@ class Booking extends TourBaseClass
      */
     public function getFrontEndValidator()
     {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $fields = Config::inst()->get($this->ClassName, 'required_fields');
 
         return RequiredFields::create($fields);

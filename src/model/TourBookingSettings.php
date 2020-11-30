@@ -141,22 +141,22 @@ class TourBookingSettings extends TourBaseClass
     ### can Section
     #######################
 
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
-        return DataObject::get_one($this->class) ? false : true;
+        return DataObject::get_one(static::class) ? false : true;
     }
 
-    public function canView($member = null)
-    {
-        return Permission::check('ADMIN', 'any', $member);
-    }
-
-    public function canEdit($member = null)
+    public function canView($member = null, $context = [])
     {
         return Permission::check('ADMIN', 'any', $member);
     }
 
-    public function canDelete($member = null)
+    public function canEdit($member = null, $context = [])
+    {
+        return Permission::check('ADMIN', 'any', $member);
+    }
+
+    public function canDelete($member = null, $context = [])
     {
         return false;
     }
@@ -247,6 +247,15 @@ class TourBookingSettings extends TourBaseClass
     {
         $controller = singleton("TourBookingsAdmin");
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         return $controller->Link().$this->ClassName."/EditForm/field/".$this->ClassName."/item/".$this->ID."/edit";
     }
 
@@ -254,6 +263,15 @@ class TourBookingSettings extends TourBaseClass
     {
         $controller = singleton("TourBookingsAdmin");
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         return $controller->Link().$this->ClassName."/EditForm/field/".$this->ClassName."/item/new";
     }
 

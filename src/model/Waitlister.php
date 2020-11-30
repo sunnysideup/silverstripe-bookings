@@ -105,7 +105,25 @@ class Waitlister extends TourBaseClass
     public function getFrontEndFields($params = null)
     {
         $fields = parent::getFrontEndFields($params);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $labels = Config::inst()->get($this->ClassName, 'field_labels');
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $fieldLabelsRight = Config::inst()->get($this->ClassName, 'field_labels_right');
         $fields->removeByName('Code');
         $fields->removeByName('TourDate');
@@ -135,6 +153,15 @@ class Waitlister extends TourBaseClass
      */
     public function getFrontEndValidator()
     {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $fields = Config::inst()->get($this->ClassName, 'required_fields');
 
         return RequiredFields::create($fields);

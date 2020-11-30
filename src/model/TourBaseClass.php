@@ -18,7 +18,7 @@ class TourBaseClass extends DataObject
         return false;
     }
 
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         if ($this->CurrentMemberIsOwner()) {
             return true;
@@ -26,7 +26,7 @@ class TourBaseClass extends DataObject
         return $this->CurrentUserIsTourManager($member);
     }
 
-    public function canView($member = null)
+    public function canView($member = null, $context = [])
     {
         if ($this->CurrentMemberIsOwner()) {
             return true;
@@ -34,7 +34,7 @@ class TourBaseClass extends DataObject
         return $this->CurrentUserIsTourManager($member);
     }
 
-    public function canEdit($member = null)
+    public function canEdit($member = null, $context = [])
     {
         if ($this->CurrentMemberIsOwner()) {
             return true;
@@ -42,7 +42,7 @@ class TourBaseClass extends DataObject
         return $this->CurrentUserIsTourManager($member);
     }
 
-    public function canDelete($member = null)
+    public function canDelete($member = null, $context = [])
     {
         if ($this->CurrentMemberIsOwner()) {
             return true;
@@ -77,7 +77,7 @@ class TourBaseClass extends DataObject
                         $fieldWithoutID = substr($fieldWithoutID, 0, -2);
                     }
                     $myName = isset($fieldLabels[$fieldWithoutID]) ? $fieldLabels[$fieldWithoutID] : $fieldWithoutID;
-                    $result->error(
+                    $result->addError(
                         _t(
                             'Booking.'.$field.'_REQUIRED',
                             $myName.' is required'
@@ -88,16 +88,43 @@ class TourBaseClass extends DataObject
                 if (isset($indexes[$field]) && isset($indexes[$field]['type']) && $indexes[$field]['type'] === 'unique') {
                     $id = (empty($this->ID) ? 0 : $this->ID);
                     $count = self::get()
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                         ->filter(array($field => $value, 'ClassName' => $this->ClassName))
                         ->exclude(array('ID' => $id))
                         ->count();
                     if ($count > 0) {
                         $myName = $fieldLabels['$field'];
-                        $result->error(
+                        $result->addError(
                             _t(
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                                 $this->ClassName.'.'.$field.'_UNIQUE',
                                 $myName.' needs to be unique'
                             ),
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                             'UNIQUE_'.$this->ClassName.'_'.$field
                         );
                     }
@@ -123,6 +150,15 @@ class TourBaseClass extends DataObject
     {
         $controller = singleton("TourBookingsAdmin");
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         return $controller->Link().$this->ClassName."/EditForm/field/".$this->ClassName."/item/".$this->ID."/edit";
     }
 
@@ -130,6 +166,15 @@ class TourBaseClass extends DataObject
     {
         $controller = singleton("TourBookingsAdmin");
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         return $controller->Link().$this->ClassName."/EditForm/field/".$this->ClassName."/item/new";
     }
 
@@ -137,6 +182,15 @@ class TourBaseClass extends DataObject
     {
         $controller = singleton("TourBookingsAdmin");
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         return $controller->Link().$this->ClassName;
     }
 
@@ -145,6 +199,15 @@ class TourBaseClass extends DataObject
     {
         $fields = parent::getCMSFields();
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $readonlyfields = Config::inst()->get($this->ClassName, 'readonly_fields');
         if (is_array($readonlyfields)) {
             foreach ($readonlyfields as $replaceField) {
@@ -156,6 +219,15 @@ class TourBaseClass extends DataObject
         }
 
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $this->ClassName (case sensitive)
+  * NEW: $this->ClassName (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $castedValues = Config::inst()->get($this->ClassName, 'casting');
         $fieldLabels = $this->Config()->get('field_labels_right');
         if (is_array($castedValues)) {

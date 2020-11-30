@@ -93,7 +93,7 @@ class ReferralOption extends TourBaseClass
         return $fields;
     }
 
-    public function canDelete($member = null)
+    public function canDelete($member = null, $context = [])
     {
         if ($this->Bookings()->count() > 0) {
             return false;

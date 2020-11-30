@@ -11,7 +11,7 @@ class MonthlyTourReport extends BuildTask
 
     public function Link()
     {
-        return '/dev/tasks/'.$this->class;
+        return '/dev/tasks/'.get_class($this);
     }
 
     public function run($request)
@@ -29,8 +29,44 @@ class MonthlyTourReport extends BuildTask
         $tours = Tour::get()
             ->filter(
                 [
-                    'Date:GreaterThanOrEqual' => $monthStart->format('Y-m-d'),
-                    'Date:LessThanOrEqual' => $monthEnd->format('Y-m-d')
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: >format('Y-m-d') (case sensitive)
+  * NEW: ->format('Y-MM-d') (COMPLEX)
+  * EXP: check usage of new date/time system https://www.php.net/manual/en/datetime.format.php vs http://userguide.icu-project.org/formatparse/datetime
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->format( (case sensitive)
+  * NEW: ->format( (COMPLEX)
+  * EXP: If this is a PHP Date format call then this needs to be changed to new Date formatting system. (see http://userguide.icu-project.org/formatparse/datetime)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                    'Date:GreaterThanOrEqual' => $monthStart-->format('Y-MM-d'),
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: >format('Y-m-d') (case sensitive)
+  * NEW: ->format('Y-MM-d') (COMPLEX)
+  * EXP: check usage of new date/time system https://www.php.net/manual/en/datetime.format.php vs http://userguide.icu-project.org/formatparse/datetime
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->format( (case sensitive)
+  * NEW: ->format( (COMPLEX)
+  * EXP: If this is a PHP Date format call then this needs to be changed to new Date formatting system. (see http://userguide.icu-project.org/formatparse/datetime)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                    'Date:LessThanOrEqual' => $monthEnd-->format('Y-MM-d')
                 ]
             );
         foreach($tours as $tour){
@@ -86,6 +122,15 @@ class MonthlyTourReport extends BuildTask
         $email->setTemplate('MonthlyTourReport');
         $email->populateTemplate($emailData);
         $email->setTo($toEmail);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->format( (case sensitive)
+  * NEW: ->format( (COMPLEX)
+  * EXP: If this is a PHP Date format call then this needs to be changed to new Date formatting system. (see http://userguide.icu-project.org/formatparse/datetime)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $email->setSubject('Monthly Tour Report for the month of ' . $monthStart->format('F Y'));
 
         $result = $email->send();

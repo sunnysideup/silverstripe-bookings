@@ -97,7 +97,16 @@ class TourWaitlistForm extends Form
 
         parent::__construct($controller, $name, $fieldList, $actions, $validator);
 
-        $oldData = Session::get("FormInfo.{$this->FormName()}.data");
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: Session:: (case sensitive)
+  * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
+  * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly. 
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $oldData = Controller::curr()->getRequest()->getSession()->get("FormInfo.{$this->FormName()}.data");
         $oldData = $oldData ? $oldData : [];
 
         if ($oldData && (is_array($oldData) || is_object($oldData))) {
@@ -182,7 +191,16 @@ class TourWaitlistForm extends Form
     public function saveDataToSession()
     {
         $data = $this->getData();
-        Session::set("FormInfo.{$this->FormName()}.data", $data);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: Session:: (case sensitive)
+  * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
+  * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly. 
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        Controller::curr()->getRequest()->getSession()->set("FormInfo.{$this->FormName()}.data", $data);
     }
 }
 

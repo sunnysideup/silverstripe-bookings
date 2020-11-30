@@ -414,13 +414,13 @@ class Tour extends TourBaseClass
 
 
 
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         return $this->CurrentUserIsTourManager($member);
     }
 
 
-    public function canDelete($member = null)
+    public function canDelete($member = null, $context = [])
     {
         if ($this->getNumberOfGroups()->RAW() > 0) {
             return false;

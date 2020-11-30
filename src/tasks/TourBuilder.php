@@ -14,7 +14,7 @@ class TourBuilder extends BuildTask
 
     public function Link()
     {
-        return '/dev/tasks/'.$this->class;
+        return '/dev/tasks/'.get_class($this);
     }
 
     public function run($request)

@@ -23,7 +23,7 @@ class SelfCheckInForm extends Form
 
 
             $fieldList->push(
-                OptionSetField::create('TodaysTours', 'Which tour are you attending today?', $todaysTours)
+                OptionsetField::create('TodaysTours', 'Which tour are you attending today?', $todaysTours)
             );
 
             $fieldList->push(
@@ -152,7 +152,16 @@ class SelfCheckInForm extends Form
     public function saveDataToSession()
     {
         $data = $this->getData();
-        Session::set("FormInfo.{$this->FormName()}.data", $data);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: Session:: (case sensitive)
+  * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
+  * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly. 
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        Controller::curr()->getRequest()->getSession()->set("FormInfo.{$this->FormName()}.data", $data);
     }
 
 }
