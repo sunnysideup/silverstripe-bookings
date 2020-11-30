@@ -47,7 +47,7 @@
                 <header class="clearfix">
                     <h3>Bookings</h3>
                     <a href="#" id="print-bookings">
-                        <% include PrintIcon %>
+                        <% include Sunnysideup\Bookings\IncludesPrintIcon %>
                     </a>
                 </header>
                 <ol id="list-of-bookings">
@@ -57,7 +57,7 @@
                                 <label for="check-in-$ID">Arrived</label>
                                 <input type="checkbox" class="check-in" name='check-in-$ID' data-id="$ID" <% if $HasArrived %>checked="checked"<% end_if %>"/>
                             </div>
-                            <% include TourBookingsBookingDetailsForAdmin %>
+                            <% include Sunnysideup\Bookings\IncludesTourBookingsBookingDetailsForAdmin %>
                             <a href="$CMSEditLink" class="external-link">Edit in CMS</a>
                         </li>
                     <% end_loop %>

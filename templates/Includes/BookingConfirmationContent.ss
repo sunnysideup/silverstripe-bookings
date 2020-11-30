@@ -2,7 +2,7 @@
 <p class="message good">Your booking has been confirmed with the following details:</p>
 
 <% with $CurrentBooking %>
-<% include TourBookingsBookingDetails %>
+<% include Sunnysideup\Bookings\IncludesTourBookingsBookingDetails %>
 <% end_with %>
 
 <p>

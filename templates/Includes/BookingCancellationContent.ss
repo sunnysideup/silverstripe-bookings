@@ -7,7 +7,7 @@
 <% else %>
     <h1>Cancel your current booking.</h1>
     <% with $CurrentBooking %>
-        <% include TourBookingsBookingDetails %>
+        <% include Sunnysideup\Bookings\IncludesTourBookingsBookingDetails %>
     <% end_with %>
     <div class="clear-both">
         $BookingCancellationForm
