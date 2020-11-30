@@ -22,7 +22,7 @@
         "sunnysideup/email_reminder": "*",
         "sunnysideup/google-calendar-interface": "*",
         "sunnysideup/permission_provider": "*",
-        "silverstripe/recipe-cms": "^4.4"
+        "silverstripe/recipe-cms": "^4.6"
     },
     "autoload": {
         "psr-4": {
