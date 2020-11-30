@@ -21,7 +21,8 @@
     "require": {
         "sunnysideup/email_reminder": "*",
         "sunnysideup/google-calendar-interface": "*",
-        "sunnysideup/permission_provider": "*"
+        "sunnysideup/permission_provider": "*",
+        "silverstripe/recipe-cms": "^4.4"
     },
     "autoload": {
         "psr-4": {
