@@ -1,5 +1,17 @@
 <?php
 
+namespace Sunnysideup\Bookings\Cms;
+
+use ModelAdmin;
+use GridField;
+use GridFieldSortableRows;
+use DataObject;
+use Config;
+use LeftAndMain;
+use HiddenField;
+use LiteralField;
+
+
 class TourBookingsAdmin extends ModelAdmin
 {
     private static $managed_models = [

@@ -1,5 +1,28 @@
 <?php
 
+namespace Sunnysideup\Bookings\Model;
+
+use DBField;
+use Member;
+use CheckboxField;
+use LiteralField;
+use CountryDropdownField;
+use ReadonlyField;
+use Config;
+use DropdownField;
+use HeaderField;
+use GridField;
+use GridFieldConfig_RecordViewer;
+use EmailReminder_EmailRecord;
+use TextField;
+use EmailField;
+use NumericField;
+use HiddenField;
+use RequiredFields;
+use TourBookingPage_Controller;
+use Director;
+
+
 
 
 class Booking extends TourBaseClass

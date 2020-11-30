@@ -1,5 +1,27 @@
 <?php
 
+namespace Sunnysideup\Bookings\Pages;
+
+use PageController;
+use Config;
+use TourBookingSettings;
+use Requirements;
+use DBField;
+use Injector;
+use Permission;
+use TourBookingForm;
+use Convert;
+use Booking;
+use DateInfo;
+use TourBookingCancellationForm;
+use TourWaitlistForm;
+use Waitlister;
+use Security;
+use Tour;
+use SelfCheckInForm;
+use ArrayList;
+
+
 
 class TourBookingPageController extends PageController
 {

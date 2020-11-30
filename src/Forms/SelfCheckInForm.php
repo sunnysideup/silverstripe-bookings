@@ -1,5 +1,21 @@
 <?php
 
+namespace Sunnysideup\Bookings\Forms;
+
+use Form;
+use FieldList;
+use Tour;
+use OptionsetField;
+use TextField;
+use FormAction;
+use LiteralField;
+use RequiredFields;
+use SS_HTTPRequest;
+use Convert;
+use Booking;
+use Controller;
+
+
 
 
 class SelfCheckInForm extends Form

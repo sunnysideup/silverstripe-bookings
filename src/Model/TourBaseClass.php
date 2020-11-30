@@ -1,5 +1,15 @@
 <?php
 
+namespace Sunnysideup\Bookings\Model;
+
+use DataObject;
+use Permission;
+use Config;
+use ReadonlyField;
+use LiteralField;
+use TourBookingPage_Controller;
+
+
 
 
 class TourBaseClass extends DataObject

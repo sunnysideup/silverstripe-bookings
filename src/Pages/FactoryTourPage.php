@@ -1,5 +1,16 @@
 <?php
 
+namespace Sunnysideup\Bookings\Pages;
+
+use HTMLEditorField;
+use CheckboxField;
+use TextField;
+use OptionsetField;
+use UploadField;
+use PerfectCMSImagesUploadField;
+use HeaderField;
+
+
 /**
  *
  */

@@ -1,5 +1,10 @@
 <?php
 
+namespace Sunnysideup\Bookings\Model;
+
+use DBField;
+
+
 
 
 class TimesForTour extends TourBaseClass

@@ -1,5 +1,13 @@
 <?php
 
+namespace Sunnysideup\Bookings\Model;
+
+use DBField;
+use CheckboxField;
+use CheckboxSetField;
+use Injector;
+
+
 
 
 class DateInfo extends TourBaseClass

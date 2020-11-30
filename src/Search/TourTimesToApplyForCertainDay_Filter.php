@@ -1,5 +1,13 @@
 <?php
 
+namespace Sunnysideup\Bookings\Search;
+
+use ExactMatchFilter;
+use DataQuery;
+use Date;
+use DateInfo;
+
+
 class TourTimesToApplyForCertainDay_Filter extends ExactMatchFilter
 {
 

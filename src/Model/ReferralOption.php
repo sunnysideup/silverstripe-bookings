@@ -1,5 +1,10 @@
 <?php
 
+namespace Sunnysideup\Bookings\Model;
+
+use CheckboxField;
+
+
 class ReferralOption extends TourBaseClass
 {
 

@@ -1,5 +1,24 @@
 <?php
 
+namespace Sunnysideup\Bookings\Model;
+
+use DataObject;
+use Permission;
+use DB;
+use Config;
+use Director;
+use PermissionProviderFactory;
+use GoogleCalendarInterface;
+use Group;
+use DropdownField;
+use TextareaField;
+use LiteralField;
+use EmailReminder_NotificationSchedule;
+use HTMLEditorField;
+use Injector;
+use TourBookingPage_Controller;
+
+
 
 
 class TourBookingSettings extends TourBaseClass

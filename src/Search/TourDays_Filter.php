@@ -1,5 +1,12 @@
 <?php
 
+namespace Sunnysideup\Bookings\Search;
+
+use ExactMatchFilter;
+use DataQuery;
+use Date;
+
+
 class TourDate_Filter extends ExactMatchFilter
 {
 

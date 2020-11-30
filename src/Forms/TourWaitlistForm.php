@@ -1,5 +1,24 @@
 <?php
 
+namespace Sunnysideup\Bookings\Forms;
+
+use Form;
+use Injector;
+use FieldList;
+use TourBookingSettings;
+use LiteralField;
+use CompositeField;
+use ReadonlyField;
+use Tour;
+use CheckboxSetField;
+use HiddenField;
+use FormAction;
+use Controller;
+use SS_HTTPRequest;
+use Convert;
+use Waitlister;
+
+
 
 
 class TourWaitlistForm extends Form

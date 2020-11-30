@@ -1,0 +1,24 @@
+mappings:
+  TourBookingForm: Sunnysideup\Bookings\Forms\TourBookingForm
+  TourWaitlistForm: Sunnysideup\Bookings\Forms\TourWaitlistForm
+  TourBookingCancellationForm: Sunnysideup\Bookings\Forms\TourBookingCancellationForm
+  SelfCheckInForm: Sunnysideup\Bookings\Forms\SelfCheckInForm
+  MonthlyTourReport: Sunnysideup\Bookings\Tasks\MonthlyTourReport
+  TourBuilder: Sunnysideup\Bookings\Tasks\TourBuilder
+  TourBookingPage: Sunnysideup\Bookings\Pages\TourBookingPage
+  FactoryTourPage: Sunnysideup\Bookings\Pages\FactoryTourPage
+  TourBookingPageController: Sunnysideup\Bookings\Pages\TourBookingPageController
+  FactoryTourPage_Controller: Sunnysideup\Bookings\Pages\FactoryTourPage_Controller
+  FactoryTourPageController: Sunnysideup\Bookings\Pages\FactoryTourPageController
+  TourDate_Filter: Sunnysideup\Bookings\Search\TourDate_Filter
+  TourTimesToApplyForCertainDay_Filter: Sunnysideup\Bookings\Search\TourTimesToApplyForCertainDay_Filter
+  TourBookingsEmailReminder_ReplacerClass: Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass
+  DateInfo: Sunnysideup\Bookings\Model\DateInfo
+  TourBookingSettings: Sunnysideup\Bookings\Model\TourBookingSettings
+  Booking: Sunnysideup\Bookings\Model\Booking
+  Tour: Sunnysideup\Bookings\Model\Tour
+  Waitlister: Sunnysideup\Bookings\Model\Waitlister
+  TourBaseClass: Sunnysideup\Bookings\Model\TourBaseClass
+  ReferralOption: Sunnysideup\Bookings\Model\ReferralOption
+  TimesForTour: Sunnysideup\Bookings\Model\TimesForTour
+  TourBookingsAdmin: Sunnysideup\Bookings\Cms\TourBookingsAdmin

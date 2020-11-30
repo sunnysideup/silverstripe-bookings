@@ -1,5 +1,12 @@
 <?php
 
+namespace Sunnysideup\Bookings\Api;
+
+use EmailReminder_ReplacerClassBase;
+use Booking;
+use Waitlister;
+
+
 class TourBookingsEmailReminder_ReplacerClass extends EmailReminder_ReplacerClassBase
 {
     protected $replaceArray = array(

@@ -1,5 +1,26 @@
 <?php
 
+namespace Sunnysideup\Bookings\Forms;
+
+use Form;
+use Injector;
+use FieldList;
+use CompositeField;
+use HeaderField;
+use NumericField;
+use TextField;
+use ReferralOption;
+use CheckboxSetField;
+use HiddenField;
+use EmailField;
+use FormAction;
+use Controller;
+use SS_HTTPRequest;
+use Convert;
+use TourBookingSettings;
+use Booking;
+
+
 
 
 class TourBookingForm extends Form

@@ -1,5 +1,14 @@
 <?php
 
+namespace Sunnysideup\Bookings\Model;
+
+use ReadonlyField;
+use Config;
+use TextField;
+use EmailField;
+use RequiredFields;
+
+
 
 
 class Waitlister extends TourBaseClass

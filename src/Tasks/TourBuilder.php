@@ -1,4 +1,13 @@
 <?php
+
+namespace Sunnysideup\Bookings\Tasks;
+
+use BuildTask;
+use DB;
+use DateInfo;
+use Tour;
+use TourBookingSettings;
+
 /**
  * @package cms
  * @subpackage assets

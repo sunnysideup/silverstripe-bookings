@@ -1,5 +1,21 @@
 <?php
 
+namespace Sunnysideup\Bookings\Forms;
+
+use Form;
+use FieldList;
+use CheckboxField;
+use EmailField;
+use HiddenField;
+use FormAction;
+use RequiredFields;
+use SS_HTTPRequest;
+use Convert;
+use Booking;
+use TourBookingSettings;
+use Injector;
+
+
 
 
 class TourBookingCancellationForm extends Form

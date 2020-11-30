@@ -1,5 +1,10 @@
 <?php
 
+namespace Sunnysideup\Bookings\Pages;
+
+use TourBookingPage_Controller;
+
+
 class FactoryTourPage_Controller extends TourBookingPage_Controller
 {
 
