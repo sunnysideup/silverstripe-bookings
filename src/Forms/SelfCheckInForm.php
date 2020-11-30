@@ -2,18 +2,31 @@
 
 namespace Sunnysideup\Bookings\Forms;
 
-use Form;
-use FieldList;
-use Tour;
-use OptionsetField;
-use TextField;
-use FormAction;
-use LiteralField;
-use RequiredFields;
-use SS_HTTPRequest;
-use Convert;
-use Booking;
-use Controller;
+
+
+
+
+
+
+
+
+
+
+
+
+use SilverStripe\Forms\FieldList;
+use Sunnysideup\Bookings\Model\Tour;
+use SilverStripe\Forms\OptionsetField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\Form;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Core\Convert;
+use Sunnysideup\Bookings\Model\Booking;
+use SilverStripe\Control\Controller;
+
 
 
 
@@ -78,7 +91,7 @@ class SelfCheckInForm extends Form
      * @param array $data The form request data submitted
      * @param Form  $form The {@link Form} this was submitted on
      */
-    public function checkinbooking(array $data, Form $form, SS_HTTPRequest $request)
+    public function checkinbooking(array $data, Form $form, HTTPRequest $request)
     {
         $this->saveDataToSession();
         $data = Convert::raw2sql($data);

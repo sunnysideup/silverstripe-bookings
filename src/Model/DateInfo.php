@@ -2,10 +2,18 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-use DBField;
-use CheckboxField;
-use CheckboxSetField;
-use Injector;
+
+
+
+
+use Sunnysideup\Bookings\Model\Tour;
+use Sunnysideup\Bookings\Model\TimesForTour;
+use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Core\Injector\Injector;
+use Sunnysideup\Bookings\Tasks\TourBuilder;
+
 
 
 
@@ -83,11 +91,11 @@ class DateInfo extends TourBaseClass
     ];
 
     private static $has_many = [
-        'Tours' => 'Tour'
+        'Tours' => Tour::class
     ];
 
     private static $many_many = [
-        'TourTimes' => 'TimesForTour'
+        'TourTimes' => TimesForTour::class
     ];
 
     private static $many_many_extraFields = [];
@@ -403,7 +411,7 @@ class DateInfo extends TourBaseClass
         $fields->dataFieldByName('PublicContent')->setRows('7');
         $fields->dataFieldByName('PrivateContent')->setRows('7');
 
-        $link = Injector::inst()->get('TourBuilder')->Link();
+        $link = Injector::inst()->get(TourBuilder::class)->Link();
 
         if($fields->fieldByName('Root.Tours')) {
             $fields->fieldByName('Root.Tours')->setTitle('Created Tours for this Rule');

@@ -2,7 +2,10 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-use CheckboxField;
+
+use Sunnysideup\Bookings\Model\Booking;
+use SilverStripe\Forms\CheckboxField;
+
 
 
 class ReferralOption extends TourBaseClass
@@ -42,7 +45,7 @@ class ReferralOption extends TourBaseClass
     ];
 
     private static $belongs_many_many = [
-        'Bookings' => 'Booking'
+        'Bookings' => Booking::class
     ];
 
 

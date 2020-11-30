@@ -2,18 +2,32 @@
 
 namespace Sunnysideup\Bookings\Forms;
 
-use Form;
-use FieldList;
-use CheckboxField;
-use EmailField;
-use HiddenField;
-use FormAction;
-use RequiredFields;
-use SS_HTTPRequest;
-use Convert;
-use Booking;
-use TourBookingSettings;
-use Injector;
+
+
+
+
+
+
+
+
+
+
+
+
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\EmailField;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\Form;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Core\Convert;
+use Sunnysideup\Bookings\Model\Booking;
+use Sunnysideup\Bookings\Model\TourBookingSettings;
+use SilverStripe\Core\Injector\Injector;
+use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
+
 
 
 
@@ -57,7 +71,7 @@ class TourBookingCancellationForm extends Form
      * @param array $data The form request data submitted
      * @param Form  $form The {@link Form} this was submitted on
      */
-    public function cancelbooking(array $data, Form $form, SS_HTTPRequest $request)
+    public function cancelbooking(array $data, Form $form, HTTPRequest $request)
     {
         $data = Convert::raw2sql($data);
         $booking = Booking::get()->filter(['Code' => $data['BookingCode']])->first();
@@ -78,7 +92,7 @@ class TourBookingCancellationForm extends Form
             $booking->write();
 
             $settings = TourBookingSettings::inst();
-            $mailOut = Injector::inst()->get('EmailReminder_DailyMailOut');
+            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
 
             $confirmationEmail = $settings->CancellationConfirmationEmail();
             $mailOut->runOne($confirmationEmail, $booking);

@@ -2,11 +2,20 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-use ReadonlyField;
-use Config;
-use TextField;
-use EmailField;
-use RequiredFields;
+
+
+
+
+
+use Sunnysideup\Bookings\Model\Waitlister;
+use Sunnysideup\Bookings\Model\Tour;
+use SilverStripe\Control\Email\Email;
+use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Forms\EmailField;
+use SilverStripe\Forms\RequiredFields;
+
 
 
 
@@ -23,7 +32,7 @@ class Waitlister extends TourBaseClass
 
     public function i18n_singular_name()
     {
-        return _t('Waitlister.SINGULAR_NAME', 'Waitlister');
+        return _t('Waitlister.SINGULAR_NAME', Waitlister::class);
     }
 
     private static $plural_name = 'Waitlisters';
@@ -63,14 +72,14 @@ class Waitlister extends TourBaseClass
     ];
 
     private static $has_one = [
-        'Tour' => 'Tour'
+        'Tour' => Tour::class
     ];
 
     private static $field_labels = [
         'Code' => 'Waitlist Reference',
         'InitiatingFirstName' => 'First Name',
         'InitiatingSurname' => 'Surname',
-        'InitiatingEmail' => 'Email',
+        'InitiatingEmail' => Email::class,
         'TotalNumberOfGuests' => 'Number of people in your group.',
         'PrimaryPhone' => 'Mobile Phone'
     ];

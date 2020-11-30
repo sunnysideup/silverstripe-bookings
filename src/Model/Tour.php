@@ -2,16 +2,33 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-use DBField;
-use Director;
-use GoogleCalendarInterface;
-use Config;
+
+
+
+
 use DateTime;
-use Injector;
-use DateField;
-use DropdownField;
-use HTMLEditorField;
+
+
+
+
 use TourBookingPage_Controller;
+use Sunnysideup\Bookings\Model\Tour;
+use Sunnysideup\Bookings\Model\TimesForTour;
+use Sunnysideup\Bookings\Model\DateInfo;
+use Sunnysideup\Bookings\Model\Booking;
+use Sunnysideup\Bookings\Model\Waitlister;
+use SilverStripe\ORM\FieldType\DBDate;
+use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\ORM\FieldType\DBBoolean;
+use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
+use SilverStripe\Control\Director;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Injector\Injector;
+use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
+use SilverStripe\Forms\DateField;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+
 
 
 
@@ -41,7 +58,7 @@ class Tour extends TourBaseClass
 
     public function i18n_singular_name()
     {
-        return _t('Tour.SINGULAR_NAME', 'Tour');
+        return _t('Tour.SINGULAR_NAME', Tour::class);
     }
 
     private static $plural_name = 'Tours';
@@ -84,13 +101,13 @@ class Tour extends TourBaseClass
     ];
 
     private static $has_one = [
-        'TourTime' => 'TimesForTour',
-        'DateInfo' => 'DateInfo'
+        'TourTime' => TimesForTour::class,
+        'DateInfo' => DateInfo::class
     ];
 
     private static $has_many = [
-        'Bookings' => 'Booking',
-        'Waitlisters' => 'Waitlister'
+        'Bookings' => Booking::class,
+        'Waitlisters' => Waitlister::class
     ];
 
 
@@ -134,7 +151,7 @@ class Tour extends TourBaseClass
 
     private static $field_labels = [
         'IsClosed' => 'Closed',
-        'Date' => 'Date',
+        'Date' => DBDate::class,
         'StartTime' => 'Start Time',
         'Duration' => 'Minutes',
         'TotalSpacesAtStart' => 'Total Spaces',
@@ -172,7 +189,7 @@ class Tour extends TourBaseClass
     ];
 
     private static $readonly_fields = [
-        'Date',
+        DBDate::class,
         'StartTime',
         'Duration',
         'TotalSpacesAtStart',
@@ -378,7 +395,7 @@ class Tour extends TourBaseClass
             $v = ($this->getNumberOfPlacesAvailable()->RAW() < 1 ? true : false);
         }
 
-        return DBField::create_field('Boolean', $v);
+        return DBField::create_field(DBBoolean::class, $v);
     }
 
     public function NumberOfAdults()
@@ -392,7 +409,7 @@ class Tour extends TourBaseClass
             $v += intval($booking->getNumberOfAdults()->Raw());
         }
 
-        return DBField::create_field('Boolean', $v);
+        return DBField::create_field(DBBoolean::class, $v);
     }
 
     public function NumberOfChildren()
@@ -465,7 +482,7 @@ class Tour extends TourBaseClass
             }
         }
 
-        if ($this->Date && $this->isChanged("Date")) {
+        if ($this->Date && $this->isChanged(DBDate::class)) {
             foreach ($this->Bookings() as $booking) {
                 $booking->Date = $this->Date;
                 $booking->write();
@@ -475,11 +492,11 @@ class Tour extends TourBaseClass
 
 
 
-        if (class_exists('GoogleCalendarInterface') && (Director::isLive() || $this->calendarDebug)) {
+        if (class_exists(GoogleCalendarInterface::class) && (Director::isLive() || $this->calendarDebug)) {
             $settings = TourBookingSettings::inst();
             $calendar = new GoogleCalendarInterface();
             if (! empty($calendar->config())) {
-                $timeZone = Config::inst()->get('GoogleCalendarInterface', 'time_zone');
+                $timeZone = Config::inst()->get(GoogleCalendarInterface::class, 'time_zone');
 
                 $decription ='';
 
@@ -528,7 +545,7 @@ class Tour extends TourBaseClass
         if ($this->Waitlisters()->count() && $tourDate->getTimestamp() >= $now->getTimestamp()) {
             $settings = TourBookingSettings::inst();
             $spacesAvailableEmail = $settings->TourSpacesAvailableEmail();
-            $mailOut = Injector::inst()->get('EmailReminder_DailyMailOut');
+            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
 
             $placesAvailable = $this->NumberOfPlacesAvailable()->value;
             $waitlisters = $this->Waitlisters()->filter(['TotalNumberOfGuests:LessThanOrEqual' => $placesAvailable]);
@@ -543,7 +560,7 @@ class Tour extends TourBaseClass
     public function onBeforeDelete()
     {
         parent::onBeforeDelete();
-        if (class_exists('GoogleCalendarInterface')) {
+        if (class_exists(GoogleCalendarInterface::class)) {
             $settings = TourBookingSettings::inst();
             $calendar = new GoogleCalendarInterface();
             if (! empty($calendar->config()) && $this->GoogleEventID) {
@@ -582,11 +599,11 @@ class Tour extends TourBaseClass
         $fields = parent::getCMSFields();
 
         if(!$this->ID){
-            $dbFields = Config::inst()->get('Tour', 'db');;
+            $dbFields = Config::inst()->get(Tour::class, 'db');;
             foreach($dbFields as $dbFieldName => $dbFieldType){
                 $fields->removeByName($dbFieldName);
             }
-            $fields->removeByName('Date');
+            $fields->removeByName(DBDate::class);
             $fields->removeByName('TourTimeID');
             $fields->removeByName('DateInfoID');
 
@@ -595,12 +612,12 @@ class Tour extends TourBaseClass
             $fields->addFieldsToTab(
                 'Root.Main',
                 [
-                    $dateField = DateField::create('Date', 'Date'),
+                    $dateField = DateField::create(DBDate::class, DBDate::class),
                     $tourTimeField = DropdownField::create('TourTimeID','Type of Tour', $times),
                 ]
             );
             $dateField->setConfig('showcalendar', true);
-            $timesForTour = Injector::inst()->get('TimesForTour');
+            $timesForTour = Injector::inst()->get(TimesForTour::class);
             $tourTimeField->setRightTitle('<a href="'.$timesForTour->CMSAddLink(). '" target="_blank">Create a new tour time</a>.');
         }
         else {

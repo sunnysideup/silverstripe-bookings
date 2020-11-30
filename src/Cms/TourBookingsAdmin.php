@@ -2,26 +2,43 @@
 
 namespace Sunnysideup\Bookings\Cms;
 
-use ModelAdmin;
-use GridField;
+
+
 use GridFieldSortableRows;
-use DataObject;
-use Config;
-use LeftAndMain;
-use HiddenField;
-use LiteralField;
+
+
+
+
+
+use Sunnysideup\Bookings\Model\TourBookingSettings;
+use Sunnysideup\Bookings\Model\TimesForTour;
+use Sunnysideup\Bookings\Model\DateInfo;
+use Sunnysideup\Bookings\Model\Tour;
+use Sunnysideup\Bookings\Model\Booking;
+use Sunnysideup\Bookings\Model\Waitlister;
+use Sunnysideup\Bookings\Model\ReferralOption;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldExportButton;
+use SilverStripe\Forms\GridField\GridFieldPrintButton;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Admin\LeftAndMain;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Admin\ModelAdmin;
+
 
 
 class TourBookingsAdmin extends ModelAdmin
 {
     private static $managed_models = [
-        'TourBookingSettings',
-        'TimesForTour',
-        'DateInfo',
-        'Tour',
-        'Booking',
-        'Waitlister',
-        'ReferralOption'
+        TourBookingSettings::class,
+        TimesForTour::class,
+        DateInfo::class,
+        Tour::class,
+        Booking::class,
+        Waitlister::class,
+        ReferralOption::class
     ];
 
     private static $url_segment = 'tour-bookings';
@@ -33,16 +50,16 @@ class TourBookingsAdmin extends ModelAdmin
     public $showImportForm = false;
 
     public $showSearchForm  = [
-        'DateInfo',
-        'Tour',
-        'Booking',
-        'Waitlister',
+        DateInfo::class,
+        Tour::class,
+        Booking::class,
+        Waitlister::class,
     ];
 
     public function getList()
     {
         $list = parent::getList();
-        if ($this->modelClass=='Tour') {
+        if ($this->modelClass==Tour::class) {
             $mysqlDate = date('Y-m-d', strtotime('-2 days'));
             $list = $list->filter(['Date:GreaterThan' => $mysqlDate]);
         }
@@ -54,18 +71,18 @@ class TourBookingsAdmin extends ModelAdmin
         $form = parent::getEditForm($id, $fields);
 
         //This check is simply to ensure you are on the managed model you want adjust accordingly
-        if ($this->modelClass=='TimesForTour' && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if ($this->modelClass==TimesForTour::class && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField instanceof GridField) {
-                $gridField->getConfig()->removeComponentsByType('GridFieldExportButton');
+                $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
             }
         }
 
-        if ($this->modelClass=='DateInfo' && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if ($this->modelClass==DateInfo::class && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField instanceof GridField) {
-                $gridField->getConfig()->removeComponentsByType('GridFieldExportButton');
-                $gridField->getConfig()->removeComponentsByType('GridFieldPrintButton');
+                $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
+                $gridField->getConfig()->removeComponentsByType(GridFieldPrintButton::class);
                 $gridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
             }
 
@@ -80,25 +97,25 @@ class TourBookingsAdmin extends ModelAdmin
             );
         }
 
-        if (is_subclass_of($this->modelClass, 'TourBookingSettings') || $this->modelClass === 'TourBookingSettings') {
-            $record = DataObject::get_one('TourBookingSettings');
+        if (is_subclass_of($this->modelClass, TourBookingSettings::class) || $this->modelClass === TourBookingSettings::class) {
+            $record = DataObject::get_one(TourBookingSettings::class);
             if ($record && $record->exists()) {
                 return $this->oneItemForm($record);
             }
             if ($gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
                 if ($gridField instanceof GridField) {
                     $config = $gridField->getConfig();
-                    $config->removeComponentsByType('GridFieldExportButton');
-                    $config->removeComponentsByType('GridFieldPrintButton');
+                    $config->removeComponentsByType(GridFieldExportButton::class);
+                    $config->removeComponentsByType(GridFieldPrintButton::class);
                 }
             }
         }
 
-        if ($this->modelClass=='ReferralOption' && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if ($this->modelClass==ReferralOption::class && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField instanceof GridField) {
-                $gridField->getConfig()->removeComponentsByType('GridFieldExportButton');
-                $gridField->getConfig()->removeComponentsByType('GridFieldPrintButton');
+                $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
+                $gridField->getConfig()->removeComponentsByType(GridFieldPrintButton::class);
                 $gridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
             }
         }
@@ -115,7 +132,7 @@ class TourBookingsAdmin extends ModelAdmin
      */
     public function oneItemForm($record)
     {
-        Config::modify()->update('LeftAndMain', 'tree_class', $record->ClassName);
+        Config::modify()->update(LeftAndMain::class, 'tree_class', $record->ClassName);
         $form = LeftAndMain::getEditForm($record);
         $idField = HiddenField::create('ID')->setValue($record->ID);
         $cssField = LiteralField::create(

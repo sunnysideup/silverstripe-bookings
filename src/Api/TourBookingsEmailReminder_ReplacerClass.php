@@ -2,9 +2,13 @@
 
 namespace Sunnysideup\Bookings\Api;
 
-use EmailReminder_ReplacerClassBase;
-use Booking;
-use Waitlister;
+
+
+
+use Sunnysideup\Bookings\Model\Booking;
+use Sunnysideup\Bookings\Model\Waitlister;
+use SunnySideUp\EmailReminder\Api\EmailReminder_ReplacerClassBase;
+
 
 
 class TourBookingsEmailReminder_ReplacerClass extends EmailReminder_ReplacerClassBase

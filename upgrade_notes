@@ -1,0 +1,2413 @@
+2020-11-30 03:29
+
+# running php upgrade upgrade see: https://github.com/silverstripe/silverstripe-upgrader
+cd /var/www/upgrades/bookings
+php /var/www/upgrades/upgrader_tool/vendor/silverstripe/upgrader/bin/upgrade-code upgrade /var/www/upgrades/bookings/bookings  --root-dir=/var/www/upgrades/bookings --write -vvv
+Writing changes for 27 files
+Running upgrades on "/var/www/upgrades/bookings/bookings"
+[2020-11-30 15:29:58] Applying RenameClasses to _config.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to _config.php...
+[2020-11-30 15:29:58] Applying UpdateConfigClasses to google_calendar_interface.yml...
+[2020-11-30 15:29:58] Applying UpdateConfigClasses to config.yml...
+PHP Warning:  Invalid argument supplied for foreach() in /var/www/upgrades/upgrader_tool/vendor/silverstripe/upgrader/src/UpgradeRule/YML/YMLUpgradeRule.php on line 32
+[2020-11-30 15:29:58] Applying UpdateConfigClasses to cms.yml...
+[2020-11-30 15:29:58] Applying UpdateConfigClasses to email_reminder.yml...
+[2020-11-30 15:29:58] Applying RenameClasses to TourBookingForm.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourBookingForm.php...
+[2020-11-30 15:29:58] Applying RenameClasses to TourWaitlistForm.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourWaitlistForm.php...
+[2020-11-30 15:29:58] Applying RenameClasses to TourBookingCancellationForm.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourBookingCancellationForm.php...
+[2020-11-30 15:29:58] Applying RenameClasses to SelfCheckInForm.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to SelfCheckInForm.php...
+[2020-11-30 15:29:58] Applying RenameClasses to MontlhyTourReport.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to MontlhyTourReport.php...
+[2020-11-30 15:29:58] Applying RenameClasses to TourBuilder.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourBuilder.php...
+[2020-11-30 15:29:58] Applying RenameClasses to MonthlyTourReport.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to MonthlyTourReport.php...
+[2020-11-30 15:29:58] Applying RenameClasses to TourBookingPage.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourBookingPage.php...
+[2020-11-30 15:29:58] Applying RenameClasses to FactoryTourPage.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to FactoryTourPage.php...
+[2020-11-30 15:29:58] Applying RenameClasses to TourBookingController.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourBookingController.php...
+[2020-11-30 15:29:58] Applying RenameClasses to TourBookingPageController.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourBookingPageController.php...
+[2020-11-30 15:29:58] Applying RenameClasses to FactoryTourPage_Controller.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to FactoryTourPage_Controller.php...
+[2020-11-30 15:29:58] Applying RenameClasses to FactoryTourPageController.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to FactoryTourPageController.php...
+[2020-11-30 15:29:58] Applying RenameClasses to TourDays_Filter.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourDays_Filter.php...
+[2020-11-30 15:29:58] Applying RenameClasses to TourDate_Filter.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourDate_Filter.php...
+[2020-11-30 15:29:58] Applying RenameClasses to TourTimesToApplyForCertainDay_Filter.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourTimesToApplyForCertainDay_Filter.php...
+[2020-11-30 15:29:58] Applying RenameClasses to TourBookingsEmailReminder_ReplacerClass.php...
+[2020-11-30 15:29:58] Applying ClassToTraitRule to TourBookingsEmailReminder_ReplacerClass.php...
+[2020-11-30 15:29:58] Applying RenameClasses to DateInfo.php...
+[2020-11-30 15:29:59] Applying ClassToTraitRule to DateInfo.php...
+[2020-11-30 15:29:59] Applying RenameClasses to TourBookingSettings.php...
+[2020-11-30 15:29:59] Applying ClassToTraitRule to TourBookingSettings.php...
+[2020-11-30 15:29:59] Applying RenameClasses to Booking.php...
+[2020-11-30 15:29:59] Applying ClassToTraitRule to Booking.php...
+[2020-11-30 15:29:59] Applying RenameClasses to Tour.php...
+[2020-11-30 15:29:59] Applying ClassToTraitRule to Tour.php...
+[2020-11-30 15:29:59] Applying RenameClasses to Waitlister.php...
+[2020-11-30 15:29:59] Applying ClassToTraitRule to Waitlister.php...
+[2020-11-30 15:29:59] Applying RenameClasses to TourBaseClass.php...
+[2020-11-30 15:29:59] Applying ClassToTraitRule to TourBaseClass.php...
+[2020-11-30 15:29:59] Applying RenameClasses to ReferralOption.php...
+[2020-11-30 15:29:59] Applying ClassToTraitRule to ReferralOption.php...
+[2020-11-30 15:29:59] Applying RenameClasses to TimesForTour.php...
+[2020-11-30 15:29:59] Applying ClassToTraitRule to TimesForTour.php...
+[2020-11-30 15:29:59] Applying RenameClasses to TourBookingsAdmin.php...
+[2020-11-30 15:29:59] Applying ClassToTraitRule to TourBookingsAdmin.php...
+modified:	_config/google_calendar_interface.yml
+@@ -2,9 +2,8 @@
+ Name: google_calendar_interface
+ After: 'framework/*','cms/*'
+ ---
++Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface:
++  application_name: 'Tour Manager Calendar'
++  credentials_path: app/credentials/calendar-api-access-token.json
++  client_secret_path: app/credentials/client_secret.json
+
+-GoogleCalendarInterface:
+-  application_name: "Tour Manager Calendar"
+-  credentials_path: "app/credentials/calendar-api-access-token.json"
+-  client_secret_path: "app/credentials/client_secret.json"
+-
+
+modified:	_config/config.yml
+@@ -3,4 +3,4 @@
+ After:
+   - '#coreconfig'
+ ---
+-
++{  }
+
+modified:	_config/cms.yml
+@@ -2,10 +2,9 @@
+ Only:
+   moduleexists: 'grouped-cms-menu'
+ ---
+-
+ SilverStripe\Admin\LeftAndMain:
+   menu_groups:
+     Tours:
+-      - TourBookingsAdmin
+-      - EmailReminder_ModelAdmin
++      - Sunnysideup\Bookings\Cms\TourBookingsAdmin
++      - SunnySideUp\EmailReminder\Cms\EmailReminder_ModelAdmin
+
+
+modified:	_config/email_reminder.yml
+@@ -1,18 +1,15 @@
+ ---
+ name: EmailReminder
+ ---
++SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut:
++  daily_limit: 100
++  replacer_class: Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass
++SunnySideUp\EmailReminder\Model\EmailReminder_NotificationSchedule:
++  default_data_object: Sunnysideup\Bookings\Model\Booking
++  default_email_field: InitiatingEmail
++  default_date_field: Date
++  disabled_checkbox_label: 'Only send on form submission'
++  grace_days: 0
++SunnySideUp\EmailReminder\Email\EmailReminder_Mailer:
++  css_file: ''
+
+-EmailReminder_DailyMailOut:
+-  daily_limit: 100
+-  replacer_class: 'TourBookingsEmailReminder_ReplacerClass'
+-
+-EmailReminder_NotificationSchedule:
+-  default_data_object: 'Booking'
+-  default_email_field: 'InitiatingEmail'
+-  default_date_field: 'Date'
+-  disabled_checkbox_label: "Only send on form submission"
+-  grace_days: 0
+-
+-EmailReminder_Mailer:
+-  css_file: ""
+-
+
+modified:	src/Forms/TourBookingForm.php
+@@ -2,23 +2,42 @@
+
+ namespace Sunnysideup\Bookings\Forms;
+
+-use Form;
+-use Injector;
+-use FieldList;
+-use CompositeField;
+-use HeaderField;
+-use NumericField;
+-use TextField;
+-use ReferralOption;
+-use CheckboxSetField;
+-use HiddenField;
+-use EmailField;
+-use FormAction;
+-use Controller;
+-use SS_HTTPRequest;
+-use Convert;
+-use TourBookingSettings;
+-use Booking;
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++use SilverStripe\Core\Injector\Injector;
++use Sunnysideup\Bookings\Model\Booking;
++use SilverStripe\Forms\FieldList;
++use SilverStripe\Forms\CompositeField;
++use SilverStripe\Forms\HeaderField;
++use SilverStripe\Forms\NumericField;
++use SilverStripe\Forms\TextField;
++use Sunnysideup\Bookings\Model\ReferralOption;
++use SilverStripe\Forms\CheckboxSetField;
++use SilverStripe\Forms\HiddenField;
++use SilverStripe\Forms\EmailField;
++use SilverStripe\Forms\FormAction;
++use SilverStripe\Control\Controller;
++use SilverStripe\Forms\Form;
++use SilverStripe\Control\HTTPRequest;
++use SilverStripe\Core\Convert;
++use Sunnysideup\Bookings\Model\TourBookingSettings;
++use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
++
+
+
+
+@@ -40,7 +59,7 @@
+             $this->currentBooking = $existingBooking;
+             $bookingSingleton = $this->currentBooking;
+         } else {
+-            $bookingSingleton = Injector::inst()->get('Booking');
++            $bookingSingleton = Injector::inst()->get(Booking::class);
+         }
+
+         if ($singleTour) {
+@@ -187,7 +206,7 @@
+      * @param array $data The form request data submitted
+      * @param Form  $form The {@link Form} this was submitted on
+      */
+-    public function dobooking(array $data, Form $form, SS_HTTPRequest $request)
++    public function dobooking(array $data, Form $form, HTTPRequest $request)
+     {
+         $newBooking = true;
+         $this->saveDataToSession();
+@@ -255,7 +274,7 @@
+             //$this->currentBooking->Tour()->write();
+             $code = substr($this->currentBooking->Code, 0, 9);
+             $settings = TourBookingSettings::inst();
+-            $mailOut = Injector::inst()->get('EmailReminder_DailyMailOut');
++            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
+
+             if ($newBooking) {
+                 $confirmationEmail = $settings->BookingConfirmationEmail();
+
+modified:	src/Forms/TourWaitlistForm.php
+@@ -2,21 +2,38 @@
+
+ namespace Sunnysideup\Bookings\Forms;
+
+-use Form;
+-use Injector;
+-use FieldList;
+-use TourBookingSettings;
+-use LiteralField;
+-use CompositeField;
+-use ReadonlyField;
+-use Tour;
+-use CheckboxSetField;
+-use HiddenField;
+-use FormAction;
+-use Controller;
+-use SS_HTTPRequest;
+-use Convert;
+-use Waitlister;
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++use SilverStripe\Core\Injector\Injector;
++use Sunnysideup\Bookings\Model\Waitlister;
++use SilverStripe\Forms\FieldList;
++use Sunnysideup\Bookings\Model\TourBookingSettings;
++use SilverStripe\Forms\LiteralField;
++use SilverStripe\Forms\ReadonlyField;
++use SilverStripe\Forms\CompositeField;
++use Sunnysideup\Bookings\Model\Tour;
++use SilverStripe\Forms\CheckboxSetField;
++use SilverStripe\Forms\HiddenField;
++use SilverStripe\Forms\FormAction;
++use SilverStripe\Control\Controller;
++use SilverStripe\Forms\Form;
++use SilverStripe\Control\HTTPRequest;
++use SilverStripe\Core\Convert;
++use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
++
+
+
+
+@@ -32,7 +49,7 @@
+             $this->currentTour = $selectedTour;
+         }
+
+-        $waitlisterSingleton = Injector::inst()->get('Waitlister');
++        $waitlisterSingleton = Injector::inst()->get(Waitlister::class);
+
+         $fields = $waitlisterSingleton->getFrontEndFields();
+
+@@ -142,7 +159,7 @@
+      * @param array $data The form request data submitted
+      * @param Form  $form The {@link Form} this was submitted on
+      */
+-    public function dojoinwaitlist(array $data, Form $form, SS_HTTPRequest $request)
++    public function dojoinwaitlist(array $data, Form $form, HTTPRequest $request)
+     {
+
+         $this->saveDataToSession();
+@@ -172,7 +189,7 @@
+             $waitlister->write();
+             $settings = TourBookingSettings::inst();
+             $confirmationEmail = $settings->WaitlistConfirmationEmail();
+-            $mailOut = Injector::inst()->get('EmailReminder_DailyMailOut');
++            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
+             $mailOut->runOne($confirmationEmail, $waitlister);
+             $redirect = $this->controller->Link('confirmwaitlist/'.$waitlister->Code);
+             //extra tours have been selected
+
+modified:	src/Forms/TourBookingCancellationForm.php
+@@ -2,18 +2,32 @@
+
+ namespace Sunnysideup\Bookings\Forms;
+
+-use Form;
+-use FieldList;
+-use CheckboxField;
+-use EmailField;
+-use HiddenField;
+-use FormAction;
+-use RequiredFields;
+-use SS_HTTPRequest;
+-use Convert;
+-use Booking;
+-use TourBookingSettings;
+-use Injector;
++
++
++
++
++
++
++
++
++
++
++
++
++use SilverStripe\Forms\FieldList;
++use SilverStripe\Forms\CheckboxField;
++use SilverStripe\Forms\EmailField;
++use SilverStripe\Forms\HiddenField;
++use SilverStripe\Forms\FormAction;
++use SilverStripe\Forms\RequiredFields;
++use SilverStripe\Forms\Form;
++use SilverStripe\Control\HTTPRequest;
++use SilverStripe\Core\Convert;
++use Sunnysideup\Bookings\Model\Booking;
++use Sunnysideup\Bookings\Model\TourBookingSettings;
++use SilverStripe\Core\Injector\Injector;
++use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
++
+
+
+
+@@ -57,7 +71,7 @@
+      * @param array $data The form request data submitted
+      * @param Form  $form The {@link Form} this was submitted on
+      */
+-    public function cancelbooking(array $data, Form $form, SS_HTTPRequest $request)
++    public function cancelbooking(array $data, Form $form, HTTPRequest $request)
+     {
+         $data = Convert::raw2sql($data);
+         $booking = Booking::get()->filter(['Code' => $data['BookingCode']])->first();
+@@ -78,7 +92,7 @@
+             $booking->write();
+
+             $settings = TourBookingSettings::inst();
+-            $mailOut = Injector::inst()->get('EmailReminder_DailyMailOut');
++            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
+
+             $confirmationEmail = $settings->CancellationConfirmationEmail();
+             $mailOut->runOne($confirmationEmail, $booking);
+
+modified:	src/Forms/SelfCheckInForm.php
+@@ -2,18 +2,31 @@
+
+ namespace Sunnysideup\Bookings\Forms;
+
+-use Form;
+-use FieldList;
+-use Tour;
+-use OptionsetField;
+-use TextField;
+-use FormAction;
+-use LiteralField;
+-use RequiredFields;
+-use SS_HTTPRequest;
+-use Convert;
+-use Booking;
+-use Controller;
++
++
++
++
++
++
++
++
++
++
++
++
++use SilverStripe\Forms\FieldList;
++use Sunnysideup\Bookings\Model\Tour;
++use SilverStripe\Forms\OptionsetField;
++use SilverStripe\Forms\TextField;
++use SilverStripe\Forms\FormAction;
++use SilverStripe\Forms\LiteralField;
++use SilverStripe\Forms\RequiredFields;
++use SilverStripe\Forms\Form;
++use SilverStripe\Control\HTTPRequest;
++use SilverStripe\Core\Convert;
++use Sunnysideup\Bookings\Model\Booking;
++use SilverStripe\Control\Controller;
++
+
+
+
+@@ -78,7 +91,7 @@
+      * @param array $data The form request data submitted
+      * @param Form  $form The {@link Form} this was submitted on
+      */
+-    public function checkinbooking(array $data, Form $form, SS_HTTPRequest $request)
++    public function checkinbooking(array $data, Form $form, HTTPRequest $request)
+     {
+         $this->saveDataToSession();
+         $data = Convert::raw2sql($data);
+
+modified:	src/Tasks/MontlhyTourReport.php
+@@ -2,13 +2,20 @@
+
+ namespace Sunnysideup\Bookings\Tasks;
+
+-use BuildTask;
+-use TourBookingSettings;
++
++
+ use DateTime;
+-use Tour;
+-use Email;
+-use ArrayList;
++
++
++
+ use Geoip;
++use Sunnysideup\Bookings\Model\TourBookingSettings;
++use Sunnysideup\Bookings\Model\Tour;
++use SilverStripe\Control\Email\Email;
++use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
++use SilverStripe\ORM\ArrayList;
++use SilverStripe\Dev\BuildTask;
++
+
+ /**
+  * @package cms
+@@ -130,7 +137,7 @@
+         ];
+
+         $email = Email::create();
+-        $email->setTemplate('MonthlyTourReport');
++        $email->setTemplate(MonthlyTourReport::class);
+         $email->populateTemplate($emailData);
+         $email->setTo($toEmail);
+
+
+modified:	src/Tasks/TourBuilder.php
+@@ -2,11 +2,17 @@
+
+ namespace Sunnysideup\Bookings\Tasks;
+
+-use BuildTask;
+-use DB;
+-use DateInfo;
+-use Tour;
+-use TourBookingSettings;
++
++
++
++
++
++use SilverStripe\ORM\DB;
++use Sunnysideup\Bookings\Model\DateInfo;
++use Sunnysideup\Bookings\Model\Tour;
++use Sunnysideup\Bookings\Model\TourBookingSettings;
++use SilverStripe\Dev\BuildTask;
++
+
+ /**
+  * @package cms
+
+modified:	src/Tasks/MonthlyTourReport.php
+@@ -2,13 +2,20 @@
+
+ namespace Sunnysideup\Bookings\Tasks;
+
+-use BuildTask;
+-use TourBookingSettings;
++
++
+ use DateTime;
+-use Tour;
+-use Email;
+-use ArrayList;
++
++
++
+ use Geoip;
++use Sunnysideup\Bookings\Model\TourBookingSettings;
++use Sunnysideup\Bookings\Model\Tour;
++use SilverStripe\Control\Email\Email;
++use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
++use SilverStripe\ORM\ArrayList;
++use SilverStripe\Dev\BuildTask;
++
+
+ /**
+  * @package cms
+@@ -130,7 +137,7 @@
+         ];
+
+         $email = Email::create();
+-        $email->setTemplate('MonthlyTourReport');
++        $email->setTemplate(MonthlyTourReport::class);
+         $email->populateTemplate($emailData);
+         $email->setTo($toEmail);
+
+
+modified:	src/Pages/FactoryTourPage.php
+@@ -2,13 +2,22 @@
+
+ namespace Sunnysideup\Bookings\Pages;
+
+-use HTMLEditorField;
+-use CheckboxField;
+-use TextField;
+-use OptionsetField;
+-use UploadField;
++
++
++
++
++
+ use PerfectCMSImagesUploadField;
+-use HeaderField;
++
++use SilverStripe\Assets\Image;
++use SilverStripe\Assets\File;
++use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
++use SilverStripe\Forms\CheckboxField;
++use SilverStripe\Forms\TextField;
++use SilverStripe\Forms\OptionsetField;
++use SilverStripe\AssetAdmin\Forms\UploadField;
++use SilverStripe\Forms\HeaderField;
++
+
+
+ /**
+@@ -103,88 +112,88 @@
+   * EXP: you may want to add ownership (owns)
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-        'TourTimesBannerMobile' => 'Image',
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD:  => 'Image' (case sensitive)
+-  * NEW:  => 'Image' (COMPLEX)
+-  * EXP: you may want to add ownership (owns)
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        'TourTimesBannerDesktop' => 'Image',
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD:  => 'Image' (case sensitive)
+-  * NEW:  => 'Image' (COMPLEX)
+-  * EXP: you may want to add ownership (owns)
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        'BubblesBannerMobile' => 'Image',
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD:  => 'Image' (case sensitive)
+-  * NEW:  => 'Image' (COMPLEX)
+-  * EXP: you may want to add ownership (owns)
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        'BubblesBannerDesktop' => 'Image',
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD:  => 'Image' (case sensitive)
+-  * NEW:  => 'Image' (COMPLEX)
+-  * EXP: you may want to add ownership (owns)
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        'BookYourTourImage' => 'Image',
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD:  => 'Image' (case sensitive)
+-  * NEW:  => 'Image' (COMPLEX)
+-  * EXP: you may want to add ownership (owns)
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        'InsideTheFactory' => 'Image',
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD:  => 'Image' (case sensitive)
+-  * NEW:  => 'Image' (COMPLEX)
+-  * EXP: you may want to add ownership (owns)
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        'MapDownloadImage' => 'Image',
+-        'MapPDF' => 'File',
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD:  => 'Image' (case sensitive)
+-  * NEW:  => 'Image' (COMPLEX)
+-  * EXP: you may want to add ownership (owns)
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        'NavigationImage' => 'Image',
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD:  => 'Image' (case sensitive)
+-  * NEW:  => 'Image' (COMPLEX)
+-  * EXP: you may want to add ownership (owns)
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        'GeoTargetedHomePageImage' => 'Image'
++        'TourTimesBannerMobile' => Image::class,
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD:  => 'Image' (case sensitive)
++  * NEW:  => 'Image' (COMPLEX)
++  * EXP: you may want to add ownership (owns)
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        'TourTimesBannerDesktop' => Image::class,
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD:  => 'Image' (case sensitive)
++  * NEW:  => 'Image' (COMPLEX)
++  * EXP: you may want to add ownership (owns)
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        'BubblesBannerMobile' => Image::class,
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD:  => 'Image' (case sensitive)
++  * NEW:  => 'Image' (COMPLEX)
++  * EXP: you may want to add ownership (owns)
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        'BubblesBannerDesktop' => Image::class,
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD:  => 'Image' (case sensitive)
++  * NEW:  => 'Image' (COMPLEX)
++  * EXP: you may want to add ownership (owns)
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        'BookYourTourImage' => Image::class,
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD:  => 'Image' (case sensitive)
++  * NEW:  => 'Image' (COMPLEX)
++  * EXP: you may want to add ownership (owns)
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        'InsideTheFactory' => Image::class,
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD:  => 'Image' (case sensitive)
++  * NEW:  => 'Image' (COMPLEX)
++  * EXP: you may want to add ownership (owns)
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        'MapDownloadImage' => Image::class,
++        'MapPDF' => File::class,
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD:  => 'Image' (case sensitive)
++  * NEW:  => 'Image' (COMPLEX)
++  * EXP: you may want to add ownership (owns)
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        'NavigationImage' => Image::class,
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD:  => 'Image' (case sensitive)
++  * NEW:  => 'Image' (COMPLEX)
++  * EXP: you may want to add ownership (owns)
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        'GeoTargetedHomePageImage' => Image::class
+     );
+
+     //private static $default_records = null;
+
+Warnings for src/Pages/FactoryTourPage.php:
+ - src/Pages/FactoryTourPage.php:106 Renaming ambiguous string Image to SilverStripe\Assets\Image
+
+ - src/Pages/FactoryTourPage.php:116 Renaming ambiguous string Image to SilverStripe\Assets\Image
+
+ - src/Pages/FactoryTourPage.php:126 Renaming ambiguous string Image to SilverStripe\Assets\Image
+
+ - src/Pages/FactoryTourPage.php:136 Renaming ambiguous string Image to SilverStripe\Assets\Image
+
+ - src/Pages/FactoryTourPage.php:146 Renaming ambiguous string Image to SilverStripe\Assets\Image
+
+ - src/Pages/FactoryTourPage.php:156 Renaming ambiguous string Image to SilverStripe\Assets\Image
+
+ - src/Pages/FactoryTourPage.php:166 Renaming ambiguous string Image to SilverStripe\Assets\Image
+
+ - src/Pages/FactoryTourPage.php:167 Renaming ambiguous string File to SilverStripe\Assets\File
+
+ - src/Pages/FactoryTourPage.php:177 Renaming ambiguous string Image to SilverStripe\Assets\Image
+
+ - src/Pages/FactoryTourPage.php:187 Renaming ambiguous string Image to SilverStripe\Assets\Image
+
+modified:	src/Pages/TourBookingController.php
+@@ -3,23 +3,44 @@
+ namespace Sunnysideup\Bookings\Pages;
+
+ use PageController;
+-use Config;
+-use TourBookingSettings;
+-use Requirements;
+-use DBField;
+-use Injector;
+-use Permission;
+-use TourBookingForm;
+-use Convert;
+-use Booking;
+-use DateInfo;
+-use TourBookingCancellationForm;
+-use TourWaitlistForm;
+-use Waitlister;
+-use Security;
+-use Tour;
+-use SelfCheckInForm;
+-use ArrayList;
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++use SilverStripe\Core\Config\Config;
++use Sunnysideup\Bookings\Model\TourBookingSettings;
++use Sunnysideup\Bookings\Forms\TourBookingForm;
++use SilverStripe\View\Requirements;
++use Sunnysideup\Bookings\Pages\TourBookingPage;
++use SilverStripe\ORM\FieldType\DBField;
++use SilverStripe\Core\Injector\Injector;
++use SilverStripe\Security\Permission;
++use SilverStripe\Core\Convert;
++use Sunnysideup\Bookings\Model\Booking;
++use Sunnysideup\Bookings\Model\DateInfo;
++use SilverStripe\ORM\FieldType\DBDate;
++use Sunnysideup\Bookings\Forms\TourBookingCancellationForm;
++use Sunnysideup\Bookings\Forms\TourWaitlistForm;
++use Sunnysideup\Bookings\Model\Waitlister;
++use SilverStripe\Security\Security;
++use Sunnysideup\Bookings\Model\Tour;
++use Sunnysideup\Bookings\Forms\SelfCheckInForm;
++use SilverStripe\ORM\ArrayList;
++use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
++
+
+
+
+@@ -42,8 +63,8 @@
+     protected function init()
+     {
+         parent::init();
+-        $this->factoryIP = Config::inst()->get('TourBookingSettings', 'tour_location_ip');
+-        $countries = json_encode(Config::inst()->get('TourBookingForm', 'show_city_field_for_countries'));
++        $this->factoryIP = Config::inst()->get(TourBookingSettings::class, 'tour_location_ip');
++        $countries = json_encode(Config::inst()->get(TourBookingForm::class, 'show_city_field_for_countries'));
+         $settings = TourBookingSettings::inst();
+         Requirements::customScript(
+             '
+@@ -75,7 +96,7 @@
+   * EXP: Check if the class name can still be used as such
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-        if ($this->ClassName === 'TourBookingPage') {
++        if ($this->ClassName === TourBookingPage::class) {
+             return $this->redirect($this->Link('signup'));
+         }
+         return  ['Content' => DBField::create_field('HTMLText', $this->Content)];
+@@ -201,18 +222,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function availability($request)
+@@ -268,18 +289,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function DateInformation()
+@@ -289,7 +310,7 @@
+
+     public function MyDate()
+     {
+-        return DBField::create_field('Date', date('Y-m-d', $this->availabilityDateAsTS));
++        return DBField::create_field(DBDate::class, date('Y-m-d', $this->availabilityDateAsTS));
+     }
+
+     public function ListOfToursForOneDay()
+@@ -360,18 +381,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function cancel($request)
+@@ -406,18 +427,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+
+@@ -463,18 +484,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function confirmwaitlist($request)
+@@ -509,18 +530,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function jointour($request)
+@@ -554,18 +575,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function TourFullMessage()
+@@ -612,7 +633,7 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page']);
+         } else {
+             echo 'Sorry you don\'t have the required permissions to access this area. <a href="/Security/logout">LOG OUT</a>';
+         }
+@@ -750,7 +771,7 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function confirmonecheckin($request)
+@@ -763,7 +784,7 @@
+
+     public function SelfCheckInForm($request = null)
+     {
+-        $form = SelfCheckInForm::create($this, 'SelfCheckInForm');
++        $form = SelfCheckInForm::create($this, SelfCheckInForm::class);
+
+         return $form;
+     }
+@@ -824,7 +845,7 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-        return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
++        return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
+     }
+
+     public function CurrentTour()
+@@ -937,7 +958,7 @@
+   */
+     public function TourLinks($className = '')
+     {
+-        $modelAdmin = Injector::inst()->get('TourBookingsAdmin');
++        $modelAdmin = Injector::inst()->get(TourBookingsAdmin::class);
+         $models = $modelAdmin->getManagedModels();
+         $al = ArrayList::create();
+         foreach ($models as $key => $model) {
+
+modified:	src/Pages/TourBookingPageController.php
+@@ -3,23 +3,44 @@
+ namespace Sunnysideup\Bookings\Pages;
+
+ use PageController;
+-use Config;
+-use TourBookingSettings;
+-use Requirements;
+-use DBField;
+-use Injector;
+-use Permission;
+-use TourBookingForm;
+-use Convert;
+-use Booking;
+-use DateInfo;
+-use TourBookingCancellationForm;
+-use TourWaitlistForm;
+-use Waitlister;
+-use Security;
+-use Tour;
+-use SelfCheckInForm;
+-use ArrayList;
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++use SilverStripe\Core\Config\Config;
++use Sunnysideup\Bookings\Model\TourBookingSettings;
++use Sunnysideup\Bookings\Forms\TourBookingForm;
++use SilverStripe\View\Requirements;
++use Sunnysideup\Bookings\Pages\TourBookingPage;
++use SilverStripe\ORM\FieldType\DBField;
++use SilverStripe\Core\Injector\Injector;
++use SilverStripe\Security\Permission;
++use SilverStripe\Core\Convert;
++use Sunnysideup\Bookings\Model\Booking;
++use Sunnysideup\Bookings\Model\DateInfo;
++use SilverStripe\ORM\FieldType\DBDate;
++use Sunnysideup\Bookings\Forms\TourBookingCancellationForm;
++use Sunnysideup\Bookings\Forms\TourWaitlistForm;
++use Sunnysideup\Bookings\Model\Waitlister;
++use SilverStripe\Security\Security;
++use Sunnysideup\Bookings\Model\Tour;
++use Sunnysideup\Bookings\Forms\SelfCheckInForm;
++use SilverStripe\ORM\ArrayList;
++use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
++
+
+
+
+@@ -42,8 +63,8 @@
+     protected function init()
+     {
+         parent::init();
+-        $this->factoryIP = Config::inst()->get('TourBookingSettings', 'tour_location_ip');
+-        $countries = json_encode(Config::inst()->get('TourBookingForm', 'show_city_field_for_countries'));
++        $this->factoryIP = Config::inst()->get(TourBookingSettings::class, 'tour_location_ip');
++        $countries = json_encode(Config::inst()->get(TourBookingForm::class, 'show_city_field_for_countries'));
+         $settings = TourBookingSettings::inst();
+         Requirements::customScript(
+             '
+@@ -75,7 +96,7 @@
+   * EXP: Check if the class name can still be used as such
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-        if ($this->ClassName === 'TourBookingPage') {
++        if ($this->ClassName === TourBookingPage::class) {
+             return $this->redirect($this->Link('signup'));
+         }
+         return  ['Content' => DBField::create_field('HTMLText', $this->Content)];
+@@ -201,18 +222,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function availability($request)
+@@ -268,18 +289,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function DateInformation()
+@@ -289,7 +310,7 @@
+
+     public function MyDate()
+     {
+-        return DBField::create_field('Date', date('Y-m-d', $this->availabilityDateAsTS));
++        return DBField::create_field(DBDate::class, date('Y-m-d', $this->availabilityDateAsTS));
+     }
+
+     public function ListOfToursForOneDay()
+@@ -360,18 +381,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function cancel($request)
+@@ -406,18 +427,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+
+@@ -463,18 +484,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function confirmwaitlist($request)
+@@ -509,18 +530,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function jointour($request)
+@@ -554,18 +575,18 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+-        }
+-
+-/**
+-  * ### @@@@ START REPLACEMENT @@@@ ###
+-  * WHY: automated upgrade
+-  * OLD: ->RenderWith( (ignore case)
+-  * NEW: ->RenderWith( (COMPLEX)
+-  * EXP: Check that the template location is still valid!
+-  * ### @@@@ STOP REPLACEMENT @@@@ ###
+-  */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
++        }
++
++/**
++  * ### @@@@ START REPLACEMENT @@@@ ###
++  * WHY: automated upgrade
++  * OLD: ->RenderWith( (ignore case)
++  * NEW: ->RenderWith( (COMPLEX)
++  * EXP: Check that the template location is still valid!
++  * ### @@@@ STOP REPLACEMENT @@@@ ###
++  */
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function TourFullMessage()
+@@ -612,7 +633,7 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-            return $this->RenderWith(['TourBookingPage', 'Page']);
++            return $this->RenderWith([TourBookingPage::class, 'Page']);
+         } else {
+             echo 'Sorry you don\'t have the required permissions to access this area. <a href="/Security/logout">LOG OUT</a>';
+         }
+@@ -750,7 +771,7 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-        return $this->RenderWith(['TourBookingPage', 'Page']);
++        return $this->RenderWith([TourBookingPage::class, 'Page']);
+     }
+
+     public function confirmonecheckin($request)
+@@ -763,7 +784,7 @@
+
+     public function SelfCheckInForm($request = null)
+     {
+-        $form = SelfCheckInForm::create($this, 'SelfCheckInForm');
++        $form = SelfCheckInForm::create($this, SelfCheckInForm::class);
+
+         return $form;
+     }
+@@ -824,7 +845,7 @@
+   * EXP: Check that the template location is still valid!
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-        return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
++        return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
+     }
+
+     public function CurrentTour()
+@@ -937,7 +958,7 @@
+   */
+     public function TourLinks($className = '')
+     {
+-        $modelAdmin = Injector::inst()->get('TourBookingsAdmin');
++        $modelAdmin = Injector::inst()->get(TourBookingsAdmin::class);
+         $models = $modelAdmin->getManagedModels();
+         $al = ArrayList::create();
+         foreach ($models as $key => $model) {
+
+modified:	src/Search/TourDays_Filter.php
+@@ -2,9 +2,13 @@
+
+ namespace Sunnysideup\Bookings\Search;
+
+-use ExactMatchFilter;
+-use DataQuery;
+-use Date;
++
++
++
++use SilverStripe\ORM\DataQuery;
++use SilverStripe\ORM\FieldType\DBDate;
++use SilverStripe\ORM\Filters\ExactMatchFilter;
++
+
+
+ class TourDate_Filter extends ExactMatchFilter
+@@ -17,7 +21,7 @@
+     {
+         $value = $this->getValue();
+         if ($value) {
+-            $date = new Date();
++            $date = new DBDate();
+             $date->setValue($value);
+             $formattedDate = $date->format('Y-m-d');
+             $query->where(
+
+modified:	src/Search/TourDate_Filter.php
+@@ -2,9 +2,13 @@
+
+ namespace Sunnysideup\Bookings\Search;
+
+-use ExactMatchFilter;
+-use DataQuery;
+-use Date;
++
++
++
++use SilverStripe\ORM\DataQuery;
++use SilverStripe\ORM\FieldType\DBDate;
++use SilverStripe\ORM\Filters\ExactMatchFilter;
++
+
+
+ class TourDate_Filter extends ExactMatchFilter
+@@ -17,7 +21,7 @@
+     {
+         $value = $this->getValue();
+         if ($value) {
+-            $date = new Date();
++            $date = new DBDate();
+             $date->setValue($value);
+             $formattedDate = $date->format('Y-m-d');
+             $query->where(
+
+modified:	src/Search/TourTimesToApplyForCertainDay_Filter.php
+@@ -2,10 +2,15 @@
+
+ namespace Sunnysideup\Bookings\Search;
+
+-use ExactMatchFilter;
+-use DataQuery;
+-use Date;
+-use DateInfo;
++
++
++
++
++use SilverStripe\ORM\DataQuery;
++use SilverStripe\ORM\FieldType\DBDate;
++use Sunnysideup\Bookings\Model\DateInfo;
++use SilverStripe\ORM\Filters\ExactMatchFilter;
++
+
+
+ class TourTimesToApplyForCertainDay_Filter extends ExactMatchFilter
+@@ -19,7 +24,7 @@
+         $value = $this->getValue();
+         if ($value) {
+             $where = '"DateInfo"."ID" = 0';
+-            $date = new Date();
++            $date = new DBDate();
+             $date->setValue($value);
+             $formattedDate = $date->format('Y-m-d');
+             $dateTS = strtotime($formattedDate);
+
+modified:	src/Api/TourBookingsEmailReminder_ReplacerClass.php
+@@ -2,9 +2,13 @@
+
+ namespace Sunnysideup\Bookings\Api;
+
+-use EmailReminder_ReplacerClassBase;
+-use Booking;
+-use Waitlister;
++
++
++
++use Sunnysideup\Bookings\Model\Booking;
++use Sunnysideup\Bookings\Model\Waitlister;
++use SunnySideUp\EmailReminder\Api\EmailReminder_ReplacerClassBase;
++
+
+
+ class TourBookingsEmailReminder_ReplacerClass extends EmailReminder_ReplacerClassBase
+
+modified:	src/Model/DateInfo.php
+@@ -2,10 +2,18 @@
+
+ namespace Sunnysideup\Bookings\Model;
+
+-use DBField;
+-use CheckboxField;
+-use CheckboxSetField;
+-use Injector;
++
++
++
++
++use Sunnysideup\Bookings\Model\Tour;
++use Sunnysideup\Bookings\Model\TimesForTour;
++use SilverStripe\ORM\FieldType\DBField;
++use SilverStripe\Forms\CheckboxField;
++use SilverStripe\Forms\CheckboxSetField;
++use SilverStripe\Core\Injector\Injector;
++use Sunnysideup\Bookings\Tasks\TourBuilder;
++
+
+
+
+@@ -83,11 +91,11 @@
+     ];
+
+     private static $has_many = [
+-        'Tours' => 'Tour'
++        'Tours' => Tour::class
+     ];
+
+     private static $many_many = [
+-        'TourTimes' => 'TimesForTour'
++        'TourTimes' => TimesForTour::class
+     ];
+
+     private static $many_many_extraFields = [];
+@@ -403,7 +411,7 @@
+         $fields->dataFieldByName('PublicContent')->setRows('7');
+         $fields->dataFieldByName('PrivateContent')->setRows('7');
+
+-        $link = Injector::inst()->get('TourBuilder')->Link();
++        $link = Injector::inst()->get(TourBuilder::class)->Link();
+
+         if($fields->fieldByName('Root.Tours')) {
+             $fields->fieldByName('Root.Tours')->setTitle('Created Tours for this Rule');
+
+modified:	src/Model/TourBookingSettings.php
+@@ -2,21 +2,43 @@
+
+ namespace Sunnysideup\Bookings\Model;
+
+-use DataObject;
+-use Permission;
+-use DB;
+-use Config;
+-use Director;
+-use PermissionProviderFactory;
+-use GoogleCalendarInterface;
+-use Group;
+-use DropdownField;
+-use TextareaField;
+-use LiteralField;
+-use EmailReminder_NotificationSchedule;
+-use HTMLEditorField;
+-use Injector;
++
++
++
++
++
++
++
++
++
++
++
++
++
++
+ use TourBookingPage_Controller;
++use SilverStripe\Security\Member;
++use SunnySideUp\EmailReminder\Model\EmailReminder_NotificationSchedule;
++use Sunnysideup\Bookings\Model\TourBookingSettings;
++use SilverStripe\ORM\DataObject;
++use SilverStripe\Security\Permission;
++use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
++use SilverStripe\ORM\DB;
++use SilverStripe\Core\Config\Config;
++use SilverStripe\Control\Director;
++use Sunnysideup\PermissionProvider\Api\PermissionProviderFactory;
++use Sunnysideup\Bookings\Model\Tour;
++use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
++use SilverStripe\Security\Group;
++use SilverStripe\Forms\DropdownField;
++use SilverStripe\Forms\TextareaField;
++use SilverStripe\Forms\LiteralField;
++use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
++use SilverStripe\Core\Injector\Injector;
++use Sunnysideup\Bookings\Model\Booking;
++use Sunnysideup\Bookings\Tasks\TourBuilder;
++use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
++
+
+
+
+@@ -79,12 +101,12 @@
+     ];
+
+     private static $has_one = [
+-        'Administrator' => 'Member',
+-        'BookingConfirmationEmail' => 'EmailReminder_NotificationSchedule',
+-        'UpdateConfirmationEmail' => 'EmailReminder_NotificationSchedule',
+-        'CancellationConfirmationEmail' => 'EmailReminder_NotificationSchedule',
+-        'WaitlistConfirmationEmail' => 'EmailReminder_NotificationSchedule',
+-        'TourSpacesAvailableEmail' => 'EmailReminder_NotificationSchedule'
++        'Administrator' => Member::class,
++        'BookingConfirmationEmail' => EmailReminder_NotificationSchedule::class,
++        'UpdateConfirmationEmail' => EmailReminder_NotificationSchedule::class,
++        'CancellationConfirmationEmail' => EmailReminder_NotificationSchedule::class,
++        'WaitlistConfirmationEmail' => EmailReminder_NotificationSchedule::class,
++        'TourSpacesAvailableEmail' => EmailReminder_NotificationSchedule::class
+     ];
+
+
+@@ -146,7 +168,7 @@
+
+     public static function inst()
+     {
+-        $obj = DataObject::get_one('TourBookingSettings');
++        $obj = DataObject::get_one(TourBookingSettings::class);
+         if (!$obj) {
+             $obj = TourBookingSettings::create();
+             $obj->write();
+@@ -189,7 +211,7 @@
+     public function onBeforeWrite()
+     {
+         parent::onBeforeWrite();
+-        if (class_exists('GoogleCalendarInterface') && $this->owner->isChanged('GoogleCalendarVerificationCode')) {
++        if (class_exists(GoogleCalendarInterface::class) && $this->owner->isChanged('GoogleCalendarVerificationCode')) {
+             $this->createNewGoogleCalendarAccessToken();
+         }
+     }
+@@ -204,7 +226,7 @@
+     {
+         parent::requireDefaultRecords();
+         DB::alteration_message('Creating Tour Bookings Manager\'s Group and User', 'created');
+-        $email = Config::inst()->get('TourBookingSettings', 'manager_email');
++        $email = Config::inst()->get(TourBookingSettings::class, 'manager_email');
+         if (! $email) {
+             $baseURL = Director::absoluteBaseURL();
+             $baseURL = str_replace('https://', '', $baseURL);
+@@ -214,10 +236,10 @@
+         }
+         $group = PermissionProviderFactory::inst()
+             ->setEmail($email)
+-            ->setFirstName('Tour')
++            ->setFirstName(Tour::class)
+             ->setSurname('Manager')
+             ->setName('Tour Managers')
+-            ->setCode(Config::inst()->get('TourBookingSettings', 'group_code'))
++            ->setCode(Config::inst()->get(TourBookingSettings::class, 'group_code'))
+             ->setPermissionCode('CMS_ACCESS_TOUR_ADMIN')
+             ->setRoleTitle('Tour Manager Privileges')
+             ->setPermissionArray(['CMS_ACCESS_TourBookingsAdmin'])
+@@ -264,7 +286,7 @@
+
+     public function CMSEditLink()
+     {
+-        $controller = singleton("TourBookingsAdmin");
++        $controller = singleton(TourBookingsAdmin::class);
+
+
+ /**
+@@ -280,7 +302,7 @@
+
+     public function CMSAddLink()
+     {
+-        $controller = singleton("TourBookingsAdmin");
++        $controller = singleton(TourBookingsAdmin::class);
+
+
+ /**
+@@ -314,7 +336,7 @@
+             ->filter(
+                 [
+                     'code' =>[
+-                        Config::inst()->get('TourBookingSettings', 'group_code'),
++                        Config::inst()->get(TourBookingSettings::class, 'group_code'),
+                         'ADMIN'
+                     ]
+                 ]
+@@ -341,7 +363,7 @@
+             )
+         );
+
+-        if (class_exists('GoogleCalendarInterface') && !Director::isDev()) {
++        if (class_exists(GoogleCalendarInterface::class) && !Director::isDev()) {
+             $calendar = new GoogleCalendarInterface();
+             $calendarVerificationField = $fields->dataFieldByName('GoogleCalendarVerificationCode');
+             if (empty($calendar->config())) {
+@@ -396,7 +418,7 @@
+             );
+         }
+
+-        $bookingSingleton = Injector::inst()->get('Booking');
++        $bookingSingleton = Injector::inst()->get(Booking::class);
+
+         $this->AddUsefulLinkToFields(
+             $fields,
+@@ -407,14 +429,14 @@
+         $this->AddUsefulLinkToFields(
+             $fields,
+             'Create Future Tours Now',
+-            Injector::inst()->get('TourBuilder')->Link(),
++            Injector::inst()->get(TourBuilder::class)->Link(),
+             'This task runs regularly, but you can run it now by clicking above link.'
+         );
+
+         $this->AddUsefulLinkToFields(
+             $fields,
+             'Monthly Tour Report',
+-            Injector::inst()->get('MonthlyTourReport')->Link(),
++            Injector::inst()->get(MonthlyTourReport::class)->Link(),
+             'This task runs once a month, but you can get the report sent now by clicking above link.'
+         );
+
+
+modified:	src/Model/Booking.php
+@@ -2,25 +2,47 @@
+
+ namespace Sunnysideup\Bookings\Model;
+
+-use DBField;
+-use Member;
+-use CheckboxField;
+-use LiteralField;
++
++
++
++
+ use CountryDropdownField;
+-use ReadonlyField;
+-use Config;
+-use DropdownField;
+-use HeaderField;
+-use GridField;
+-use GridFieldConfig_RecordViewer;
+-use EmailReminder_EmailRecord;
+-use TextField;
+-use EmailField;
+-use NumericField;
+-use HiddenField;
+-use RequiredFields;
++
++
++
++
++
++
++
++
++
++
++
++
+ use TourBookingPage_Controller;
+-use Director;
++
++use SilverStripe\Security\Member;
++use Sunnysideup\Bookings\Model\Tour;
++use Sunnysideup\Bookings\Model\ReferralOption;
++use SilverStripe\Control\Email\Email;
++use SilverStripe\ORM\FieldType\DBDate;
++use SilverStripe\ORM\FieldType\DBField;
++use SilverStripe\Forms\CheckboxField;
++use SilverStripe\Forms\LiteralField;
++use SilverStripe\Forms\ReadonlyField;
++use SilverStripe\Core\Config\Config;
++use SilverStripe\Forms\DropdownField;
++use SilverStripe\Forms\HeaderField;
++use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
++use SilverStripe\Forms\GridField\GridField;
++use SunnySideUp\EmailReminder\Model\EmailReminder_EmailRecord;
++use SilverStripe\Forms\TextField;
++use SilverStripe\Forms\EmailField;
++use SilverStripe\Forms\NumericField;
++use SilverStripe\Forms\HiddenField;
++use SilverStripe\Forms\RequiredFields;
++use SilverStripe\Control\Director;
++
+
+
+
+@@ -87,12 +109,12 @@
+     ];
+
+     private static $has_one = [
+-        'BookingMember' => 'Member',
+-        'Tour' => 'Tour'
++        'BookingMember' => Member::class,
++        'Tour' => Tour::class
+     ];
+
+     private static $many_many = [
+-        'ReferralOptions' => 'ReferralOption'
++        'ReferralOptions' => ReferralOption::class
+     ];
+
+     #######################
+@@ -136,7 +158,7 @@
+         'Code' => 'Booking Reference',
+         'InitiatingFirstName' => 'First Name',
+         'InitiatingSurname' => 'Surname',
+-        'InitiatingEmail' => 'Email',
++        'InitiatingEmail' => Email::class,
+         'TotalNumberOfGuests' => 'Number of People',
+         'BookingMember' => 'Contact',
+         'HasArrived' => 'Have Arrived',
+@@ -160,7 +182,7 @@
+
+     private static $read_only_fields = [
+         'Code',
+-        'Date',
++        DBDate::class,
+         'InitiatingSurname',
+         'InitiatingFirstName',
+         'InitiatingEmail'
+@@ -516,14 +538,14 @@
+             }
+         } else {
+             $fields->removeByName('BookingMemberID');
+-            $fields->removeByName('Date');
++            $fields->removeByName(DBDate::class);
+             $fields->removeByName('TourID');
+             $today = date('Y-m-d');
+             $tours = Tour::get()->filter(
+                 ['Date:GreaterThanOrEqual' => $today]
+             )->map()->toArray();
+             $fields->insertBefore(
+-                DropdownField::create('TourID', 'Tour', $tours),
++                DropdownField::create('TourID', Tour::class, $tours),
+                 'TotalNumberOfGuests'
+             );
+         }
+@@ -565,7 +587,7 @@
+                     'Booking Made'
+                 ),
+                 GridField::create(
+-                    'Email',
++                    Email::class,
+                     'Emails Sent',
+                     $emailRecords,
+                     GridFieldConfig_RecordViewer::create()
+@@ -606,7 +628,7 @@
+   */
+         $fieldLabelsRight = Config::inst()->get($this->ClassName, 'field_labels_right');
+         $fields->removeByName('Code');
+-        $fields->removeByName('Date');
++        $fields->removeByName(DBDate::class);
+         $fields->removeByName('HasArrived');
+         $fields->removeByName('Cancelled');
+         $fields->removeByName('BookingMemberID');
+
+modified:	src/Model/Tour.php
+@@ -2,16 +2,33 @@
+
+ namespace Sunnysideup\Bookings\Model;
+
+-use DBField;
+-use Director;
+-use GoogleCalendarInterface;
+-use Config;
++
++
++
++
+ use DateTime;
+-use Injector;
+-use DateField;
+-use DropdownField;
+-use HTMLEditorField;
++
++
++
++
+ use TourBookingPage_Controller;
++use Sunnysideup\Bookings\Model\Tour;
++use Sunnysideup\Bookings\Model\TimesForTour;
++use Sunnysideup\Bookings\Model\DateInfo;
++use Sunnysideup\Bookings\Model\Booking;
++use Sunnysideup\Bookings\Model\Waitlister;
++use SilverStripe\ORM\FieldType\DBDate;
++use SilverStripe\ORM\FieldType\DBField;
++use SilverStripe\ORM\FieldType\DBBoolean;
++use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
++use SilverStripe\Control\Director;
++use SilverStripe\Core\Config\Config;
++use SilverStripe\Core\Injector\Injector;
++use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
++use SilverStripe\Forms\DateField;
++use SilverStripe\Forms\DropdownField;
++use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
++
+
+
+
+@@ -41,7 +58,7 @@
+
+     public function i18n_singular_name()
+     {
+-        return _t('Tour.SINGULAR_NAME', 'Tour');
++        return _t('Tour.SINGULAR_NAME', Tour::class);
+     }
+
+     private static $plural_name = 'Tours';
+@@ -84,13 +101,13 @@
+     ];
+
+     private static $has_one = [
+-        'TourTime' => 'TimesForTour',
+-        'DateInfo' => 'DateInfo'
++        'TourTime' => TimesForTour::class,
++        'DateInfo' => DateInfo::class
+     ];
+
+     private static $has_many = [
+-        'Bookings' => 'Booking',
+-        'Waitlisters' => 'Waitlister'
++        'Bookings' => Booking::class,
++        'Waitlisters' => Waitlister::class
+     ];
+
+
+@@ -134,7 +151,7 @@
+
+     private static $field_labels = [
+         'IsClosed' => 'Closed',
+-        'Date' => 'Date',
++        'Date' => DBDate::class,
+         'StartTime' => 'Start Time',
+         'Duration' => 'Minutes',
+         'TotalSpacesAtStart' => 'Total Spaces',
+@@ -172,7 +189,7 @@
+     ];
+
+     private static $readonly_fields = [
+-        'Date',
++        DBDate::class,
+         'StartTime',
+         'Duration',
+         'TotalSpacesAtStart',
+@@ -378,7 +395,7 @@
+             $v = ($this->getNumberOfPlacesAvailable()->RAW() < 1 ? true : false);
+         }
+
+-        return DBField::create_field('Boolean', $v);
++        return DBField::create_field(DBBoolean::class, $v);
+     }
+
+     public function NumberOfAdults()
+@@ -392,7 +409,7 @@
+             $v += intval($booking->getNumberOfAdults()->Raw());
+         }
+
+-        return DBField::create_field('Boolean', $v);
++        return DBField::create_field(DBBoolean::class, $v);
+     }
+
+     public function NumberOfChildren()
+@@ -465,7 +482,7 @@
+             }
+         }
+
+-        if ($this->Date && $this->isChanged("Date")) {
++        if ($this->Date && $this->isChanged(DBDate::class)) {
+             foreach ($this->Bookings() as $booking) {
+                 $booking->Date = $this->Date;
+                 $booking->write();
+@@ -475,11 +492,11 @@
+
+
+
+-        if (class_exists('GoogleCalendarInterface') && (Director::isLive() || $this->calendarDebug)) {
++        if (class_exists(GoogleCalendarInterface::class) && (Director::isLive() || $this->calendarDebug)) {
+             $settings = TourBookingSettings::inst();
+             $calendar = new GoogleCalendarInterface();
+             if (! empty($calendar->config())) {
+-                $timeZone = Config::inst()->get('GoogleCalendarInterface', 'time_zone');
++                $timeZone = Config::inst()->get(GoogleCalendarInterface::class, 'time_zone');
+
+                 $decription ='';
+
+@@ -528,7 +545,7 @@
+         if ($this->Waitlisters()->count() && $tourDate->getTimestamp() >= $now->getTimestamp()) {
+             $settings = TourBookingSettings::inst();
+             $spacesAvailableEmail = $settings->TourSpacesAvailableEmail();
+-            $mailOut = Injector::inst()->get('EmailReminder_DailyMailOut');
++            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
+
+             $placesAvailable = $this->NumberOfPlacesAvailable()->value;
+             $waitlisters = $this->Waitlisters()->filter(['TotalNumberOfGuests:LessThanOrEqual' => $placesAvailable]);
+@@ -543,7 +560,7 @@
+     public function onBeforeDelete()
+     {
+         parent::onBeforeDelete();
+-        if (class_exists('GoogleCalendarInterface')) {
++        if (class_exists(GoogleCalendarInterface::class)) {
+             $settings = TourBookingSettings::inst();
+             $calendar = new GoogleCalendarInterface();
+             if (! empty($calendar->config()) && $this->GoogleEventID) {
+@@ -582,11 +599,11 @@
+         $fields = parent::getCMSFields();
+
+         if(!$this->ID){
+-            $dbFields = Config::inst()->get('Tour', 'db');;
++            $dbFields = Config::inst()->get(Tour::class, 'db');;
+             foreach($dbFields as $dbFieldName => $dbFieldType){
+                 $fields->removeByName($dbFieldName);
+             }
+-            $fields->removeByName('Date');
++            $fields->removeByName(DBDate::class);
+             $fields->removeByName('TourTimeID');
+             $fields->removeByName('DateInfoID');
+
+@@ -595,12 +612,12 @@
+             $fields->addFieldsToTab(
+                 'Root.Main',
+                 [
+-                    $dateField = DateField::create('Date', 'Date'),
++                    $dateField = DateField::create(DBDate::class, DBDate::class),
+                     $tourTimeField = DropdownField::create('TourTimeID','Type of Tour', $times),
+                 ]
+             );
+             $dateField->setConfig('showcalendar', true);
+-            $timesForTour = Injector::inst()->get('TimesForTour');
++            $timesForTour = Injector::inst()->get(TimesForTour::class);
+             $tourTimeField->setRightTitle('<a href="'.$timesForTour->CMSAddLink(). '" target="_blank">Create a new tour time</a>.');
+         }
+         else {
+
+modified:	src/Model/Waitlister.php
+@@ -2,11 +2,20 @@
+
+ namespace Sunnysideup\Bookings\Model;
+
+-use ReadonlyField;
+-use Config;
+-use TextField;
+-use EmailField;
+-use RequiredFields;
++
++
++
++
++
++use Sunnysideup\Bookings\Model\Waitlister;
++use Sunnysideup\Bookings\Model\Tour;
++use SilverStripe\Control\Email\Email;
++use SilverStripe\Forms\ReadonlyField;
++use SilverStripe\Core\Config\Config;
++use SilverStripe\Forms\TextField;
++use SilverStripe\Forms\EmailField;
++use SilverStripe\Forms\RequiredFields;
++
+
+
+
+@@ -23,7 +32,7 @@
+
+     public function i18n_singular_name()
+     {
+-        return _t('Waitlister.SINGULAR_NAME', 'Waitlister');
++        return _t('Waitlister.SINGULAR_NAME', Waitlister::class);
+     }
+
+     private static $plural_name = 'Waitlisters';
+@@ -63,14 +72,14 @@
+     ];
+
+     private static $has_one = [
+-        'Tour' => 'Tour'
++        'Tour' => Tour::class
+     ];
+
+     private static $field_labels = [
+         'Code' => 'Waitlist Reference',
+         'InitiatingFirstName' => 'First Name',
+         'InitiatingSurname' => 'Surname',
+-        'InitiatingEmail' => 'Email',
++        'InitiatingEmail' => Email::class,
+         'TotalNumberOfGuests' => 'Number of people in your group.',
+         'PrimaryPhone' => 'Mobile Phone'
+     ];
+
+modified:	src/Model/TourBaseClass.php
+@@ -2,12 +2,19 @@
+
+ namespace Sunnysideup\Bookings\Model;
+
+-use DataObject;
+-use Permission;
+-use Config;
+-use ReadonlyField;
+-use LiteralField;
++
++
++
++
++
+ use TourBookingPage_Controller;
++use SilverStripe\Security\Permission;
++use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
++use SilverStripe\Core\Config\Config;
++use SilverStripe\Forms\ReadonlyField;
++use SilverStripe\Forms\LiteralField;
++use SilverStripe\ORM\DataObject;
++
+
+
+
+@@ -158,7 +165,7 @@
+
+     public function CMSEditLink()
+     {
+-        $controller = singleton("TourBookingsAdmin");
++        $controller = singleton(TourBookingsAdmin::class);
+
+
+ /**
+@@ -174,7 +181,7 @@
+
+     public function CMSAddLink()
+     {
+-        $controller = singleton("TourBookingsAdmin");
++        $controller = singleton(TourBookingsAdmin::class);
+
+
+ /**
+@@ -190,7 +197,7 @@
+
+     public function CMSListLink()
+     {
+-        $controller = singleton("TourBookingsAdmin");
++        $controller = singleton(TourBookingsAdmin::class);
+
+
+ /**
+
+modified:	src/Model/ReferralOption.php
+@@ -2,7 +2,10 @@
+
+ namespace Sunnysideup\Bookings\Model;
+
+-use CheckboxField;
++
++use Sunnysideup\Bookings\Model\Booking;
++use SilverStripe\Forms\CheckboxField;
++
+
+
+ class ReferralOption extends TourBaseClass
+@@ -42,7 +45,7 @@
+     ];
+
+     private static $belongs_many_many = [
+-        'Bookings' => 'Booking'
++        'Bookings' => Booking::class
+     ];
+
+
+
+modified:	src/Model/TimesForTour.php
+@@ -2,7 +2,10 @@
+
+ namespace Sunnysideup\Bookings\Model;
+
+-use DBField;
++
++use Sunnysideup\Bookings\Model\DateInfo;
++use SilverStripe\ORM\FieldType\DBField;
++
+
+
+
+@@ -58,7 +61,7 @@
+     ];
+
+     private static $belongs_many_many = [
+-        'DateInfos' => 'DateInfo'
++        'DateInfos' => DateInfo::class
+     ];
+
+
+
+modified:	src/Cms/TourBookingsAdmin.php
+@@ -2,26 +2,43 @@
+
+ namespace Sunnysideup\Bookings\Cms;
+
+-use ModelAdmin;
+-use GridField;
++
++
+ use GridFieldSortableRows;
+-use DataObject;
+-use Config;
+-use LeftAndMain;
+-use HiddenField;
+-use LiteralField;
++
++
++
++
++
++use Sunnysideup\Bookings\Model\TourBookingSettings;
++use Sunnysideup\Bookings\Model\TimesForTour;
++use Sunnysideup\Bookings\Model\DateInfo;
++use Sunnysideup\Bookings\Model\Tour;
++use Sunnysideup\Bookings\Model\Booking;
++use Sunnysideup\Bookings\Model\Waitlister;
++use Sunnysideup\Bookings\Model\ReferralOption;
++use SilverStripe\Forms\GridField\GridField;
++use SilverStripe\Forms\GridField\GridFieldExportButton;
++use SilverStripe\Forms\GridField\GridFieldPrintButton;
++use SilverStripe\ORM\DataObject;
++use SilverStripe\Core\Config\Config;
++use SilverStripe\Admin\LeftAndMain;
++use SilverStripe\Forms\HiddenField;
++use SilverStripe\Forms\LiteralField;
++use SilverStripe\Admin\ModelAdmin;
++
+
+
+ class TourBookingsAdmin extends ModelAdmin
+ {
+     private static $managed_models = [
+-        'TourBookingSettings',
+-        'TimesForTour',
+-        'DateInfo',
+-        'Tour',
+-        'Booking',
+-        'Waitlister',
+-        'ReferralOption'
++        TourBookingSettings::class,
++        TimesForTour::class,
++        DateInfo::class,
++        Tour::class,
++        Booking::class,
++        Waitlister::class,
++        ReferralOption::class
+     ];
+
+     private static $url_segment = 'tour-bookings';
+@@ -33,16 +50,16 @@
+     public $showImportForm = false;
+
+     public $showSearchForm  = [
+-        'DateInfo',
+-        'Tour',
+-        'Booking',
+-        'Waitlister',
++        DateInfo::class,
++        Tour::class,
++        Booking::class,
++        Waitlister::class,
+     ];
+
+     public function getList()
+     {
+         $list = parent::getList();
+-        if ($this->modelClass=='Tour') {
++        if ($this->modelClass==Tour::class) {
+             $mysqlDate = date('Y-m-d', strtotime('-2 days'));
+             $list = $list->filter(['Date:GreaterThan' => $mysqlDate]);
+         }
+@@ -54,18 +71,18 @@
+         $form = parent::getEditForm($id, $fields);
+
+         //This check is simply to ensure you are on the managed model you want adjust accordingly
+-        if ($this->modelClass=='TimesForTour' && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
++        if ($this->modelClass==TimesForTour::class && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
+             if ($gridField instanceof GridField) {
+-                $gridField->getConfig()->removeComponentsByType('GridFieldExportButton');
++                $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
+             }
+         }
+
+-        if ($this->modelClass=='DateInfo' && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
++        if ($this->modelClass==DateInfo::class && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
+             if ($gridField instanceof GridField) {
+-                $gridField->getConfig()->removeComponentsByType('GridFieldExportButton');
+-                $gridField->getConfig()->removeComponentsByType('GridFieldPrintButton');
++                $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
++                $gridField->getConfig()->removeComponentsByType(GridFieldPrintButton::class);
+                 $gridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
+             }
+
+@@ -80,25 +97,25 @@
+             );
+         }
+
+-        if (is_subclass_of($this->modelClass, 'TourBookingSettings') || $this->modelClass === 'TourBookingSettings') {
+-            $record = DataObject::get_one('TourBookingSettings');
++        if (is_subclass_of($this->modelClass, TourBookingSettings::class) || $this->modelClass === TourBookingSettings::class) {
++            $record = DataObject::get_one(TourBookingSettings::class);
+             if ($record && $record->exists()) {
+                 return $this->oneItemForm($record);
+             }
+             if ($gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+                 if ($gridField instanceof GridField) {
+                     $config = $gridField->getConfig();
+-                    $config->removeComponentsByType('GridFieldExportButton');
+-                    $config->removeComponentsByType('GridFieldPrintButton');
++                    $config->removeComponentsByType(GridFieldExportButton::class);
++                    $config->removeComponentsByType(GridFieldPrintButton::class);
+                 }
+             }
+         }
+
+-        if ($this->modelClass=='ReferralOption' && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
++        if ($this->modelClass==ReferralOption::class && $gridField=$form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
+             if ($gridField instanceof GridField) {
+-                $gridField->getConfig()->removeComponentsByType('GridFieldExportButton');
+-                $gridField->getConfig()->removeComponentsByType('GridFieldPrintButton');
++                $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
++                $gridField->getConfig()->removeComponentsByType(GridFieldPrintButton::class);
+                 $gridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
+             }
+         }
+@@ -115,7 +132,7 @@
+      */
+     public function oneItemForm($record)
+     {
+-        Config::modify()->update('LeftAndMain', 'tree_class', $record->ClassName);
++        Config::modify()->update(LeftAndMain::class, 'tree_class', $record->ClassName);
+         $form = LeftAndMain::getEditForm($record);
+         $idField = HiddenField::create('ID')->setValue($record->ID);
+         $cssField = LiteralField::create(
+
+Writing changes for 27 files
+✔✔✔

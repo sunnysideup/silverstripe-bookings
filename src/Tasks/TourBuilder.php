@@ -2,11 +2,17 @@
 
 namespace Sunnysideup\Bookings\Tasks;
 
-use BuildTask;
-use DB;
-use DateInfo;
-use Tour;
-use TourBookingSettings;
+
+
+
+
+
+use SilverStripe\ORM\DB;
+use Sunnysideup\Bookings\Model\DateInfo;
+use Sunnysideup\Bookings\Model\Tour;
+use Sunnysideup\Bookings\Model\TourBookingSettings;
+use SilverStripe\Dev\BuildTask;
+
 
 /**
  * @package cms

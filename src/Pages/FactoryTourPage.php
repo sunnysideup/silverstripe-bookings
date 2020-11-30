@@ -2,13 +2,22 @@
 
 namespace Sunnysideup\Bookings\Pages;
 
-use HTMLEditorField;
-use CheckboxField;
-use TextField;
-use OptionsetField;
-use UploadField;
+
+
+
+
+
 use PerfectCMSImagesUploadField;
-use HeaderField;
+
+use SilverStripe\Assets\Image;
+use SilverStripe\Assets\File;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Forms\OptionsetField;
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Forms\HeaderField;
+
 
 
 /**
@@ -103,7 +112,7 @@ class FactoryTourPage extends TourBookingPage
   * EXP: you may want to add ownership (owns)
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        'TourTimesBannerMobile' => 'Image',
+        'TourTimesBannerMobile' => Image::class,
 
 /**
   * ### @@@@ START REPLACEMENT @@@@ ###
@@ -113,7 +122,7 @@ class FactoryTourPage extends TourBookingPage
   * EXP: you may want to add ownership (owns)
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        'TourTimesBannerDesktop' => 'Image',
+        'TourTimesBannerDesktop' => Image::class,
 
 /**
   * ### @@@@ START REPLACEMENT @@@@ ###
@@ -123,7 +132,7 @@ class FactoryTourPage extends TourBookingPage
   * EXP: you may want to add ownership (owns)
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        'BubblesBannerMobile' => 'Image',
+        'BubblesBannerMobile' => Image::class,
 
 /**
   * ### @@@@ START REPLACEMENT @@@@ ###
@@ -133,7 +142,7 @@ class FactoryTourPage extends TourBookingPage
   * EXP: you may want to add ownership (owns)
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        'BubblesBannerDesktop' => 'Image',
+        'BubblesBannerDesktop' => Image::class,
 
 /**
   * ### @@@@ START REPLACEMENT @@@@ ###
@@ -143,7 +152,7 @@ class FactoryTourPage extends TourBookingPage
   * EXP: you may want to add ownership (owns)
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        'BookYourTourImage' => 'Image',
+        'BookYourTourImage' => Image::class,
 
 /**
   * ### @@@@ START REPLACEMENT @@@@ ###
@@ -153,7 +162,7 @@ class FactoryTourPage extends TourBookingPage
   * EXP: you may want to add ownership (owns)
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        'InsideTheFactory' => 'Image',
+        'InsideTheFactory' => Image::class,
 
 /**
   * ### @@@@ START REPLACEMENT @@@@ ###
@@ -163,8 +172,8 @@ class FactoryTourPage extends TourBookingPage
   * EXP: you may want to add ownership (owns)
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        'MapDownloadImage' => 'Image',
-        'MapPDF' => 'File',
+        'MapDownloadImage' => Image::class,
+        'MapPDF' => File::class,
 
 /**
   * ### @@@@ START REPLACEMENT @@@@ ###
@@ -174,7 +183,7 @@ class FactoryTourPage extends TourBookingPage
   * EXP: you may want to add ownership (owns)
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        'NavigationImage' => 'Image',
+        'NavigationImage' => Image::class,
 
 /**
   * ### @@@@ START REPLACEMENT @@@@ ###
@@ -184,7 +193,7 @@ class FactoryTourPage extends TourBookingPage
   * EXP: you may want to add ownership (owns)
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        'GeoTargetedHomePageImage' => 'Image'
+        'GeoTargetedHomePageImage' => Image::class
     );
 
     //private static $default_records = null;

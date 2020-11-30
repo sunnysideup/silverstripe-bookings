@@ -2,23 +2,42 @@
 
 namespace Sunnysideup\Bookings\Forms;
 
-use Form;
-use Injector;
-use FieldList;
-use CompositeField;
-use HeaderField;
-use NumericField;
-use TextField;
-use ReferralOption;
-use CheckboxSetField;
-use HiddenField;
-use EmailField;
-use FormAction;
-use Controller;
-use SS_HTTPRequest;
-use Convert;
-use TourBookingSettings;
-use Booking;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+use SilverStripe\Core\Injector\Injector;
+use Sunnysideup\Bookings\Model\Booking;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\CompositeField;
+use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\TextField;
+use Sunnysideup\Bookings\Model\ReferralOption;
+use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\EmailField;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Control\Controller;
+use SilverStripe\Forms\Form;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Core\Convert;
+use Sunnysideup\Bookings\Model\TourBookingSettings;
+use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
+
 
 
 
@@ -40,7 +59,7 @@ class TourBookingForm extends Form
             $this->currentBooking = $existingBooking;
             $bookingSingleton = $this->currentBooking;
         } else {
-            $bookingSingleton = Injector::inst()->get('Booking');
+            $bookingSingleton = Injector::inst()->get(Booking::class);
         }
 
         if ($singleTour) {
@@ -187,7 +206,7 @@ class TourBookingForm extends Form
      * @param array $data The form request data submitted
      * @param Form  $form The {@link Form} this was submitted on
      */
-    public function dobooking(array $data, Form $form, SS_HTTPRequest $request)
+    public function dobooking(array $data, Form $form, HTTPRequest $request)
     {
         $newBooking = true;
         $this->saveDataToSession();
@@ -255,7 +274,7 @@ class TourBookingForm extends Form
             //$this->currentBooking->Tour()->write();
             $code = substr($this->currentBooking->Code, 0, 9);
             $settings = TourBookingSettings::inst();
-            $mailOut = Injector::inst()->get('EmailReminder_DailyMailOut');
+            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
 
             if ($newBooking) {
                 $confirmationEmail = $settings->BookingConfirmationEmail();

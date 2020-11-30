@@ -2,21 +2,43 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-use DataObject;
-use Permission;
-use DB;
-use Config;
-use Director;
-use PermissionProviderFactory;
-use GoogleCalendarInterface;
-use Group;
-use DropdownField;
-use TextareaField;
-use LiteralField;
-use EmailReminder_NotificationSchedule;
-use HTMLEditorField;
-use Injector;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 use TourBookingPage_Controller;
+use SilverStripe\Security\Member;
+use SunnySideUp\EmailReminder\Model\EmailReminder_NotificationSchedule;
+use Sunnysideup\Bookings\Model\TourBookingSettings;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Security\Permission;
+use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
+use SilverStripe\ORM\DB;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Control\Director;
+use Sunnysideup\PermissionProvider\Api\PermissionProviderFactory;
+use Sunnysideup\Bookings\Model\Tour;
+use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
+use SilverStripe\Security\Group;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\TextareaField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Core\Injector\Injector;
+use Sunnysideup\Bookings\Model\Booking;
+use Sunnysideup\Bookings\Tasks\TourBuilder;
+use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
+
 
 
 
@@ -79,12 +101,12 @@ class TourBookingSettings extends TourBaseClass
     ];
 
     private static $has_one = [
-        'Administrator' => 'Member',
-        'BookingConfirmationEmail' => 'EmailReminder_NotificationSchedule',
-        'UpdateConfirmationEmail' => 'EmailReminder_NotificationSchedule',
-        'CancellationConfirmationEmail' => 'EmailReminder_NotificationSchedule',
-        'WaitlistConfirmationEmail' => 'EmailReminder_NotificationSchedule',
-        'TourSpacesAvailableEmail' => 'EmailReminder_NotificationSchedule'
+        'Administrator' => Member::class,
+        'BookingConfirmationEmail' => EmailReminder_NotificationSchedule::class,
+        'UpdateConfirmationEmail' => EmailReminder_NotificationSchedule::class,
+        'CancellationConfirmationEmail' => EmailReminder_NotificationSchedule::class,
+        'WaitlistConfirmationEmail' => EmailReminder_NotificationSchedule::class,
+        'TourSpacesAvailableEmail' => EmailReminder_NotificationSchedule::class
     ];
 
 
@@ -146,7 +168,7 @@ class TourBookingSettings extends TourBaseClass
 
     public static function inst()
     {
-        $obj = DataObject::get_one('TourBookingSettings');
+        $obj = DataObject::get_one(TourBookingSettings::class);
         if (!$obj) {
             $obj = TourBookingSettings::create();
             $obj->write();
@@ -189,7 +211,7 @@ class TourBookingSettings extends TourBaseClass
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
-        if (class_exists('GoogleCalendarInterface') && $this->owner->isChanged('GoogleCalendarVerificationCode')) {
+        if (class_exists(GoogleCalendarInterface::class) && $this->owner->isChanged('GoogleCalendarVerificationCode')) {
             $this->createNewGoogleCalendarAccessToken();
         }
     }
@@ -204,7 +226,7 @@ class TourBookingSettings extends TourBaseClass
     {
         parent::requireDefaultRecords();
         DB::alteration_message('Creating Tour Bookings Manager\'s Group and User', 'created');
-        $email = Config::inst()->get('TourBookingSettings', 'manager_email');
+        $email = Config::inst()->get(TourBookingSettings::class, 'manager_email');
         if (! $email) {
             $baseURL = Director::absoluteBaseURL();
             $baseURL = str_replace('https://', '', $baseURL);
@@ -214,10 +236,10 @@ class TourBookingSettings extends TourBaseClass
         }
         $group = PermissionProviderFactory::inst()
             ->setEmail($email)
-            ->setFirstName('Tour')
+            ->setFirstName(Tour::class)
             ->setSurname('Manager')
             ->setName('Tour Managers')
-            ->setCode(Config::inst()->get('TourBookingSettings', 'group_code'))
+            ->setCode(Config::inst()->get(TourBookingSettings::class, 'group_code'))
             ->setPermissionCode('CMS_ACCESS_TOUR_ADMIN')
             ->setRoleTitle('Tour Manager Privileges')
             ->setPermissionArray(['CMS_ACCESS_TourBookingsAdmin'])
@@ -264,7 +286,7 @@ class TourBookingSettings extends TourBaseClass
 
     public function CMSEditLink()
     {
-        $controller = singleton("TourBookingsAdmin");
+        $controller = singleton(TourBookingsAdmin::class);
 
 
 /**
@@ -280,7 +302,7 @@ class TourBookingSettings extends TourBaseClass
 
     public function CMSAddLink()
     {
-        $controller = singleton("TourBookingsAdmin");
+        $controller = singleton(TourBookingsAdmin::class);
 
 
 /**
@@ -314,7 +336,7 @@ class TourBookingSettings extends TourBaseClass
             ->filter(
                 [
                     'code' =>[
-                        Config::inst()->get('TourBookingSettings', 'group_code'),
+                        Config::inst()->get(TourBookingSettings::class, 'group_code'),
                         'ADMIN'
                     ]
                 ]
@@ -341,7 +363,7 @@ class TourBookingSettings extends TourBaseClass
             )
         );
 
-        if (class_exists('GoogleCalendarInterface') && !Director::isDev()) {
+        if (class_exists(GoogleCalendarInterface::class) && !Director::isDev()) {
             $calendar = new GoogleCalendarInterface();
             $calendarVerificationField = $fields->dataFieldByName('GoogleCalendarVerificationCode');
             if (empty($calendar->config())) {
@@ -396,7 +418,7 @@ class TourBookingSettings extends TourBaseClass
             );
         }
 
-        $bookingSingleton = Injector::inst()->get('Booking');
+        $bookingSingleton = Injector::inst()->get(Booking::class);
 
         $this->AddUsefulLinkToFields(
             $fields,
@@ -407,14 +429,14 @@ class TourBookingSettings extends TourBaseClass
         $this->AddUsefulLinkToFields(
             $fields,
             'Create Future Tours Now',
-            Injector::inst()->get('TourBuilder')->Link(),
+            Injector::inst()->get(TourBuilder::class)->Link(),
             'This task runs regularly, but you can run it now by clicking above link.'
         );
 
         $this->AddUsefulLinkToFields(
             $fields,
             'Monthly Tour Report',
-            Injector::inst()->get('MonthlyTourReport')->Link(),
+            Injector::inst()->get(MonthlyTourReport::class)->Link(),
             'This task runs once a month, but you can get the report sent now by clicking above link.'
         );
 

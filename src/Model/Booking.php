@@ -2,25 +2,47 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-use DBField;
-use Member;
-use CheckboxField;
-use LiteralField;
+
+
+
+
 use CountryDropdownField;
-use ReadonlyField;
-use Config;
-use DropdownField;
-use HeaderField;
-use GridField;
-use GridFieldConfig_RecordViewer;
-use EmailReminder_EmailRecord;
-use TextField;
-use EmailField;
-use NumericField;
-use HiddenField;
-use RequiredFields;
+
+
+
+
+
+
+
+
+
+
+
+
 use TourBookingPage_Controller;
-use Director;
+
+use SilverStripe\Security\Member;
+use Sunnysideup\Bookings\Model\Tour;
+use Sunnysideup\Bookings\Model\ReferralOption;
+use SilverStripe\Control\Email\Email;
+use SilverStripe\ORM\FieldType\DBDate;
+use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
+use SilverStripe\Forms\GridField\GridField;
+use SunnySideUp\EmailReminder\Model\EmailReminder_EmailRecord;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Forms\EmailField;
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Control\Director;
+
 
 
 
@@ -87,12 +109,12 @@ class Booking extends TourBaseClass
     ];
 
     private static $has_one = [
-        'BookingMember' => 'Member',
-        'Tour' => 'Tour'
+        'BookingMember' => Member::class,
+        'Tour' => Tour::class
     ];
 
     private static $many_many = [
-        'ReferralOptions' => 'ReferralOption'
+        'ReferralOptions' => ReferralOption::class
     ];
 
     #######################
@@ -136,7 +158,7 @@ class Booking extends TourBaseClass
         'Code' => 'Booking Reference',
         'InitiatingFirstName' => 'First Name',
         'InitiatingSurname' => 'Surname',
-        'InitiatingEmail' => 'Email',
+        'InitiatingEmail' => Email::class,
         'TotalNumberOfGuests' => 'Number of People',
         'BookingMember' => 'Contact',
         'HasArrived' => 'Have Arrived',
@@ -160,7 +182,7 @@ class Booking extends TourBaseClass
 
     private static $read_only_fields = [
         'Code',
-        'Date',
+        DBDate::class,
         'InitiatingSurname',
         'InitiatingFirstName',
         'InitiatingEmail'
@@ -516,14 +538,14 @@ class Booking extends TourBaseClass
             }
         } else {
             $fields->removeByName('BookingMemberID');
-            $fields->removeByName('Date');
+            $fields->removeByName(DBDate::class);
             $fields->removeByName('TourID');
             $today = date('Y-m-d');
             $tours = Tour::get()->filter(
                 ['Date:GreaterThanOrEqual' => $today]
             )->map()->toArray();
             $fields->insertBefore(
-                DropdownField::create('TourID', 'Tour', $tours),
+                DropdownField::create('TourID', Tour::class, $tours),
                 'TotalNumberOfGuests'
             );
         }
@@ -565,7 +587,7 @@ class Booking extends TourBaseClass
                     'Booking Made'
                 ),
                 GridField::create(
-                    'Email',
+                    Email::class,
                     'Emails Sent',
                     $emailRecords,
                     GridFieldConfig_RecordViewer::create()
@@ -606,7 +628,7 @@ class Booking extends TourBaseClass
   */
         $fieldLabelsRight = Config::inst()->get($this->ClassName, 'field_labels_right');
         $fields->removeByName('Code');
-        $fields->removeByName('Date');
+        $fields->removeByName(DBDate::class);
         $fields->removeByName('HasArrived');
         $fields->removeByName('Cancelled');
         $fields->removeByName('BookingMemberID');

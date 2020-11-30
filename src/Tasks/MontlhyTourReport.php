@@ -2,13 +2,20 @@
 
 namespace Sunnysideup\Bookings\Tasks;
 
-use BuildTask;
-use TourBookingSettings;
+
+
 use DateTime;
-use Tour;
-use Email;
-use ArrayList;
+
+
+
 use Geoip;
+use Sunnysideup\Bookings\Model\TourBookingSettings;
+use Sunnysideup\Bookings\Model\Tour;
+use SilverStripe\Control\Email\Email;
+use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\Dev\BuildTask;
+
 
 /**
  * @package cms
@@ -130,7 +137,7 @@ class MonthlyTourReport extends BuildTask
         ];
 
         $email = Email::create();
-        $email->setTemplate('MonthlyTourReport');
+        $email->setTemplate(MonthlyTourReport::class);
         $email->populateTemplate($emailData);
         $email->setTo($toEmail);
 

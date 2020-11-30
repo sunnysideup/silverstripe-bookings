@@ -2,12 +2,19 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-use DataObject;
-use Permission;
-use Config;
-use ReadonlyField;
-use LiteralField;
+
+
+
+
+
 use TourBookingPage_Controller;
+use SilverStripe\Security\Permission;
+use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\ORM\DataObject;
+
 
 
 
@@ -158,7 +165,7 @@ class TourBaseClass extends DataObject
 
     public function CMSEditLink()
     {
-        $controller = singleton("TourBookingsAdmin");
+        $controller = singleton(TourBookingsAdmin::class);
 
 
 /**
@@ -174,7 +181,7 @@ class TourBaseClass extends DataObject
 
     public function CMSAddLink()
     {
-        $controller = singleton("TourBookingsAdmin");
+        $controller = singleton(TourBookingsAdmin::class);
 
 
 /**
@@ -190,7 +197,7 @@ class TourBaseClass extends DataObject
 
     public function CMSListLink()
     {
-        $controller = singleton("TourBookingsAdmin");
+        $controller = singleton(TourBookingsAdmin::class);
 
 
 /**

@@ -2,7 +2,10 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-use DBField;
+
+use Sunnysideup\Bookings\Model\DateInfo;
+use SilverStripe\ORM\FieldType\DBField;
+
 
 
 
@@ -58,7 +61,7 @@ class TimesForTour extends TourBaseClass
     ];
 
     private static $belongs_many_many = [
-        'DateInfos' => 'DateInfo'
+        'DateInfos' => DateInfo::class
     ];
 
 

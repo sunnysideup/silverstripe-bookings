@@ -2,9 +2,13 @@
 
 namespace Sunnysideup\Bookings\Search;
 
-use ExactMatchFilter;
-use DataQuery;
-use Date;
+
+
+
+use SilverStripe\ORM\DataQuery;
+use SilverStripe\ORM\FieldType\DBDate;
+use SilverStripe\ORM\Filters\ExactMatchFilter;
+
 
 
 class TourDate_Filter extends ExactMatchFilter
@@ -17,7 +21,7 @@ class TourDate_Filter extends ExactMatchFilter
     {
         $value = $this->getValue();
         if ($value) {
-            $date = new Date();
+            $date = new DBDate();
             $date->setValue($value);
             $formattedDate = $date->format('Y-m-d');
             $query->where(

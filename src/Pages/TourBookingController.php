@@ -3,23 +3,44 @@
 namespace Sunnysideup\Bookings\Pages;
 
 use PageController;
-use Config;
-use TourBookingSettings;
-use Requirements;
-use DBField;
-use Injector;
-use Permission;
-use TourBookingForm;
-use Convert;
-use Booking;
-use DateInfo;
-use TourBookingCancellationForm;
-use TourWaitlistForm;
-use Waitlister;
-use Security;
-use Tour;
-use SelfCheckInForm;
-use ArrayList;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+use SilverStripe\Core\Config\Config;
+use Sunnysideup\Bookings\Model\TourBookingSettings;
+use Sunnysideup\Bookings\Forms\TourBookingForm;
+use SilverStripe\View\Requirements;
+use Sunnysideup\Bookings\Pages\TourBookingPage;
+use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Security\Permission;
+use SilverStripe\Core\Convert;
+use Sunnysideup\Bookings\Model\Booking;
+use Sunnysideup\Bookings\Model\DateInfo;
+use SilverStripe\ORM\FieldType\DBDate;
+use Sunnysideup\Bookings\Forms\TourBookingCancellationForm;
+use Sunnysideup\Bookings\Forms\TourWaitlistForm;
+use Sunnysideup\Bookings\Model\Waitlister;
+use SilverStripe\Security\Security;
+use Sunnysideup\Bookings\Model\Tour;
+use Sunnysideup\Bookings\Forms\SelfCheckInForm;
+use SilverStripe\ORM\ArrayList;
+use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
+
 
 
 
@@ -42,8 +63,8 @@ class TourBookingPageController extends PageController
     protected function init()
     {
         parent::init();
-        $this->factoryIP = Config::inst()->get('TourBookingSettings', 'tour_location_ip');
-        $countries = json_encode(Config::inst()->get('TourBookingForm', 'show_city_field_for_countries'));
+        $this->factoryIP = Config::inst()->get(TourBookingSettings::class, 'tour_location_ip');
+        $countries = json_encode(Config::inst()->get(TourBookingForm::class, 'show_city_field_for_countries'));
         $settings = TourBookingSettings::inst();
         Requirements::customScript(
             '
@@ -75,7 +96,7 @@ class TourBookingPageController extends PageController
   * EXP: Check if the class name can still be used as such
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        if ($this->ClassName === 'TourBookingPage') {
+        if ($this->ClassName === TourBookingPage::class) {
             return $this->redirect($this->Link('signup'));
         }
         return  ['Content' => DBField::create_field('HTMLText', $this->Content)];
@@ -201,7 +222,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
         }
 
 /**
@@ -212,7 +233,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        return $this->RenderWith(['TourBookingPage', 'Page']);
+        return $this->RenderWith([TourBookingPage::class, 'Page']);
     }
 
     public function availability($request)
@@ -268,7 +289,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
         }
 
 /**
@@ -279,7 +300,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        return $this->RenderWith(['TourBookingPage', 'Page']);
+        return $this->RenderWith([TourBookingPage::class, 'Page']);
     }
 
     public function DateInformation()
@@ -289,7 +310,7 @@ class TourBookingPageController extends PageController
 
     public function MyDate()
     {
-        return DBField::create_field('Date', date('Y-m-d', $this->availabilityDateAsTS));
+        return DBField::create_field(DBDate::class, date('Y-m-d', $this->availabilityDateAsTS));
     }
 
     public function ListOfToursForOneDay()
@@ -360,7 +381,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
         }
 
 /**
@@ -371,7 +392,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        return $this->RenderWith(['TourBookingPage', 'Page']);
+        return $this->RenderWith([TourBookingPage::class, 'Page']);
     }
 
     public function cancel($request)
@@ -406,7 +427,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
         }
 
 /**
@@ -417,7 +438,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        return $this->RenderWith(['TourBookingPage', 'Page']);
+        return $this->RenderWith([TourBookingPage::class, 'Page']);
     }
 
 
@@ -463,7 +484,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
         }
 
 /**
@@ -474,7 +495,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        return $this->RenderWith(['TourBookingPage', 'Page']);
+        return $this->RenderWith([TourBookingPage::class, 'Page']);
     }
 
     public function confirmwaitlist($request)
@@ -509,7 +530,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
         }
 
 /**
@@ -520,7 +541,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        return $this->RenderWith(['TourBookingPage', 'Page']);
+        return $this->RenderWith([TourBookingPage::class, 'Page']);
     }
 
     public function jointour($request)
@@ -554,7 +575,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-            return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+            return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
         }
 
 /**
@@ -565,7 +586,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        return $this->RenderWith(['TourBookingPage', 'Page']);
+        return $this->RenderWith([TourBookingPage::class, 'Page']);
     }
 
     public function TourFullMessage()
@@ -612,7 +633,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-            return $this->RenderWith(['TourBookingPage', 'Page']);
+            return $this->RenderWith([TourBookingPage::class, 'Page']);
         } else {
             echo 'Sorry you don\'t have the required permissions to access this area. <a href="/Security/logout">LOG OUT</a>';
         }
@@ -750,7 +771,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        return $this->RenderWith(['TourBookingPage', 'Page']);
+        return $this->RenderWith([TourBookingPage::class, 'Page']);
     }
 
     public function confirmonecheckin($request)
@@ -763,7 +784,7 @@ class TourBookingPageController extends PageController
 
     public function SelfCheckInForm($request = null)
     {
-        $form = SelfCheckInForm::create($this, 'SelfCheckInForm');
+        $form = SelfCheckInForm::create($this, SelfCheckInForm::class);
 
         return $form;
     }
@@ -824,7 +845,7 @@ class TourBookingPageController extends PageController
   * EXP: Check that the template location is still valid!
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        return $this->RenderWith(['TourBookingPage', 'Page_MainOnly']);
+        return $this->RenderWith([TourBookingPage::class, 'Page_MainOnly']);
     }
 
     public function CurrentTour()
@@ -937,7 +958,7 @@ class TourBookingPageController extends PageController
   */
     public function TourLinks($className = '')
     {
-        $modelAdmin = Injector::inst()->get('TourBookingsAdmin');
+        $modelAdmin = Injector::inst()->get(TourBookingsAdmin::class);
         $models = $modelAdmin->getManagedModels();
         $al = ArrayList::create();
         foreach ($models as $key => $model) {

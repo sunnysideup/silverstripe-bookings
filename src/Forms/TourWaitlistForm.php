@@ -2,21 +2,38 @@
 
 namespace Sunnysideup\Bookings\Forms;
 
-use Form;
-use Injector;
-use FieldList;
-use TourBookingSettings;
-use LiteralField;
-use CompositeField;
-use ReadonlyField;
-use Tour;
-use CheckboxSetField;
-use HiddenField;
-use FormAction;
-use Controller;
-use SS_HTTPRequest;
-use Convert;
-use Waitlister;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+use SilverStripe\Core\Injector\Injector;
+use Sunnysideup\Bookings\Model\Waitlister;
+use SilverStripe\Forms\FieldList;
+use Sunnysideup\Bookings\Model\TourBookingSettings;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\Forms\CompositeField;
+use Sunnysideup\Bookings\Model\Tour;
+use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Control\Controller;
+use SilverStripe\Forms\Form;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Core\Convert;
+use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
+
 
 
 
@@ -32,7 +49,7 @@ class TourWaitlistForm extends Form
             $this->currentTour = $selectedTour;
         }
 
-        $waitlisterSingleton = Injector::inst()->get('Waitlister');
+        $waitlisterSingleton = Injector::inst()->get(Waitlister::class);
 
         $fields = $waitlisterSingleton->getFrontEndFields();
 
@@ -142,7 +159,7 @@ class TourWaitlistForm extends Form
      * @param array $data The form request data submitted
      * @param Form  $form The {@link Form} this was submitted on
      */
-    public function dojoinwaitlist(array $data, Form $form, SS_HTTPRequest $request)
+    public function dojoinwaitlist(array $data, Form $form, HTTPRequest $request)
     {
 
         $this->saveDataToSession();
@@ -172,7 +189,7 @@ class TourWaitlistForm extends Form
             $waitlister->write();
             $settings = TourBookingSettings::inst();
             $confirmationEmail = $settings->WaitlistConfirmationEmail();
-            $mailOut = Injector::inst()->get('EmailReminder_DailyMailOut');
+            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
             $mailOut->runOne($confirmationEmail, $waitlister);
             $redirect = $this->controller->Link('confirmwaitlist/'.$waitlister->Code);
             //extra tours have been selected
