@@ -109,7 +109,7 @@ class Booking extends TourBaseClass
         'Code' => 'Booking Reference',
         'InitiatingFirstName' => 'First Name',
         'InitiatingSurname' => 'Surname',
-        'InitiatingEmail' => Email::class,
+        'InitiatingEmail' => 'Email',
         'TotalNumberOfGuests' => 'Number of People',
         'BookingMember' => 'Contact',
         'HasArrived' => 'Have Arrived',
@@ -512,7 +512,7 @@ class Booking extends TourBaseClass
                     'Booking Made'
                 ),
                 GridField::create(
-                    Email::class,
+                    'Email',
                     'Emails Sent',
                     $emailRecords,
                     GridFieldConfig_RecordViewer::create()

@@ -63,7 +63,7 @@ class TourBookingForm extends Form
         );
 
         $column1->push(
-            NumericField::create('TotalNumberOfGuests', 'Number of people in this booking.')->addExtraClass('always-show')->setScale(2)
+            NumericField::create('TotalNumberOfGuests', 'Number of people in this booking.')->addExtraClass('always-show')->setScale(0)
         );
 
         if ($this->currentTour === null) {
@@ -149,6 +149,7 @@ class TourBookingForm extends Form
 
         parent::__construct($controller, $name, $fieldList, $actions, $validator);
 
+
         /**
          * ### @@@@ START REPLACEMENT @@@@ ###
          * WHY: automated upgrade
@@ -158,6 +159,7 @@ class TourBookingForm extends Form
          * ### @@@@ STOP REPLACEMENT @@@@ ###
          */
         $oldData = Controller::curr()->getRequest()->getSession()->get("FormInfo.{$this->FormName()}.data");
+
         $oldData = $oldData ?: $this->currentBooking;
 
         if ($oldData && (is_array($oldData) || is_object($oldData))) {
@@ -177,6 +179,10 @@ class TourBookingForm extends Form
     {
         $newBooking = true;
         $this->saveDataToSession();
+        echo '<pre>';
+        var_export($data);
+        echo '</pre>';
+        die('sdfsd5678f');
         $data = Convert::raw2sql($data);
         if ($this->currentTour) {
             $spacesLeft = $this->currentTour->getNumberOfPlacesAvailable()->value;
