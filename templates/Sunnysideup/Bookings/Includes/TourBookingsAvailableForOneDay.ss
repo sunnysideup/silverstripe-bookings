@@ -1,6 +1,6 @@
 <div id="date-and-tour-information">
 
-    <h6>$MyDate.Format('EEEE'), $MyDate.DayOfMonth(true) $MyDate.Format('MMM y')</h6>
+    <h4>$MyDate.Format('EEEE'), $MyDate.DayOfMonth(true) $MyDate.Format('MMM y')</h4>
     <% if $DateInformation %>
         <% with $DateInformation %>
             $PublicContent
