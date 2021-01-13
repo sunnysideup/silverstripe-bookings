@@ -9,6 +9,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
 use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
+use Sunnysideup\SanitiseClassName\Sanitiser;
 
 class TourBaseClass extends DataObject
 {
@@ -136,31 +137,13 @@ class TourBaseClass extends DataObject
     public function CMSEditLink()
     {
         $controller = singleton(TourBookingsAdmin::class);
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        return $controller->Link() . $this->ClassName . '/EditForm/field/' . $this->ClassName . '/item/' . $this->ID . '/edit';
+        return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/' . $this->ID . '/edit';
     }
 
     public function CMSAddLink()
     {
         $controller = singleton(TourBookingsAdmin::class);
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        return $controller->Link() . $this->ClassName . '/EditForm/field/' . $this->ClassName . '/item/new';
+        return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/new';
     }
 
     public function CMSListLink()
