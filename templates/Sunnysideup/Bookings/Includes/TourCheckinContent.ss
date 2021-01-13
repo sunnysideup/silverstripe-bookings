@@ -4,16 +4,7 @@
             <h3>Tour Details</h3>
             <dl id="tour-info" class="clearfix">
                 <dd>Date:</dd>
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: .Format( (case sensitive)
-  * NEW: .Format( (COMPLEX)
-  * EXP: Format function for dates have changed! Please consider something like: PHP NativeFormat as an extension (see http://userguide.icu-project.org/formatparse/datetime)
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-                <dt>$Date.Format('l, jS M Y')</dt>
+                <dt>$Date.Format('EEEE'), $Date.DayOfMonth(true) $Date.Format('MMM y')</dt>
                 <dd>Time:</dd>
                 <dt>$StartTime.Nice - $EndTime.Nice</dt>
 
@@ -47,7 +38,7 @@
                 <header class="clearfix">
                     <h3>Bookings</h3>
                     <a href="#" id="print-bookings">
-                        <% include Sunnysideup\Bookings\IncludesPrintIcon %>
+                        <% include Sunnysideup\Bookings\Includes\PrintIcon %>
                     </a>
                 </header>
                 <ol id="list-of-bookings">
@@ -57,7 +48,7 @@
                                 <label for="check-in-$ID">Arrived</label>
                                 <input type="checkbox" class="check-in" name='check-in-$ID' data-id="$ID" <% if $HasArrived %>checked="checked"<% end_if %>"/>
                             </div>
-                            <% include Sunnysideup\Bookings\IncludesTourBookingsBookingDetailsForAdmin %>
+                            <% include Sunnysideup\Bookings\Includes\TourBookingsBookingDetailsForAdmin %>
                             <a href="$CMSEditLink" class="external-link">Edit in CMS</a>
                         </li>
                     <% end_loop %>

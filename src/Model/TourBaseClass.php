@@ -87,15 +87,6 @@ class TourBaseClass extends DataObject
                 if (isset($indexes[$field]) && isset($indexes[$field]['type']) && $indexes[$field]['type'] === 'unique') {
                     $id = (empty($this->ID) ? 0 : $this->ID);
                     $count = self::get()
-
-                        /**
-                         * ### @@@@ START REPLACEMENT @@@@ ###
-                         * WHY: automated upgrade
-                         * OLD: $this->ClassName (case sensitive)
-                         * NEW: $this->ClassName (COMPLEX)
-                         * EXP: Check if the class name can still be used as such
-                         * ### @@@@ STOP REPLACEMENT @@@@ ###
-                         */
                         ->filter([$field => $value, 'ClassName' => $this->ClassName])
                         ->exclude(['ID' => $id])
                         ->count();

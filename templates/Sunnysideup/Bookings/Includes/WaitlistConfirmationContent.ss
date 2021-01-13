@@ -5,16 +5,7 @@
             <dl id="booking-info" class="clearfix">
                 <% with $Tour %>
                     <dd>Date:</dd>
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: .Format( (case sensitive)
-  * NEW: .Format( (COMPLEX)
-  * EXP: Format function for dates have changed! Please consider something like: PHP NativeFormat as an extension (see http://userguide.icu-project.org/formatparse/datetime)
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-                    <dt>$Date.Format('l, jS M Y')</dt>
+                    <dt>$Date.Format('EEEE'), $Date.DayOfMonth(true) $Date.Format('MMM y')</dt>
                     <dd>Time:</dd>
                     <dt>$StartTime.Nice - $EndTime.Nice</dt>
                 <% end_with %>

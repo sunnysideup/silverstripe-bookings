@@ -187,15 +187,7 @@ class TourBookingPageController extends PageController
             $this->currentBooking = Booking::get()->filter(['Code' => $this->bookingCode])->first();
         }
 
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: ->RenderWith( (ignore case)
-         * NEW: ->RenderWith( (COMPLEX)
-         * EXP: Check that the template location is still valid!
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        return $this->RenderWith('TourBookingsAvailableForOneDay');
+        return $this->RenderWith('Sunnysideup/Bookings/Includes/TourBookingsAvailableForOneDay');
     }
 
     public function confirmsignup($request)
@@ -204,15 +196,7 @@ class TourBookingPageController extends PageController
             return $this->httpError(404, 'Not Found');
         }
 
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: ->RenderWith( (ignore case)
-         * NEW: ->RenderWith( (COMPLEX)
-         * EXP: Check that the template location is still valid!
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $this->Content = $this->RenderWith('BookingConfirmationContent');
+        $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/BookingConfirmationContent');
 
         if ($this->IsFactory()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
@@ -271,19 +255,10 @@ class TourBookingPageController extends PageController
 
         if ($this->IsCancelled()) {
             $this->Title = 'Cancellation Confirmation';
-
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: ->RenderWith( (ignore case)
-             * NEW: ->RenderWith( (COMPLEX)
-             * EXP: Check that the template location is still valid!
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
-            $this->Content = $this->RenderWith('BookingCancellationContent');
+            $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/BookingCancellationContent');
         } else {
             $this->Title = 'Update your booking';
-            $this->Content = $this->BookingForm();
+            $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/UpdateBookingContent');
         }
 
         if ($this->IsFactory()) {
@@ -303,16 +278,7 @@ class TourBookingPageController extends PageController
         if ($this->IsCancelled()) {
             $this->Title = 'Cancellation Confirmation';
         }
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: ->RenderWith( (ignore case)
-         * NEW: ->RenderWith( (COMPLEX)
-         * EXP: Check that the template location is still valid!
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $this->Content = $this->RenderWith('BookingCancellationContent');
+        $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/BookingCancellationContent');
 
         if ($this->IsFactory()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
@@ -362,16 +328,7 @@ class TourBookingPageController extends PageController
         }
 
         $this->Title = 'Confirmation';
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: ->RenderWith( (ignore case)
-         * NEW: ->RenderWith( (COMPLEX)
-         * EXP: Check that the template location is still valid!
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $this->Content = $this->RenderWith('WaitlistConfirmationContent');
+        $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/WaitlistConfirmationContent');
 
         if ($this->IsFactory()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
@@ -389,16 +346,7 @@ class TourBookingPageController extends PageController
         if ($spacesLeft > 0) {
             $this->Content = $this->SingleTourBookingForm();
         } else {
-
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: ->RenderWith( (ignore case)
-             * NEW: ->RenderWith( (COMPLEX)
-             * EXP: Check that the template location is still valid!
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
-            $this->Content = $this->RenderWith('TourFullMessage');
+            $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/TourFullMessage');
         }
 
         if ($this->IsFactory()) {
@@ -427,15 +375,7 @@ class TourBookingPageController extends PageController
             return Security::permissionFailure($this);
         } elseif (Permission::checkMember($member, 'CMS_ACCESS_TOUR_ADMIN')) {
 
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: ->RenderWith( (ignore case)
-             * NEW: ->RenderWith( (COMPLEX)
-             * EXP: Check that the template location is still valid!
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
-            $this->Content = $this->RenderWith('CalendarView');
+            $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/CalendarView');
 
             return $this->RenderWith(['Page']);
         }
@@ -547,15 +487,7 @@ class TourBookingPageController extends PageController
             return $this->httpError(404, 'Not Found');
         }
 
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: ->RenderWith( (ignore case)
-         * NEW: ->RenderWith( (COMPLEX)
-         * EXP: Check that the template location is still valid!
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $this->Content = $this->RenderWith('TourCheckinContent');
+        $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/TourCheckinContent');
 
         return $this->RenderWith(['Page']);
     }
@@ -598,15 +530,7 @@ class TourBookingPageController extends PageController
             return $this->httpError(404, 'Not Found');
         }
 
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: ->RenderWith( (ignore case)
-         * NEW: ->RenderWith( (COMPLEX)
-         * EXP: Check that the template location is still valid!
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        $this->Content = $this->RenderWith('SelfCheckInConfirmationContent');
+        $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/SelfCheckInConfirmationContent');
 
         //this page will also always render without a header/footer - regardless of whether or not it is being accessed from the factory
         return $this->RenderWith(['Page_MainOnly', 'Page']);
@@ -672,13 +596,6 @@ class TourBookingPageController extends PageController
         return false;
     }
 
-    /**
-     * ### @@@@ START REPLACEMENT @@@@ ###
-     * OLD:     public function init() (ignore case)
-     * NEW:     protected function init() (COMPLEX)
-     * EXP: Controller init functions are now protected  please check that is a controller.
-     * ### @@@@ STOP REPLACEMENT @@@@ ###
-     */
     protected function init()
     {
         parent::init();

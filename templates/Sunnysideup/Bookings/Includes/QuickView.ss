@@ -7,7 +7,7 @@
             <ol id="list-of-bookings">
                 <% loop $ValidBookings %>
                     <li>
-                        <% include Sunnysideup\Bookings\IncludesTourBookingsBookingDetailsSimple %>
+                        <% include Sunnysideup\Bookings\Includes\TourBookingsBookingDetailsSimple %>
                     </li>
                 <% end_loop %>
             </ol>

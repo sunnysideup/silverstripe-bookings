@@ -109,15 +109,6 @@ class TourWaitlistForm extends Form
         $validator = $waitlisterSingleton->getFrontEndValidator();
 
         parent::__construct($controller, $name, $fieldList, $actions, $validator);
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: Session:: (case sensitive)
-         * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
-         * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly.
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
         $oldData = Controller::curr()->getRequest()->getSession()->get("FormInfo.{$this->FormName()}.data");
         $oldData = $oldData ?: [];
 
@@ -157,7 +148,8 @@ class TourWaitlistForm extends Form
         $waitlister->TotalNumberOfGuests = intval($data['TotalNumberOfGuests']);
 
         $validationObject = $waitlister->validate();
-        if (! $validationObject->valid()) {
+
+        if (! $validationObject->isValid()) {
             return $this->controller->redirectBack();
         }
         $waitlister->write();
@@ -200,15 +192,6 @@ class TourWaitlistForm extends Form
     public function saveDataToSession()
     {
         $data = $this->getData();
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: Session:: (case sensitive)
-         * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
-         * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly.
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
         Controller::curr()->getRequest()->getSession()->set("FormInfo.{$this->FormName()}.data", $data);
     }
 }

@@ -43,7 +43,7 @@ class Waitlister extends TourBaseClass
         'Code' => 'Waitlist Reference',
         'InitiatingFirstName' => 'First Name',
         'InitiatingSurname' => 'Surname',
-        'InitiatingEmail' => Email::class,
+        'InitiatingEmail' => 'Email',
         'TotalNumberOfGuests' => 'Number of people in your group.',
         'PrimaryPhone' => 'Mobile Phone',
     ];

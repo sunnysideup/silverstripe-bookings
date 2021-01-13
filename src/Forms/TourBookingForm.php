@@ -101,6 +101,8 @@ class TourBookingForm extends Form
                 if ($hasOther) {
                     $referralOptionsField->setAttribute('data-other', $hasOther->ID);
 
+
+
                     $column2->push(
                         TextField::create(
                             'ReferralText',
@@ -149,15 +151,6 @@ class TourBookingForm extends Form
 
         parent::__construct($controller, $name, $fieldList, $actions, $validator);
 
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: Session:: (case sensitive)
-         * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
-         * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly.
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
         $oldData = Controller::curr()->getRequest()->getSession()->get("FormInfo.{$this->FormName()}.data");
 
         $oldData = $oldData ?: $this->currentBooking;
@@ -179,10 +172,6 @@ class TourBookingForm extends Form
     {
         $newBooking = true;
         $this->saveDataToSession();
-        echo '<pre>';
-        var_export($data);
-        echo '</pre>';
-        die('sdfsd5678f');
         $data = Convert::raw2sql($data);
         if ($this->currentTour) {
             $spacesLeft = $this->currentTour->getNumberOfPlacesAvailable()->value;
@@ -219,12 +208,11 @@ class TourBookingForm extends Form
         }
         $form->saveInto($this->currentBooking);
         $validationObject = $this->currentBooking->validate();
-        if (! $validationObject->valid()) {
-            foreach ($validationObject->messageList() as $message) {
-                $this->addErrorMessage(
+        if (! $validationObject->isValid()) {
+            foreach ($validationObject->getMessages() as $message) {
+                $this->sessionError(
                     'BookingForm',
-                    $message . ' ',
-                    'bad'
+                    $message['message'] . ' ',
                 );
             }
 
@@ -270,14 +258,8 @@ class TourBookingForm extends Form
     {
         $data = $this->getData();
 
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: Session:: (case sensitive)
-         * NEW: Controller::curr()->getRequest()->getSession()-> (COMPLEX)
-         * EXP: If THIS is a controller than you can write: $this->getRequest(). You can also try to access the HTTPRequest directly.
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
+
+
         Controller::curr()->getRequest()->getSession()->set("FormInfo.{$this->FormName()}.data", $data);
     }
 }

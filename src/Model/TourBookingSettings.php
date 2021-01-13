@@ -43,15 +43,6 @@ class TourBookingSettings extends TourBaseClass
     #######################
     ### Model Section
     #######################
-
-    /**
-     * ### @@@@ START REPLACEMENT @@@@ ###
-     * OLD: private static $db (case sensitive)
-     * NEW:
-    private static $db (COMPLEX)
-     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-     * ### @@@@ STOP REPLACEMENT @@@@ ###
-     */
     private static $table_name = 'TourBookingSettings';
 
     private static $db = [
