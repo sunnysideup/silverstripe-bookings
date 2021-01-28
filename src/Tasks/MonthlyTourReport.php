@@ -5,13 +5,12 @@ namespace Sunnysideup\Bookings\Tasks;
 use DateTime;
 
 
-
-use Geoip;
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\ArrayList;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
+use Sunnysideup\Geoip\Geoip;
 
 /**
  * @package cms
@@ -40,47 +39,12 @@ class MonthlyTourReport extends BuildTask
         $refferalData = [];
         $monthStart = new DateTime('first day of last month');
         $monthEnd = new DateTime('last day of last month');
+
         $tours = Tour::get()
             ->filter(
                 [
-
-                    /**
-                     * ### @@@@ START REPLACEMENT @@@@ ###
-                     * WHY: automated upgrade
-                     * OLD: >format('Y-m-d') (case sensitive)
-                     * NEW: ->format('Y-MM-d') (COMPLEX)
-                     * EXP: check usage of new date/time system https://www.php.net/manual/en/datetime.format.php vs http://userguide.icu-project.org/formatparse/datetime
-                     * ### @@@@ STOP REPLACEMENT @@@@ ###
-                     */
-
-                    /**
-                     * ### @@@@ START REPLACEMENT @@@@ ###
-                     * WHY: automated upgrade
-                     * OLD: ->format( (case sensitive)
-                     * NEW: ->format( (COMPLEX)
-                     * EXP: If this is a PHP Date format call then this needs to be changed to new Date formatting system. (see http://userguide.icu-project.org/formatparse/datetime)
-                     * ### @@@@ STOP REPLACEMENT @@@@ ###
-                     */
-                    'Date:GreaterThanOrEqual' => $monthStart-- > format('Y-MM-d'),
-
-                    /**
-                     * ### @@@@ START REPLACEMENT @@@@ ###
-                     * WHY: automated upgrade
-                     * OLD: >format('Y-m-d') (case sensitive)
-                     * NEW: ->format('Y-MM-d') (COMPLEX)
-                     * EXP: check usage of new date/time system https://www.php.net/manual/en/datetime.format.php vs http://userguide.icu-project.org/formatparse/datetime
-                     * ### @@@@ STOP REPLACEMENT @@@@ ###
-                     */
-
-                    /**
-                     * ### @@@@ START REPLACEMENT @@@@ ###
-                     * WHY: automated upgrade
-                     * OLD: ->format( (case sensitive)
-                     * NEW: ->format( (COMPLEX)
-                     * EXP: If this is a PHP Date format call then this needs to be changed to new Date formatting system. (see http://userguide.icu-project.org/formatparse/datetime)
-                     * ### @@@@ STOP REPLACEMENT @@@@ ###
-                     */
-                    'Date:LessThanOrEqual' => $monthEnd-> format('Y-MM-d'),
+                    'Date:GreaterThanOrEqual' => $monthStart->format('Y-m-d'),
+                    'Date:LessThanOrEqual' => $monthEnd->format('Y-m-d'),
                 ]
             );
         foreach ($tours as $tour) {
@@ -128,18 +92,21 @@ class MonthlyTourReport extends BuildTask
             'RefferalData' => $this->convertRefferalDataToArrayList($refferalData),
         ];
 
-        $email = Email::create();
-        $email->setTemplate(MonthlyTourReport::class);
-        $email->populateTemplate($emailData);
-        $email->setTo($toEmail);
-        $email->setSubject('Monthly Tour Report for the month of ' . $monthStart->format('MMMM Y'));
+        if($toEmail){
+            $email = Email::create();
+            $email->setHTMLTemplate('Sunnysideup/Bookings/Email/MonthlyTourReport');
+            $email->setData($emailData);
+            $email->setTo($toEmail);
+            $email->setSubject('Monthly Tour Report for the month of ' . $monthStart->format('MMMM Y'));
 
-        $result = $email->send();
-        if ($result) {
-            echo 'Email was succesfully sent to ' . $toEmail;
-        } else {
-            echo 'There was a problem sending the email, please contact your developer for assistance';
+            $result = $email->send();
+            if ($result) {
+                echo 'Email was succesfully sent to ' . $toEmail;
+            } else {
+                echo 'There was a problem sending the email, please contact your developer for assistance';
+            }
         }
+
     }
 
     public function convertNationalityDataToArrayList($array)
