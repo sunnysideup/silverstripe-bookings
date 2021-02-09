@@ -525,7 +525,7 @@ class Booking extends TourBaseClass
             NumericField::create(
                 'NumberOfChildren',
                 $labels['NumberOfChildren']
-            )->setScale()
+            )->setScale(0)
         );
 
         $fields->replaceField(

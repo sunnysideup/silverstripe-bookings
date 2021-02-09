@@ -182,8 +182,7 @@ class TourBookingForm extends Form
                 }
                 $this->sessionError(
                     $message . ' left. Please reduce the number of people for your booking or book a tour at a different time.',
-                    'bad',
-                    false
+                    'bad'
                 );
                 return $this->controller->redirectBack();
             }
