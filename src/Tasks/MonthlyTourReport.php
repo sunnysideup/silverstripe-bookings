@@ -97,7 +97,7 @@ class MonthlyTourReport extends BuildTask
             $email->setHTMLTemplate('Sunnysideup/Bookings/Email/MonthlyTourReport');
             $email->setData($emailData);
             $email->setTo($toEmail);
-            $email->setSubject('Monthly Tour Report for the month of ' . $monthStart->format('MMMM Y'));
+            $email->setSubject('Monthly Tour Report for the month of ' . $monthStart->format('MY'));
 
             $result = $email->send();
             if ($result) {
