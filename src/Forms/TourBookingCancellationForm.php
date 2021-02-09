@@ -65,7 +65,6 @@ class TourBookingCancellationForm extends Form
                 $settings = TourBookingSettings::inst();
                 $email = $settings->Administrator()->Email;
                 $this->sessionError(
-                    'ConfirmingEmail',
                     'You need to enter the same email address used to create the original booking, please try again or contact the tour manager for assistance: ' . $email,
                     'bad'
                 );
