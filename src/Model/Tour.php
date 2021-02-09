@@ -16,7 +16,7 @@ use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBBoolean;
 use SilverStripe\ORM\FieldType\DBField;
-use SunnySideUp\EmailReminder\Tasks\EmailReminder_DailyMailOut;
+use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
@@ -465,7 +465,7 @@ class Tour extends TourBaseClass
         if ($this->Waitlisters()->count() && $tourDate->getTimestamp() >= $now->getTimestamp()) {
             $settings = TourBookingSettings::inst();
             $spacesAvailableEmail = $settings->TourSpacesAvailableEmail();
-            $mailOut = Injector::inst()->get(EmailReminder_DailyMailOut::class);
+            $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
 
             $placesAvailable = $this->NumberOfPlacesAvailable()->value;
             $waitlisters = $this->Waitlisters()->filter(['TotalNumberOfGuests:LessThanOrEqual' => $placesAvailable]);
