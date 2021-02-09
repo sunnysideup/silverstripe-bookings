@@ -11,6 +11,7 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextareaField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
@@ -335,7 +336,13 @@ class TourBookingSettings extends TourBaseClass
                 if ($emailNotifier) {
                     $cmsLink = $emailNotifier->CMSEditLink();
                     if ($cmsLink) {
-                        $formField->setRightTitle('<a href="' . $cmsLink . '" target="_blank">Edit</a> the content of this email');
+                        $formField->setRightTitle(
+                            DBField::create_field(
+                                'HTMLText',
+                                '<a href="' . $cmsLink . '" target="_blank">Edit </a> the content of this email'
+                            )
+
+                        );
                     }
                 }
             }
