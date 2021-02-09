@@ -74,7 +74,7 @@ class SelfCheckInForm extends Form
         $data = Convert::raw2sql($data);
 
         if (empty($data['TodaysTours'])) {
-            $this->addErrorMessage(
+            $this->sessionError(
                 'TodaysTours',
                 'Please select the tour you are attending from the list above',
                 'bad'
@@ -82,7 +82,7 @@ class SelfCheckInForm extends Form
 
             return $this->controller->redirectBack();
         } elseif (empty($data['BookingData'])) {
-            $this->addErrorMessage(
+            $this->sessionError(
                 'TodaysTours',
                 'You need to enter either your surname, email, phone number or booking code into the field below.',
                 'bad'
@@ -108,7 +108,7 @@ class SelfCheckInForm extends Form
                 if ($booking->count() > 1) {
                     $booking = $booking->exclude(['HasArrived' => true]);
                     if ($booking->count() > 1) {
-                        $this->addErrorMessage(
+                        $this->sessionError(
                             'BookingData',
                             'Sorry there is more than one tour group with a booking for that ' . $niceFieldName,
                             'bad'
@@ -119,7 +119,7 @@ class SelfCheckInForm extends Form
                 $bookingFound = true;
                 $booking = $booking->first();
                 if ($booking->HasArrived) {
-                    $this->addErrorMessage(
+                    $this->sessionError(
                         'TodaysTours',
                         'This booking has already been checked in   ',
                         'bad'
@@ -135,7 +135,7 @@ class SelfCheckInForm extends Form
 
         if (! $bookingFound) {
             //TODO: message should be editable from CMS
-            $this->addErrorMessage(
+            $this->sessionError(
                 'TodaysTours',
                 'Oops, this booking doesn\'t seem to exist in the Peanut Butter World ether. Probably best to ask the PB guru who\'s hanging out behind the desk for some help ',
                 'bad'

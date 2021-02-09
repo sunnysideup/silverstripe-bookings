@@ -95,25 +95,9 @@ class TourBaseClass extends DataObject
                         $myName = $fieldLabels['$field'];
                         $result->addError(
                             _t(
-                                /**
-                                 * ### @@@@ START REPLACEMENT @@@@ ###
-                                 * WHY: automated upgrade
-                                 * OLD: $this->ClassName (case sensitive)
-                                 * NEW: $this->ClassName (COMPLEX)
-                                 * EXP: Check if the class name can still be used as such
-                                 * ### @@@@ STOP REPLACEMENT @@@@ ###
-                                 */
                                 $this->ClassName . '.' . $field . '_UNIQUE',
                                 $myName . ' needs to be unique'
                             ),
-                            /**
-                             * ### @@@@ START REPLACEMENT @@@@ ###
-                             * WHY: automated upgrade
-                             * OLD: $this->ClassName (case sensitive)
-                             * NEW: $this->ClassName (COMPLEX)
-                             * EXP: Check if the class name can still be used as such
-                             * ### @@@@ STOP REPLACEMENT @@@@ ###
-                             */
                             'UNIQUE_' . $this->ClassName . '_' . $field
                         );
                     }
@@ -149,16 +133,7 @@ class TourBaseClass extends DataObject
     public function CMSListLink()
     {
         $controller = singleton(TourBookingsAdmin::class);
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: $this->ClassName (case sensitive)
-         * NEW: $this->ClassName (COMPLEX)
-         * EXP: Check if the class name can still be used as such
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        return $controller->Link() . $this->ClassName;
+        return $controller->Link() . Sanitiser::sanitise($this->ClassName);
     }
 
     public function getCMSFields()

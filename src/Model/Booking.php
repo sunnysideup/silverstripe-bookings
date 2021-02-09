@@ -240,14 +240,6 @@ class Booking extends TourBaseClass
             if ($errorCount) {
                 $result->addError(
                     'Another booking for this tour with the same email already exists. You can only make one booking per tour per email number.',
-                    /**
-                     * ### @@@@ START REPLACEMENT @@@@ ###
-                     * WHY: automated upgrade
-                     * OLD: $this->ClassName (case sensitive)
-                     * NEW: $this->ClassName (COMPLEX)
-                     * EXP: Check if the class name can still be used as such
-                     * ### @@@@ STOP REPLACEMENT @@@@ ###
-                     */
                     'UNIQUE_' . $this->ClassName . '_InitiatingEmail'
                 );
             }
@@ -260,14 +252,6 @@ class Booking extends TourBaseClass
                 if ($errorCount) {
                     $result->addError(
                         'Another booking for this tour with the same mobile phone already exists. You can only make one booking per tour per mobile phone number.',
-                        /**
-                         * ### @@@@ START REPLACEMENT @@@@ ###
-                         * WHY: automated upgrade
-                         * OLD: $this->ClassName (case sensitive)
-                         * NEW: $this->ClassName (COMPLEX)
-                         * EXP: Check if the class name can still be used as such
-                         * ### @@@@ STOP REPLACEMENT @@@@ ###
-                         */
                         'UNIQUE_' . $this->ClassName . 'PrimaryPhone'
                     );
                 }
@@ -291,14 +275,6 @@ class Booking extends TourBaseClass
                 if ($this->TotalNumberOfGuests > $placesAvailable && $adminOverrideNotSet) {
                     $result->addError(
                         'Sorry, there are not enough places available for your booking. Your booking is for ' . $this->TotalNumberOfGuests . ' and the places still available is: ' . $placesAvailable,
-                        /**
-                         * ### @@@@ START REPLACEMENT @@@@ ###
-                         * WHY: automated upgrade
-                         * OLD: $this->ClassName (case sensitive)
-                         * NEW: $this->ClassName (COMPLEX)
-                         * EXP: Check if the class name can still be used as such
-                         * ### @@@@ STOP REPLACEMENT @@@@ ###
-                         */
                         'UNIQUE_' . $this->ClassName . '_NumberOfPlacesAvailable'
                     );
                 }
@@ -307,28 +283,12 @@ class Booking extends TourBaseClass
         if (intval($this->TotalNumberOfGuests) < 1) {
             $result->addError(
                 'You need to have at least one person attending to make a booking.',
-                /**
-                 * ### @@@@ START REPLACEMENT @@@@ ###
-                 * WHY: automated upgrade
-                 * OLD: $this->ClassName (case sensitive)
-                 * NEW: $this->ClassName (COMPLEX)
-                 * EXP: Check if the class name can still be used as such
-                 * ### @@@@ STOP REPLACEMENT @@@@ ###
-                 */
                 'UNIQUE_' . $this->ClassName . '_TotalNumberOfGuests'
             );
         }
         if (intval($this->TotalNumberOfGuests) < (intval($this->NumberOfChildren) + 1)) {
             $result->addError(
                 'You need to have at least one adult attending. It appears you only have children listed for this booking.',
-                /**
-                 * ### @@@@ START REPLACEMENT @@@@ ###
-                 * WHY: automated upgrade
-                 * OLD: $this->ClassName (case sensitive)
-                 * NEW: $this->ClassName (COMPLEX)
-                 * EXP: Check if the class name can still be used as such
-                 * ### @@@@ STOP REPLACEMENT @@@@ ###
-                 */
                 'UNIQUE_' . $this->ClassName . '_NumberOfChildren'
             );
         }

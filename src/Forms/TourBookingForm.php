@@ -180,7 +180,7 @@ class TourBookingForm extends Form
                 if ($spacesLeft > 1) {
                     $message = 'Sorry there are only ' . $spacesLeft . ' spaces';
                 }
-                $this->addErrorMessage(
+                $this->sessionError(
                     'BookingForm',
                     $message . ' left. Please reduce the number of people for your booking or book a tour at a different time.',
                     'bad',
@@ -196,7 +196,7 @@ class TourBookingForm extends Form
             } else {
                 $settings = TourBookingSettings::inst();
                 $email = $settings->Administrator()->Email;
-                $this->addErrorMessage(
+                $this->sessionError(
                     'BookingForm',
                     'You need to enter the same email address used to create the original booking, please try again or contact the tour manager for assistance: ' . $email,
                     'bad'

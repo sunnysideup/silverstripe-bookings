@@ -541,29 +541,12 @@ class TourBookingPageController extends PageController
         return $this->currentTour;
     }
 
-    /**
-     * ### @@@@ START REPLACEMENT @@@@ ###
-     * WHY: automated upgrade
-     * OLD: $className (case sensitive)
-     * NEW: $className (COMPLEX)
-     * EXP: Check if the class name can still be used as such
-     * ### @@@@ STOP REPLACEMENT @@@@ ###
-     */
     public function TourLinks($className = '')
     {
         $modelAdmin = Injector::inst()->get(TourBookingsAdmin::class);
         $models = $modelAdmin->getManagedModels();
         $al = ArrayList::create();
         foreach ($models as $key => $model) {
-
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: $className (case sensitive)
-             * NEW: $className (COMPLEX)
-             * EXP: Check if the class name can still be used as such
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
             if ($className && $className === $key) {
                 return Injector::inst()->get($key)->CMSListLink();
             }
