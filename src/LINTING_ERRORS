@@ -1,0 +1,313 @@
+
+
+---------------------------------
+  Running Easy Conding Standards
+---------------------------------
+  directory of script: /home/shane/.config/composer/vendor/bin
+  directory to analyse: /var/www/upgrades/bookings/bookings/src
+  also check (e.g. _config.php file): /var/www/upgrades/bookings/app/_config.php
+  ecs config file: /home/shane/.config/composer/vendor/bin/../sunnysideup/easy-coding-standards/ecs.yml
+---------------------------------
+
+
+EasyCodingStandard v6.1.0
+Config file: /home/shane/.config/composer/vendor/sunnysideup/easy-coding-standards/ecs.yml
+ 0/1 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%
+ 1/1 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ [OK] No errors found. Great job - your code is shiny in style!                                                         
+
+EasyCodingStandard v6.1.0
+Config file: /home/shane/.config/composer/vendor/sunnysideup/easy-coding-standards/ecs.yml
+  0/22 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%
+  3/22 [▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░]  13%
+  5/22 [▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░]  22%
+  7/22 [▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░]  31%
+  9/22 [▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░]  40%
+ 11/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░]  50%
+ 14/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░]  63%
+ 18/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░]  81%
+ 22/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings/src/Api/TourBookingsEmailReminder_ReplacerClass.php:9
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Class name "TourBookingsEmailReminder_ReplacerClass" is not in PascalCase format
+ (PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\ValidClassNameSniff.NotCamelCaps)
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings/src/Model/DateInfo.php:345
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Unused variable $link.
+ (SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable)
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings/src/Model/Tour.php:491
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Unused variable $settings.
+ (SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable)
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings/src/Model/Tour.php:494
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Unused variable $googleEvent.
+ (SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable)
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings/src/Model/Tour.php:525
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Unused variable $dbFieldType.
+ (SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable)
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings/src/Model/TourBaseClass.php:222
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Unused variable $fieldType.
+ (SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable)
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings/src/Pages/TourBookingPageController.php:816
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Unused variable $model.
+ (SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable)
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings/src/Search/TourDate_Filter.php:9
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Class name "TourDate_Filter" is not in PascalCase format
+ (PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\ValidClassNameSniff.NotCamelCaps)
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings/src/Search/TourTimesToApplyForCertainDay_Filter.php:10
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Class name "TourTimesToApplyForCertainDay_Filter" is not in PascalCase format
+ (PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\ValidClassNameSniff.NotCamelCaps)
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings/src/Tasks/MonthlyTourReport.php:190
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Unused variable $optionID.
+ (SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff.UnusedVariable)
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ [ERROR] Found 10 errors that needs to be fixed manually.                                                               
+
+
+
+---------------------------------
+  Running PHP STAN
+---------------------------------
+  directory of script: /home/shane/.config/composer/vendor/bin
+  directory to analyse: /var/www/upgrades/bookings/bookings/src
+  also check (e.g. _config.php file): /var/www/upgrades/bookings/app/_config.php
+  level: 4 (1/6)
+  php stan config file: /home/shane/.config/composer/vendor/bin/../sunnysideup/easy-coding-standards/phpstan.neon
+---------------------------------
+
+
+ 0/1 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%[2K 1/1 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ [OK] No errors                                                                                                         
+
+  0/22 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%[2K  4/22 [▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░]  18%[2K  5/22 [▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░]  22%[2K  6/22 [▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░]  27%[2K  8/22 [▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░]  36%[2K  9/22 [▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░]  40%[2K 11/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░]  50%[2K 14/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░]  63%[2K 15/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░]  68%[2K 16/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░]  72%[2K 17/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░]  77%[2K 21/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░]  95%[2K 22/22 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ ------ --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Api/TourBookingsEmailReminder_ReplacerClass.php                                                                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  66     Parameter $booking of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::FirstName() has invalid typehint type Sunnysideup\Bookings\Api\DataObject.        
+  66     Parameter $reminder of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::FirstName() has invalid typehint type                                            
+         Sunnysideup\Bookings\Api\EmailReminder_NotificationSchedule.                                                                                                                     
+  80     Parameter $booking of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::LastName() has invalid typehint type Sunnysideup\Bookings\Api\DataObject.         
+  80     Parameter $reminder of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::LastName() has invalid typehint type                                             
+         Sunnysideup\Bookings\Api\EmailReminder_NotificationSchedule.                                                                                                                     
+  94     Parameter $booking of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::BookingInfoHTML() has invalid typehint type Sunnysideup\Bookings\Api\DataObject.  
+  94     Parameter $reminder of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::BookingInfoHTML() has invalid typehint type                                      
+         Sunnysideup\Bookings\Api\EmailReminder_NotificationSchedule.                                                                                                                     
+  142    Parameter $booking of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::TourTime() has invalid typehint type Sunnysideup\Bookings\Api\DataObject.         
+  142    Parameter $reminder of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::TourTime() has invalid typehint type                                             
+         Sunnysideup\Bookings\Api\EmailReminder_NotificationSchedule.                                                                                                                     
+  156    Parameter $booking of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::TourDuration() has invalid typehint type Sunnysideup\Bookings\Api\DataObject.     
+  156    Parameter $reminder of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::TourDuration() has invalid typehint type                                         
+         Sunnysideup\Bookings\Api\EmailReminder_NotificationSchedule.                                                                                                                     
+  170    Parameter $booking of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::BookingConfirmationLink() has invalid typehint type                               
+         Sunnysideup\Bookings\Api\DataObject.                                                                                                                                             
+  170    Parameter $reminder of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::BookingConfirmationLink() has invalid typehint type                              
+         Sunnysideup\Bookings\Api\EmailReminder_NotificationSchedule.                                                                                                                     
+  187    Parameter $booking of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::BookingUpdateLink() has invalid typehint type                                     
+         Sunnysideup\Bookings\Api\DataObject.                                                                                                                                             
+  187    Parameter $reminder of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::BookingUpdateLink() has invalid typehint type                                    
+         Sunnysideup\Bookings\Api\EmailReminder_NotificationSchedule.                                                                                                                     
+  204    Parameter $booking of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::BookingCancellationLink() has invalid typehint type                               
+         Sunnysideup\Bookings\Api\DataObject.                                                                                                                                             
+  204    Parameter $reminder of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::BookingCancellationLink() has invalid typehint type                              
+         Sunnysideup\Bookings\Api\EmailReminder_NotificationSchedule.                                                                                                                     
+  221    Parameter $reminder of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::SingleTourBookingForm() has invalid typehint type                                
+         Sunnysideup\Bookings\Api\EmailReminder_NotificationSchedule.                                                                                                                     
+  221    Parameter $waitlister of method Sunnysideup\Bookings\Api\TourBookingsEmailReminder_ReplacerClass::SingleTourBookingForm() has invalid typehint type                              
+         Sunnysideup\Bookings\Api\DataObject.                                                                                                                                             
+ ------ --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Cms/TourBookingsAdmin.php                                                                                                                          
+ ------ --------------------------------------------------------------------------------------------------------------------------------------------------- 
+  71     Right side of && is always true.                                                                                                                   
+  78     Right side of && is always true.                                                                                                                   
+  83     Instantiated class GridFieldSortableRows not found.                                                                                                
+  100    Method Sunnysideup\Bookings\Cms\TourBookingsAdmin::getEditForm() should return SilverStripe\Forms\Form but returns Sunnysideup\Bookings\Cms\Form.  
+  102    If condition is always true.                                                                                                                       
+  111    Right side of && is always true.                                                                                                                   
+  116    Instantiated class GridFieldSortableRows not found.                                                                                                
+  128    Return typehint of method Sunnysideup\Bookings\Cms\TourBookingsAdmin::oneItemForm() has invalid type Sunnysideup\Bookings\Cms\Form.                
+  150    Method Sunnysideup\Bookings\Cms\TourBookingsAdmin::oneItemForm() should return Sunnysideup\Bookings\Cms\Form but returns SilverStripe\Forms\Form.  
+ ------ --------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Forms/SelfCheckInForm.php                                                                                                                                                         
+ ------ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  62     Method Sunnysideup\Bookings\Forms\SelfCheckInForm::__construct() with return type void returns $this(Sunnysideup\Bookings\Forms\SelfCheckInForm) but should not return anything.  
+  136    Negated boolean expression is always true.                                                                                                                                        
+  152    PHPDoc tag @param references unknown parameter: $data                                                                                                                             
+ ------ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
+  Line   Forms/TourBookingCancellationForm.php                                                                                                                                         
+ ------ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
+  48     Method Sunnysideup\Bookings\Forms\TourBookingCancellationForm::__construct() with return type void returns $this(Sunnysideup\Bookings\Forms\TourBookingCancellationForm) but  
+         should not return anything.                                                                                                                                                   
+  61     If condition is always true.                                                                                                                                                  
+ ------ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
+
+ ------ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Forms/TourBookingForm.php                                                                                                                                                         
+ ------ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  109    If condition is always true.                                                                                                                                                      
+  175    Method Sunnysideup\Bookings\Forms\TourBookingForm::__construct() with return type void returns $this(Sunnysideup\Bookings\Forms\TourBookingForm) but should not return anything.  
+  239    If condition is always true.                                                                                                                                                      
+  271    PHPDoc tag @param references unknown parameter: $data                                                                                                                             
+ ------ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Forms/TourWaitlistForm.php                                                                                                                                                
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  128    Method Sunnysideup\Bookings\Forms\TourWaitlistForm::__construct() with return type void returns $this(Sunnysideup\Bookings\Forms\TourWaitlistForm) but should not return  
+         anything.                                                                                                                                                                 
+  149    Left side of && is always true.                                                                                                                                           
+  179    Left side of && is always true.                                                                                                                                           
+  200    PHPDoc tag @param references unknown parameter: $data                                                                                                                     
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Model/Booking.php                                                                                                                                       
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  297    If condition is always true.                                                                                                                            
+  376    Negated boolean expression is always false.                                                                                                             
+  418    Call to an undefined static method Sunnysideup\Bookings\Model\TourBaseClass::getExportFields().                                                         
+  680    Parameter $records of method Sunnysideup\Bookings\Model\Booking::EmailReminderExclude() has invalid typehint type Sunnysideup\Bookings\Model\DataList.  
+  680    Parameter $reminder of method Sunnysideup\Bookings\Model\Booking::EmailReminderExclude() has invalid typehint type                                      
+         Sunnysideup\Bookings\Model\EmailReminder_NotificationSchedule.                                                                                          
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Model/DateInfo.php                                                                                                                      
+ ------ ---------------------------------------------------------------------------------------------------------------------------------------- 
+  154    Method Sunnysideup\Bookings\Model\DateInfo::best_match_for_date() should return Sunnysideup\Bookings\Model\DateInfo but returns false.  
+  307    Call to an undefined static method Sunnysideup\Bookings\Model\TourBaseClass::getExportFields().                                         
+  347    If condition is always true.                                                                                                            
+ ------ ---------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------- 
+  Line   Model/ReferralOption.php         
+ ------ --------------------------------- 
+  73     Left side of && is always true.  
+ ------ --------------------------------- 
+
+ ------ ------------------------------------------------------------------------------------------------- 
+  Line   Model/TimesForTour.php                                                                           
+ ------ ------------------------------------------------------------------------------------------------- 
+  162    Call to an undefined static method Sunnysideup\Bookings\Model\TourBaseClass::getExportFields().  
+  175    If condition is always true.                                                                     
+ ------ ------------------------------------------------------------------------------------------------- 
+
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Model/Tour.php                                                                                                                                    
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------- 
+  184    PHPDoc tag @param references unknown parameter: $dateTS                                                                                           
+  184    PHPDoc tag @param references unknown parameter: $numberOfPeople                                                                                   
+  184    Return typehint of method Sunnysideup\Bookings\Model\Tour::future_tours() has invalid type Sunnysideup\Bookings\Model\ArrayList.                  
+  188    Method Sunnysideup\Bookings\Model\Tour::future_tours() should return Sunnysideup\Bookings\Model\ArrayList but returns SilverStripe\ORM\DataList.  
+  512    Call to an undefined static method Sunnysideup\Bookings\Model\TourBaseClass::getExportFields().                                                   
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------- 
+  Line   Model/TourBaseClass.php                      
+ ------ --------------------------------------------- 
+  257    Negated boolean expression is always false.  
+  260    If condition is always true.                 
+ ------ --------------------------------------------- 
+
+ ------ ------------------------------------------------------------------------------------------------- 
+  Line   Model/TourBookingSettings.php                                                                    
+ ------ ------------------------------------------------------------------------------------------------- 
+  243    Call to an undefined static method Sunnysideup\Bookings\Model\TourBaseClass::getExportFields().  
+  288    Negated boolean expression is always false.                                                      
+  291    If condition is always true.                                                                     
+  304    If condition is always true.                                                                     
+  360    If condition is always true.                                                                     
+ ------ ------------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Pages/TourBookingPageController.php                                                                                                                                  
+ ------ --------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  158    Variable $allowedActions might not be defined.                                                                                                                       
+  475    Negated boolean expression is always false.                                                                                                                          
+  944    Return typehint of method Sunnysideup\Bookings\Pages\TourBookingPageController::findTours() has invalid type Sunnysideup\Bookings\Pages\ArrayData.                   
+  975    Method Sunnysideup\Bookings\Pages\TourBookingPageController::findTours() should return Sunnysideup\Bookings\Pages\ArrayData but returns SilverStripe\ORM\ArrayList.  
+ ------ --------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Search/TourDate_Filter.php                                                                                                                              
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  14     Return typehint of method Sunnysideup\Bookings\Search\TourDate_Filter::apply() has invalid type Sunnysideup\Bookings\Search\SQLQuery.                   
+  25     Method Sunnysideup\Bookings\Search\TourDate_Filter::apply() should return Sunnysideup\Bookings\Search\SQLQuery but returns SilverStripe\ORM\DataQuery.  
+ ------ -------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Search/TourTimesToApplyForCertainDay_Filter.php                                                                                                                              
+ ------ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  15     Return typehint of method Sunnysideup\Bookings\Search\TourTimesToApplyForCertainDay_Filter::apply() has invalid type Sunnysideup\Bookings\Search\SQLQuery.                   
+  26     If condition is always true.                                                                                                                                                 
+  32     Method Sunnysideup\Bookings\Search\TourTimesToApplyForCertainDay_Filter::apply() should return Sunnysideup\Bookings\Search\SQLQuery but returns SilverStripe\ORM\DataQuery.  
+ ------ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ ------ ----------------------------- 
+  Line   Tasks/MonthlyTourReport.php  
+ ------ ----------------------------- 
+  64     Cannot use -- on DateTime.   
+  64     Function format not found.   
+  83     Cannot use -- on DateTime.   
+  83     Function format not found.   
+ ------ ----------------------------- 
+
+ ------ --------------------------------- 
+  Line   Tasks/TourBuilder.php            
+ ------ --------------------------------- 
+  40     If condition is always true.     
+  53     Left side of && is always true.  
+ ------ --------------------------------- 
+
+ ---------------------------------------------------------------------------------- 
+  Error                                                                             
+ ---------------------------------------------------------------------------------- 
+  Ignored error pattern #with incorrect case:# was not matched in reported errors.  
+ ---------------------------------------------------------------------------------- 
+
+ [ERROR] Found 79 errors                                                                                                
+

@@ -1,0 +1,22 @@
+#booking-info {
+  dd {
+    clear: both;
+    float: left;
+    width: 200px;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  dt {
+    float: left;
+    width: calc(100% - 200px);
+
+    &.loading {
+      background-position: 22px 4px;
+    }
+  }
+}
+
+.cancellation-section #buttons-holder {
+  display: none;
+}

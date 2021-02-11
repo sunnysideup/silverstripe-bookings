@@ -2,9 +2,8 @@
 Only:
   moduleexists: 'grouped-cms-menu'
 ---
-
-LeftAndMain:
+SilverStripe\Admin\LeftAndMain:
   menu_groups:
     Tours:
-      - TourBookingsAdmin
-      - EmailReminder_ModelAdmin
+      - Sunnysideup\Bookings\Cms\TourBookingsAdmin
+      - SunnySideUp\EmailReminder\Cms\EmailReminder_ModelAdmin
