@@ -16,12 +16,12 @@ use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
+use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
 use Sunnysideup\Bookings\Tasks\TourBuilder;
 use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 use Sunnysideup\PermissionProvider\Api\PermissionProviderFactory;
-use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\SanitiseClassName\Sanitiser;
 
 class TourBookingSettings extends TourBaseClass
@@ -216,7 +216,6 @@ class TourBookingSettings extends TourBaseClass
             }
             $obj->write();
         }
-
     }
 
     public function createNewGoogleCalendarAccessToken()
@@ -341,7 +340,6 @@ class TourBookingSettings extends TourBaseClass
                                 'HTMLText',
                                 '<a href="' . $cmsLink . '" target="_blank">Edit </a> the content of this email'
                             )
-
                         );
                     }
                 }

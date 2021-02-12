@@ -374,7 +374,6 @@ class TourBookingPageController extends PageController
         if (! $member) {
             return Security::permissionFailure($this);
         } elseif (Permission::checkMember($member, 'CMS_ACCESS_TOUR_ADMIN')) {
-
             $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/CalendarView');
 
             return $this->RenderWith(['Page']);
@@ -546,7 +545,7 @@ class TourBookingPageController extends PageController
         $modelAdmin = Injector::inst()->get(TourBookingsAdmin::class);
         $models = $modelAdmin->getManagedModels();
         $al = ArrayList::create();
-        foreach ($models as $key => $model) {
+        foreach (array_keys($models) as $key) {
             if ($className && $className === $key) {
                 return Injector::inst()->get($key)->CMSListLink();
             }

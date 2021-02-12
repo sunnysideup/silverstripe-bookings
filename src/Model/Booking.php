@@ -21,8 +21,8 @@ use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Member;
-use SunnySideUp\EmailReminder\Model\EmailReminderEmailRecord;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
+use SunnySideUp\EmailReminder\Model\EmailReminderEmailRecord;
 
 class Booking extends TourBaseClass
 {
@@ -560,7 +560,6 @@ class Booking extends TourBaseClass
      */
     public function getFrontEndValidator()
     {
-
         $fields = Config::inst()->get(Booking::class, 'required_fields');
 
         return RequiredFields::create($fields);

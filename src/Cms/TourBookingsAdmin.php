@@ -45,7 +45,7 @@ class TourBookingsAdmin extends ModelAdmin
 
     private static $menu_title = 'Tour Bookings';
 
-    private static $menu_icon = 'sunnysideup:bookings: client/images/icons/TourBookingsAdmin.png';
+    private static $menu_icon = 'sunnysideup/bookings: client/dist/images/icons/TourBookingsAdmin.png';
 
     public function getList()
     {

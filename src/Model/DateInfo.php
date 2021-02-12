@@ -333,7 +333,7 @@ class DateInfo extends TourBaseClass
         $fields->dataFieldByName('PublicContent')->setRows('7');
         $fields->dataFieldByName('PrivateContent')->setRows('7');
 
-        $link = Injector::inst()->get(TourBuilder::class)->Link();
+        // $link = Injector::inst()->get(TourBuilder::class)->Link();
 
         if ($fields->fieldByName('Root.Tours')) {
             $fields->fieldByName('Root.Tours')->setTitle('Created Tours for this Rule');

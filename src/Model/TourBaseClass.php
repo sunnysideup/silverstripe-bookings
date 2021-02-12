@@ -14,6 +14,7 @@ use Sunnysideup\SanitiseClassName\Sanitiser;
 class TourBaseClass extends DataObject
 {
     private static $table_name = 'TourBaseClass';
+
     #######################
     ### can Section
     #######################
@@ -150,11 +151,10 @@ class TourBaseClass extends DataObject
             }
         }
 
-
         $castedValues = Config::inst()->get($this->ClassName, 'casting');
         $fieldLabels = $this->Config()->get('field_labels_right');
         if (is_array($castedValues)) {
-            foreach ($castedValues as $fieldName => $fieldType) {
+            foreach (array_keys($castedValues) as $fieldName) {
                 $avoid = [
                     'ID',
                     'LastEdited',

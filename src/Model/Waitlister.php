@@ -2,7 +2,6 @@
 
 namespace Sunnysideup\Bookings\Model;
 
-use SilverStripe\Control\Email\Email;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\ReadonlyField;

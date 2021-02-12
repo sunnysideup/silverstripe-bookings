@@ -92,7 +92,7 @@ class MonthlyTourReport extends BuildTask
             'RefferalData' => $this->convertRefferalDataToArrayList($refferalData),
         ];
 
-        if($toEmail){
+        if ($toEmail) {
             $email = Email::create();
             $email->setHTMLTemplate('Sunnysideup/Bookings/Email/MonthlyTourReport');
             $email->setData($emailData);
@@ -106,7 +106,6 @@ class MonthlyTourReport extends BuildTask
                 echo 'There was a problem sending the email, please contact your developer for assistance';
             }
         }
-
     }
 
     public function convertNationalityDataToArrayList($array)
@@ -145,7 +144,7 @@ class MonthlyTourReport extends BuildTask
     {
         $list = ArrayList::create();
         asort($options);
-        foreach ($options as $optionID => $optionDetails) {
+        foreach ($options as $optionDetails) {
             $otherResponses = ArrayList::create();
             $data = [
                 'Title' => $optionDetails['Title'],

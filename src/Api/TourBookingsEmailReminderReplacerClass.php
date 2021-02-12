@@ -6,6 +6,8 @@ use Sunnysideup\Bookings\Model\Booking;
 use Sunnysideup\Bookings\Model\Waitlister;
 use SunnySideUp\EmailReminder\Api\EmailReminderReplacerClassBase;
 
+use SilverStripe\ORM\DataObject;
+
 class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassBase
 {
     protected $replaceArray = [
@@ -63,7 +65,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
      *
      * @return string
      */
-    protected function FirstName($reminder, $booking, $searchString, $str)
+    protected function FirstName($reminder, $booking, $searchString, $str) : string
     {
         $replace = $booking->InitiatingFirstName;
         return str_replace($searchString, $replace, $str);
@@ -77,7 +79,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
      *
      * @return string
      */
-    protected function LastName($reminder, $booking, $searchString, $str)
+    protected function LastName($reminder, $booking, $searchString, $str) : string
     {
         $replace = $booking->InitiatingSurname;
         return str_replace($searchString, $replace, $str);

@@ -101,8 +101,6 @@ class TourBookingForm extends Form
                 if ($hasOther) {
                     $referralOptionsField->setAttribute('data-other', $hasOther->ID);
 
-
-
                     $column2->push(
                         TextField::create(
                             'ReferralText',
@@ -253,8 +251,6 @@ class TourBookingForm extends Form
     public function saveDataToSession()
     {
         $data = $this->getData();
-
-
 
         Controller::curr()->getRequest()->getSession()->set("FormInfo.{$this->FormName()}.data", $data);
     }
