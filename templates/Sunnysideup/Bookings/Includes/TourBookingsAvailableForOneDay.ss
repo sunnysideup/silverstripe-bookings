@@ -1,6 +1,6 @@
 <div id="date-and-tour-information">
 
-    <h4>$MyDate.Format('EEEE'), $MyDate.DayOfMonth(true) $MyDate.Format('MMM y')</h4>
+    <h5>Select your time for $MyDate.Format('EEEE'), $MyDate.DayOfMonth(true) $MyDate.Format('MMM y')</h5>
     <% if $DateInformation %>
         <% with $DateInformation %>
             $PublicContent
@@ -11,8 +11,8 @@
             <% loop $ListOfToursForOneDay %>
                 <li class="clearfix">
                     <div class="details-section list-of-tours-subsection">
+                        $StartTime.Short - $EndTime.Short<br>
                         $CalculatedPublicContent
-                        $StartTime.Nice - $EndTime.Nice
                     </div>
                     <div class="book-now-section list-of-tours-subsection">
                         <% if $IsAvailable %>

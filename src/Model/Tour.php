@@ -233,15 +233,18 @@ class Tour extends TourBaseClass
     public function getCalculatedPublicContent()
     {
         $v = $this->PublicContent . $this->PublicContentForTour;
-        if ($v) {
+        if (strlen($v) > 10) {
             $v .= '<br>';
+        }
+        else if ($v === '<br>') {
+            $v = '';
         }
         if ($this->IsFull()->value) {
             $settings = TourBookingSettings::inst();
             $v .= $settings->TourFullMessage;
         } else {
             $singularPlural = $this->NumberOfPlacesAvailable()->value > 1 ? ' spaces' : ' space';
-            $v .= $this->NumberOfPlacesAvailable()->value . $singularPlural . ' left';
+            $v .= '<strong>' . $this->NumberOfPlacesAvailable()->value . $singularPlural . ' left</strong>';
         }
         return DBField::create_field('HTMLText', $v);
     }

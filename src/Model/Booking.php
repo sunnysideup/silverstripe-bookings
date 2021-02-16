@@ -532,7 +532,7 @@ class Booking extends TourBaseClass
             'CountryOfOrigin',
             CountryDropdownField::create(
                 'CountryOfOrigin',
-                $labels['CountryOfOrigin']
+                $labels['CountryOfOrigin'],
             )
         );
 

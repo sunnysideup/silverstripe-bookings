@@ -63,13 +63,23 @@ class TourBookingForm extends Form
         );
 
         $column1->push(
-            NumericField::create('TotalNumberOfGuests', 'Number of people in this booking.')->addExtraClass('always-show')->setScale(0)
+            $guestsField = NumericField::create('TotalNumberOfGuests', 'Number of people in this booking.')->addExtraClass('always-show')->setScale(0)
         );
+
+        if(!$existingBooking){
+            $guestsField->setValue(2);
+        }
 
         if ($this->currentTour === null) {
             $column1->push(
-                TextField::create('BookingDate', 'Select Your Date')
+                $dateField = TextField::create('BookingDate', 'Select Your Date')
             );
+
+            if($existingBooking){
+                $column1->push(
+                    HiddenField::create('CurrentBookingDate', 'Current Booking Date', $existingBooking->Date)
+                );
+            }
         }
 
         $column2->push(
@@ -84,6 +94,7 @@ class TourBookingForm extends Form
         if ($existingBooking) {
             $fields->removeByName('CityTown');
         } else {
+            $fields->dataFieldByName('CountryOfOrigin')->setValue('nz');
             //referral options
             $referralOptions = ReferralOption::get()->filter(['Archived' => false]);
             if ($referralOptions->count()) {

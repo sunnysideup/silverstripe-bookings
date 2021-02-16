@@ -60,6 +60,9 @@ var Bookings = {
 
   bookingCode: '',
 
+  existingBookingDateHiddenInput:
+    '#TourBookingForm_BookingForm_CurrentBookingDate',
+
   init: function () {
     if (
       jQuery(Bookings.bookingFormID).length ||
@@ -74,6 +77,7 @@ var Bookings = {
         }
       }
       if (jQuery(Bookings.bookingFormID).length) {
+        Bookings.checkForError()
         Bookings.attendeeAndDateListener()
         Bookings.bookNowListener()
         Bookings.childrenInputListener()
@@ -109,6 +113,7 @@ var Bookings = {
           '#TourBookingForm_SingleTourBookingForm_NumberOfChildren'
         jQuery(Bookings.specialAssistanceInfoInputHolder).slideUp()
         jQuery(Bookings.referralOtherTextInputHolder).slideUp()
+        Bookings.checkForError()
         Bookings.simpleAttendeeListener()
         Bookings.childrenInputListener()
         Bookings.countryDropDownListener()
@@ -122,6 +127,7 @@ var Bookings = {
           '#TourWaitlistForm_WaitlistForm_TotalNumberOfGuests'
         Bookings.formSubmitInput =
           '#TourWaitlistForm_WaitlistForm_action_dojoinwaitlist'
+        Bookings.checkForError()
         Bookings.simpleAttendeeListener()
         Bookings.extraToursListener()
       }
@@ -133,6 +139,23 @@ var Bookings = {
   /**
    * BOOKING FORM LISTENERS
    */
+  checkForError: function () {
+    const form = jQuery(Bookings.bookingFormID)
+    let errors = form.find('.message.error')
+    if (errors.length) {
+      var offset =
+        errors.first().offset().top -
+        jQuery('.site-header').outerHeight(true) -
+        20 //adjustment for box shadow
+      jQuery('html, body').animate(
+        {
+          scrollTop: offset,
+        },
+        1000
+      )
+    }
+  },
+
   attendeeAndDateListener: function () {
     jQuery(Bookings.totalAttendeesInput).on('input paste', function (e) {
       Bookings.totalNumberOfGuests = parseInt(jQuery(this).val())
@@ -162,6 +185,19 @@ var Bookings = {
                 )
               }
             })
+
+          const existingBooking = jQuery(
+            Bookings.existingBookingDateHiddenInput
+          )
+          if (existingBooking.length) {
+            const dateParts = existingBooking.val().split('-')
+            const date = new Date(
+              dateParts[0],
+              dateParts[1] - 1,
+              dateParts[2].substr(0, 2)
+            )
+            dateInputHolder.datepicker('setDate', date)
+          }
         }
       } else {
         dateInputHolder.slideUp()
@@ -342,15 +378,22 @@ var Bookings = {
           Bookings.showDateField(false)
         }
         jQuery(data).insertAfter(Bookings.bookingDateInputHolder)
-        var offset =
-          jQuery(Bookings.tourInfoID).offset().top -
-          jQuery('.site-header').outerHeight(true)
-        jQuery('html, body').animate(
-          {
-            scrollTop: offset,
-          },
-          1000
+        const currentBookingDate = jQuery(
+          Bookings.existingBookingDateHiddenInput
         )
+        if (currentBookingDate.length) {
+          currentBookingDate.remove()
+        } else {
+          var offset =
+            jQuery(Bookings.tourInfoID).offset().top -
+            jQuery('.site-header').outerHeight(true)
+          jQuery('html, body').animate(
+            {
+              scrollTop: offset,
+            },
+            1000
+          )
+        }
       },
       url: availabilityURL,
     })
