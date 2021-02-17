@@ -258,7 +258,9 @@ var Bookings = {
 
   showHideCityTownHolder() {
     var selectedCountry = jQuery(Bookings.countryDropDown).val()
-    if (Bookings.showCityTownForCountries.includes(selectedCountry)) {
+    if (
+      Bookings.showCityTownForCountries.includes(selectedCountry.toUpperCase())
+    ) {
       jQuery(Bookings.cityTownInputHolder).slideDown()
       jQuery(Bookings.cityTownInput).prop('required', true)
     } else {

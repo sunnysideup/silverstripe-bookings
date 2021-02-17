@@ -5,12 +5,12 @@ var TourManager = {
 
   calendarID: '#calendar',
 
-  checkInCheckboxClass: '.check-in',
+  checkInCheckboxClass: '.tour-checkin-content__input-field',
 
   init: function () {
     if (
       jQuery(TourManager.calendarID).length ||
-      jQuery('#tour-check-in-page').length
+      jQuery('.tour-checkin-content').length
     ) {
       if (typeof TourBookingsInPageData === 'object') {
         for (var key in TourBookingsInPageData) {
@@ -91,7 +91,9 @@ var TourManager = {
   },
 
   checkInListener: function () {
+    console.log(TourManager.checkInCheckboxClass)
     jQuery(TourManager.checkInCheckboxClass).on('change', function (e) {
+      console.log('sdfsdf')
       var hasArrived = false
       var el = jQuery(this)
       el.parent().addClass('loading')

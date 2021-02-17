@@ -79,8 +79,47 @@
   h3 {
     margin-top: 0;
   }
+}
+
+#tour-info {
+  dd {
+    float: left;
+    width: 200px;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  dt {
+    float: left;
+    width: calc(100% - 200px);
+    font-weight: 400;
+
+    &.loading {
+      background-position: 22px 4px;
+    }
+  }
+}
+
+#list-of-bookings {
+  padding: 0;
+}
+
+.tour-checkin-content {
+  &__header,
+  &__input-holder {
+    display: flex;
+    align-items: center;
+  }
+
+  &__header-link,
+  input[type='checkbox'] {
+    margin-left: auto;
+  }
 
   #list-of-bookings {
-    margin: 0 1em;
+    margin: 20px 0;
+    li {
+      margin-bottom: 20px;
+    }
   }
 }
