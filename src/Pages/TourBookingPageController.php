@@ -376,7 +376,7 @@ class TourBookingPageController extends PageController
         } elseif (Permission::checkMember($member, 'CMS_ACCESS_TOUR_ADMIN')) {
             $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/CalendarView');
 
-            return $this->RenderWith(['Page']);
+            return $this->RenderWith(['Sunnysideup/Bookings/Layout/CalendarPage']);
         }
         echo 'Sorry you don\'t have the required permissions to access this area. <a href="/Security/logout">LOG OUT</a>';
     }
@@ -467,16 +467,7 @@ class TourBookingPageController extends PageController
         if (! $this->currentTour) {
             return $this->httpError(404, 'Not Found');
         }
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: ->RenderWith( (ignore case)
-         * NEW: ->RenderWith( (COMPLEX)
-         * EXP: Check that the template location is still valid!
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
-        return $this->RenderWith([TourBookingPageController::class, 'QuickView']);
+        return $this->RenderWith('Sunnysideup/Bookings/Includes/QuickView');
     }
 
     public function checkinfortour($request)
@@ -558,7 +549,7 @@ class TourBookingPageController extends PageController
     {
         $member = Security::getCurrentUser();
         if ($member && $this->CurrentUserIsTourManager($member)) {
-            return $this->Link('calendar');
+            return $this->AbsoluteLink('calendar');
         }
         return false;
     }

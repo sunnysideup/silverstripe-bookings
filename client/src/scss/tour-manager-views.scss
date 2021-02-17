@@ -1,0 +1,86 @@
+/* calendar styles */
+#calendar {
+  a {
+    color: #333;
+    font-size: 2.2em;
+    &:after {
+      display: none;
+    }
+    &:hover {
+      color: #1ab6f2;
+      text-decoration: none;
+    }
+  }
+
+  .fc-basicWeek-view,
+  .fc-month-view {
+    .fc-time {
+      display: block;
+    }
+
+    a {
+      font-size: 1.2em;
+    }
+  }
+
+  .fc-event-container {
+    padding: 0;
+    a {
+      box-sizing: border-box;
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      color: white;
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  .fc-button-group {
+    button {
+      color: #000;
+    }
+  }
+}
+
+.cancellation-section {
+  .cancel-link {
+    display: none;
+  }
+}
+
+.quick-view {
+  float: right;
+
+  &:after {
+    display: none;
+  }
+
+  svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+#quick-view-modal {
+  z-index: 99999;
+
+  .close {
+    float: right;
+    color: #d8d8d8;
+    font-size: 4rem;
+    line-height: 0.5;
+    &:after {
+      display: none;
+    }
+  }
+
+  h3 {
+    margin-top: 0;
+  }
+
+  #list-of-bookings {
+    margin: 0 1em;
+  }
+}
