@@ -7,6 +7,9 @@ use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
+use SilverStripe\Forms\GridField\GridFieldImportButton;
+use SilverStripe\Forms\GridField\GridFieldFilterHeader;
+use SilverStripe\Forms\GridField\GridFieldSortableHeader;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\LiteralField;
@@ -91,14 +94,14 @@ class TourBookingsAdmin extends ModelAdmin
 
         if (is_subclass_of($this->modelClass, TourBookingSettings::class) || $this->modelClass === TourBookingSettings::class) {
             $record = DataObject::get_one(TourBookingSettings::class);
-            if ($record && $record->exists()) {
-                return $this->oneItemForm($record);
-            }
             if ($gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
                 if ($gridField instanceof GridField) {
                     $config = $gridField->getConfig();
                     $config->removeComponentsByType(GridFieldExportButton::class);
                     $config->removeComponentsByType(GridFieldPrintButton::class);
+                    $config->removeComponentsByType(GridFieldImportButton::class);
+                    $config->removeComponentsByType(GridFieldFilterHeader::class);
+                    $config->removeComponentsByType(GridFieldSortableHeader::class);
                 }
             }
         }
@@ -115,33 +118,4 @@ class TourBookingsAdmin extends ModelAdmin
         return $form;
     }
 
-    /**
-     * @param DataObject $record
-     *
-     * @return Form
-     */
-    public function oneItemForm($record)
-    {
-        Config::modify()->update(LeftAndMain::class, 'tree_class', $record->ClassName);
-        $form = LeftAndMain::getEditForm($record);
-        $idField = HiddenField::create('ID')->setValue($record->ID);
-        $cssField = LiteralField::create(
-            'oneItemFormCSS',
-            '
-                <style>
-                    .cms-content-view .ui-tabs-nav {
-                        margin-left: 0!important;
-                    }
-                    .cms-content-view .Actions {
-                        position: fixed;
-                        bottom: 16px;
-                        right:  16px;
-                    }
-                </style>
-            '
-        );
-        $form->Fields()->push($idField);
-        $form->Fields()->push($cssField);
-        return $form;
-    }
 }

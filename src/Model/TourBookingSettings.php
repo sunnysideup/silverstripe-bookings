@@ -11,7 +11,6 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextareaField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
-use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
@@ -23,9 +22,12 @@ use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 use Sunnysideup\PermissionProvider\Api\PermissionProviderFactory;
 use Sunnysideup\SanitiseClassName\Sanitiser;
+use SilverStripe\ORM\FieldType\DBField;
 
 class TourBookingSettings extends TourBaseClass
 {
+
+
     private static $group_code = 'tourmanagers';
 
     private static $manager_email = '';
@@ -101,8 +103,7 @@ class TourBookingSettings extends TourBaseClass
     ];
 
     private static $summary_fields = [
-        'MaximumNumberPerGroup' => 'Max Pax',
-        'Administrator.Title' => 'Administrator',
+        'Title' => 'Title',
     ];
 
     private static $email_fields = [
@@ -127,6 +128,11 @@ class TourBookingSettings extends TourBaseClass
     public function i18n_plural_name()
     {
         return _t('TourBookingSettings.PLURAL_NAME', 'Tour Booking Settings');
+    }
+
+    public function getTitle()
+    {
+        return 'Tour Booking Settings';
     }
 
     public static function inst()
