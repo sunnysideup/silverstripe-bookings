@@ -17,7 +17,10 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBBoolean;
 use SilverStripe\ORM\FieldType\DBField;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
+use Sunnysideup\Bookings\Search\TourDayFilter;
 use Sunnysideup\Bookings\Search\TourDateFilter;
+
+use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
 use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 
@@ -87,9 +90,15 @@ class Tour extends TourBaseClass
         'Created' => [
             'field' => TextField::class,
             'filter' => TourDateFilter::class,
-            'title' => 'Tour Date (e.g Today, 1 jan 2020, or next Thursday)',
+            'title' => 'Tour Date (try any phrase - e.g. next Tue)',
         ],
-        'StartTime' => 'ExactMatchFilter',
+        'TourTimeID'  => 'ExactMatchFilter',
+        'DateInfoID' => 'ExactMatchFilter',
+        'ID' =>  [
+            'field' => TourDayFilterField::class,
+            'filter' => TourDayFilter::class,
+            'title' => 'Day of the week filter',
+        ],
     ];
 
     #######################
@@ -109,6 +118,8 @@ class Tour extends TourBaseClass
         'DateInfo' => 'Based On - RULE',
         'TourTime' => 'Type of Tour',
         'Tours' => 'Resulting Tours',
+        'DateInfoID' => 'Based On - RULE',
+        'TourTimeID' => 'Type of Tour',
     ];
 
     private static $field_labels_right = [
@@ -125,7 +136,7 @@ class Tour extends TourBaseClass
 
     private static $summary_fields = [
         'IsClosed.Nice' => 'Closed',
-        'Date.Nice' => 'Date',
+        'Date.Full' => 'Date',
         'StartTime.Nice' => 'Start Time',
         'Duration' => 'Minutes',
         'TotalSpacesAtStart' => 'Total Spots Available',
