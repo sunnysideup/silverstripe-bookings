@@ -8,6 +8,8 @@ use Sunnysideup\Bookings\Model\Waitlister;
 
 use SunnySideUp\EmailReminder\Api\EmailReminderReplacerClassBase;
 
+use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
+
 class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassBase
 {
     protected $replaceArray = [
@@ -58,42 +60,42 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     ];
 
     /**
-     * @param EmailReminder_NotificationSchedule $reminder
+     * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
      * @param string $searchString
      * @param string $str
      *
      * @return string
      */
-    protected function FirstName($reminder, $booking, $searchString, $str): string
+    protected function FirstName($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->InitiatingFirstName;
         return str_replace($searchString, $replace, $str);
     }
 
     /**
-     * @param EmailReminder_NotificationSchedule $reminder
+     * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
      * @param string $searchString
      * @param string $str
      *
      * @return string
      */
-    protected function LastName($reminder, $booking, $searchString, $str): string
+    protected function LastName($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->InitiatingSurname;
         return str_replace($searchString, $replace, $str);
     }
 
     /**
-     * @param EmailReminder_NotificationSchedule $reminder
+     * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
      * @param string $searchString
      * @param string $str
      *
      * @return string
      */
-    protected function BookingInfoHTML($reminder, $booking, $searchString, $str)
+    protected function BookingInfoHTML($reminder, $booking, string $searchString, string $str): string
     {
         $replace = '';
         if ($booking instanceof Booking) {
@@ -134,42 +136,42 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     }
 
     /**
-     * @param EmailReminder_NotificationSchedule $reminder
+     * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
      * @param string $searchString
      * @param string $str
      *
      * @return string
      */
-    protected function TourTime($reminder, $booking, $searchString, $str)
+    protected function TourTime($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->Tour()->TourTimeAndDate;
         return str_replace($searchString, $replace, $str);
     }
 
     /**
-     * @param EmailReminder_NotificationSchedule $reminder
+     * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
      * @param string $searchString
      * @param string $str
      *
      * @return string
      */
-    protected function TourDuration($reminder, $booking, $searchString, $str)
+    protected function TourDuration($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->Tour()->Duration . ' minutes';
         return str_replace($searchString, $replace, $str);
     }
 
     /**
-     * @param EmailReminder_NotificationSchedule $reminder
+     * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
      * @param string $searchString
      * @param string $str
      *
      * @return string
      */
-    protected function BookingConfirmationLink($reminder, $booking, $searchString, $str)
+    protected function BookingConfirmationLink($reminder, $booking, string $searchString, string $str): string
     {
         $replace = '';
         if ($booking instanceof Booking) {
@@ -179,14 +181,14 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     }
 
     /**
-     * @param EmailReminder_NotificationSchedule $reminder
+     * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
      * @param string $searchString
      * @param string $str
      *
      * @return string
      */
-    protected function BookingUpdateLink($reminder, $booking, $searchString, $str)
+    protected function BookingUpdateLink($reminder, $booking, string $searchString, string $str): string
     {
         $replace = '';
         if ($booking instanceof Booking) {
@@ -196,14 +198,14 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     }
 
     /**
-     * @param EmailReminder_NotificationSchedule $reminder
+     * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
      * @param string $searchString
      * @param string $str
      *
      * @return string
      */
-    protected function BookingCancellationLink($reminder, $booking, $searchString, $str)
+    protected function BookingCancellationLink($reminder, $booking, string $searchString, string $str): string
     {
         $replace = '';
         if ($booking instanceof Booking) {
@@ -213,14 +215,14 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     }
 
     /**
-     * @param EmailReminder_NotificationSchedule $reminder
+     * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $waitlister
      * @param string $searchString
      * @param string $str
      *
      * @return string
      */
-    protected function SingleTourBookingForm($reminder, $waitlister, $searchString, $str)
+    protected function SingleTourBookingForm($reminder, $waitlister, string $searchString, string $str): string
     {
         $replace = '';
         if ($waitlister instanceof Waitlister) {

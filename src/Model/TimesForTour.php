@@ -148,12 +148,6 @@ class TimesForTour extends TourBaseClass
     ### Import / Export Section
     #######################
 
-    public function getExportFields()
-    {
-        //..
-        return parent::getExportFields();
-    }
-
     #######################
     ### CMS Edit Section
     #######################

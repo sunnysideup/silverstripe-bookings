@@ -19,10 +19,13 @@ use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataList;
+
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Member;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use SunnySideUp\EmailReminder\Model\EmailReminderEmailRecord;
+use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
 
 class Booking extends TourBaseClass
 {
@@ -372,11 +375,6 @@ class Booking extends TourBaseClass
     ### Import / Export Section
     #######################
 
-    public function getExportFields()
-    {
-        //..
-        return parent::getExportFields();
-    }
 
     #######################
     ### CMS Edit Section
@@ -590,20 +588,20 @@ class Booking extends TourBaseClass
      * This function is used to exclude cancelled bookings from reminder and follow up emails
      *
      * @param  EmailReminderNotificationSchedule  $reminder
-     * @param DataList $records
+     * @param  DataList                           $records
      *
-     * @return boolean
+     * @return bool
      */
-    public function EmailReminderExclude($reminder, $records)
+    public function EmailReminderExclude($reminder, $records): bool
     {
-        return $this->Cancelled;
+        return (bool) $this->Cancelled;
     }
 
     #######################
     ### Links
     #######################
 
-    public function AddLink($absolute = false)
+    public function AddLink($absolute = false): string
     {
         $v = TourBookingPageController::find_link('signup');
         if ($absolute) {
@@ -612,7 +610,7 @@ class Booking extends TourBaseClass
         return $v;
     }
 
-    public function ConfirmLink($absolute = false)
+    public function ConfirmLink($absolute = false): string
     {
         if ($this->Code) {
             $v = TourBookingPageController::find_link('confirmsignup') . substr($this->Code, 0, 9) . '/';
@@ -625,7 +623,7 @@ class Booking extends TourBaseClass
         return 'error';
     }
 
-    public function EditLink($absolute = false)
+    public function EditLink($absolute = false): string
     {
         if ($this->Code) {
             $v = TourBookingPageController::find_link('update') . substr($this->Code, 0, 9) . '/';
@@ -638,7 +636,7 @@ class Booking extends TourBaseClass
         return 'error';
     }
 
-    public function CancelLink($absolute = false)
+    public function CancelLink($absolute = false): string
     {
         if ($this->Code) {
             $v = TourBookingPageController::find_link('cancel') . substr($this->Code, 0, 9) . '/';
@@ -650,7 +648,7 @@ class Booking extends TourBaseClass
         return 'error';
     }
 
-    protected function CurrentMemberIsOwner()
+    protected function CurrentMemberIsOwner(): bool
     {
         if (Member::currentUserID() === $this->BookingMemberID) {
             return true;

@@ -14,7 +14,9 @@ use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBBoolean;
+
 use SilverStripe\ORM\FieldType\DBField;
 use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
@@ -183,7 +185,7 @@ class Tour extends TourBaseClass
      * @param  int $dateTS
      * @param  int $numberOfPeople
      *
-     * @return ArrayList
+     * @return DataList
      */
     public static function future_tours()
     {
@@ -511,12 +513,6 @@ class Tour extends TourBaseClass
     #######################
     ### Import / Export Section
     #######################
-
-    public function getExportFields()
-    {
-        //..
-        return parent::getExportFields();
-    }
 
     #######################
     ### CMS Edit Section

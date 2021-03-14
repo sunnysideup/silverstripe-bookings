@@ -11,6 +11,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
+use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
 use Sunnysideup\Bookings\Forms\SelfCheckInForm;
@@ -117,9 +118,10 @@ class TourBookingPageController extends PageController
      * @param string $action
      * @return string
      */
-    public static function find_link($action = null)
+    public static function find_link(?string $action = null): ?string
     {
         $actionToTest = null;
+        $allowedActions = [];
         if ($action) {
             $allowedActions = Config::inst()->get(TourBookingPageController::class, 'allowed_actions');
             $actionToTest = explode('/', $action)[0];
@@ -130,6 +132,8 @@ class TourBookingPageController extends PageController
             return $obj->Link($action);
         }
         user_error('Action ' . $action . ' is not found. Available actions are: ' . implode(', ', array_keys($allowedActions)));
+
+        return 'error';
     }
 
     public function Link($action = null)
@@ -646,9 +650,9 @@ class TourBookingPageController extends PageController
      * @param  int $dateTS
      * @param  int $numberOfPlacesRequested
      *
-     * @return ArrayData
+     * @return ArrayList
      */
-    protected function findTours($dateTS, $numberOfPlacesRequested = 0)
+    protected function findTours(int $dateTS, ?int $numberOfPlacesRequested = 0)
     {
         $finalArrayList = ArrayList::create();
         $dateMysql = date('Y-m-d', $dateTS);

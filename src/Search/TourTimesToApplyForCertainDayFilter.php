@@ -7,12 +7,14 @@ use Exception;
 use SilverStripe\ORM\DataQuery;
 use SilverStripe\ORM\FieldType\DBDate;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
+
 use Sunnysideup\Bookings\Model\DateInfo;
 
 class TourTimesToApplyForCertainDayFilter extends ExactMatchFilter
 {
     /**
-     *@return SQLQuery
+     * @param DataQuery $query
+     * @return DataQuery
      **/
     public function apply(DataQuery $query)
     {
