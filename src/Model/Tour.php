@@ -16,11 +16,11 @@ use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBBoolean;
 use SilverStripe\ORM\FieldType\DBField;
+use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
-use Sunnysideup\Bookings\Search\TourDayFilter;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 
-use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
+use Sunnysideup\Bookings\Search\TourDayFilter;
 use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 
@@ -92,9 +92,9 @@ class Tour extends TourBaseClass
             'filter' => TourDateFilter::class,
             'title' => 'Tour Date (try any phrase - e.g. next Tue)',
         ],
-        'TourTimeID'  => 'ExactMatchFilter',
+        'TourTimeID' => 'ExactMatchFilter',
         'DateInfoID' => 'ExactMatchFilter',
-        'ID' =>  [
+        'ID' => [
             'field' => TourDayFilterField::class,
             'filter' => TourDayFilter::class,
             'title' => 'Day of the week filter',
@@ -246,8 +246,7 @@ class Tour extends TourBaseClass
         $v = $this->PublicContent . $this->PublicContentForTour;
         if (strlen($v) > 10) {
             $v .= '<br>';
-        }
-        else if ($v === '<br>') {
+        } elseif ($v === '<br>') {
             $v = '';
         }
         if ($this->IsFull()->value) {

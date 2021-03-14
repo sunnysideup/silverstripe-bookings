@@ -2,25 +2,17 @@
 
 namespace Sunnysideup\Bookings\Cms;
 
-use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Admin\ModelAdmin;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
-use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldFilterHeader;
-use SilverStripe\Forms\GridField\GridFieldSortableHeader;
+use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
-use SilverStripe\Forms\HiddenField;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\ORM\DataObject;
-use Sunnysideup\Bookings\Model\Booking;
+use SilverStripe\Forms\GridField\GridFieldSortableHeader;
 use Sunnysideup\Bookings\Model\DateInfo;
 use Sunnysideup\Bookings\Model\ReferralOption;
 use Sunnysideup\Bookings\Model\TimesForTour;
-use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
-use Sunnysideup\Bookings\Model\Waitlister;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 
 class TourBookingsConfig extends ModelAdmin
@@ -43,7 +35,6 @@ class TourBookingsConfig extends ModelAdmin
     private static $menu_title = 'Tour Config';
 
     private static $menu_icon = 'sunnysideup/bookings: client/dist/images/icons/TourBookingsAdmin.png';
-
 
     public function getEditForm($id = null, $fields = null)
     {
@@ -77,7 +68,6 @@ class TourBookingsConfig extends ModelAdmin
         }
 
         if (is_subclass_of($this->modelClass, TourBookingSettings::class) || $this->modelClass === TourBookingSettings::class) {
-            $record = DataObject::get_one(TourBookingSettings::class);
             if ($gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
                 if ($gridField instanceof GridField) {
                     $config = $gridField->getConfig();
@@ -101,5 +91,4 @@ class TourBookingsConfig extends ModelAdmin
 
         return $form;
     }
-
 }

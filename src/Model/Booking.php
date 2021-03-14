@@ -203,6 +203,7 @@ class Booking extends TourBaseClass
 
         return DBField::create_field('Varchar', $v);
     }
+
     public function ContactSummary()
     {
         return $this->getContactSummary();
@@ -211,7 +212,7 @@ class Booking extends TourBaseClass
     public function getContactSummary()
     {
         $v = [
-            $this->InitiatingFirstName . ' ' .$this->InitiatingSurname . ' ',
+            $this->InitiatingFirstName . ' ' . $this->InitiatingSurname . ' ',
             $this->InitiatingEmail,
             $this->PrimaryPhone,
             $this->SecondaryPhone,
@@ -219,7 +220,7 @@ class Booking extends TourBaseClass
             $this->CountryOfOrigin,
         ];
         $v = array_filter($v);
-        return DBField::create_field('Varchar', implode(' / ' , $v));
+        return DBField::create_field('Varchar', implode(' / ', $v));
     }
 
     #######################

@@ -66,7 +66,7 @@ class TourBookingForm extends Form
             $guestsField = NumericField::create('TotalNumberOfGuests', 'Number of people in this booking.')->addExtraClass('always-show')->setScale(0)
         );
 
-        if(!$existingBooking){
+        if (! $existingBooking) {
             $guestsField->setValue(2);
         }
 
@@ -75,7 +75,7 @@ class TourBookingForm extends Form
                 $dateField = TextField::create('BookingDate', 'Select Your Date')
             );
 
-            if($existingBooking){
+            if ($existingBooking) {
                 $column1->push(
                     HiddenField::create('CurrentBookingDate', 'Current Booking Date', $existingBooking->Date)
                 );

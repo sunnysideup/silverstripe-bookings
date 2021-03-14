@@ -1,14 +1,11 @@
 <?php
+
 namespace Sunnysideup\Bookings\Forms\Fields;
 
 use SilverStripe\Forms\DropdownField;
-use SilverStripe\ORM\DataQuery;
-use SilverStripe\ORM\FieldType\DBDate;
-use SilverStripe\ORM\Filters\ExactMatchFilter;
 
 class TourDayFilterField extends DropdownField
 {
-
     public function getSource()
     {
         return [
@@ -22,5 +19,4 @@ class TourDayFilterField extends DropdownField
             7 => 'Saturday',
         ];
     }
-
 }

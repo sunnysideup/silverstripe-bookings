@@ -2,26 +2,16 @@
 
 namespace Sunnysideup\Bookings\Cms;
 
-use SilverStripe\Admin\LeftAndMain;
+use Colymba\BulkManager\BulkAction\EditHandler;
+use Colymba\BulkManager\BulkManager;
 use SilverStripe\Admin\ModelAdmin;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldExportButton;
-use SilverStripe\Forms\GridField\GridFieldImportButton;
-use SilverStripe\Forms\GridField\GridFieldFilterHeader;
-use SilverStripe\Forms\GridField\GridFieldSortableHeader;
-use SilverStripe\Forms\GridField\GridFieldPrintButton;
-use SilverStripe\Forms\HiddenField;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\ORM\DataObject;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
+use Sunnysideup\Bookings\Forms\Actions\CloseAction;
+use Sunnysideup\Bookings\Forms\Actions\OpenAction;
 use Sunnysideup\Bookings\Model\Booking;
-use Sunnysideup\Bookings\Model\DateInfo;
-use Sunnysideup\Bookings\Model\ReferralOption;
-use Sunnysideup\Bookings\Model\TimesForTour;
 use Sunnysideup\Bookings\Model\Tour;
-use Sunnysideup\Bookings\Model\TourBookingSettings;
 use Sunnysideup\Bookings\Model\Waitlister;
-use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 
 class TourBookingsAdmin extends ModelAdmin
 {
@@ -56,5 +46,26 @@ class TourBookingsAdmin extends ModelAdmin
         return $list;
     }
 
+    public function getEditForm($id = null, $fields = null)
+    {
+        $form = parent::getEditForm($id, $fields);
 
+        //This check is simply to ensure you are on the managed model you want adjust accordingly
+        if ($this->modelClass === Tour::class && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+            //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
+            if ($gridField instanceof GridField) {
+                $bmConfig = (new BulkManager([], false))
+                    ->addBulkAction(EditHandler::class)
+                    ->addBulkAction(CloseAction::class)
+                    ->addBulkAction(OpenAction::class);
+                $gridField->getConfig()->addComponent($bmConfig);
+                $paginator = $gridField->getConfig()->getComponentByType(GridFieldPaginator::class);
+                if ($paginator) {
+                    $paginator->setItemsPerPage(10);
+                }
+            }
+        }
+
+        return $form;
+    }
 }
