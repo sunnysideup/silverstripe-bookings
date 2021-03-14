@@ -14,7 +14,7 @@ use SilverStripe\ORM\DB;
 use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
-use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
+use Sunnysideup\Bookings\Cms\TourBookingsConfig;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
 use Sunnysideup\Bookings\Tasks\TourBuilder;
@@ -208,7 +208,7 @@ class TourBookingSettings extends TourBaseClass
             ->setCode(Config::inst()->get(TourBookingSettings::class, 'group_code'))
             ->setPermissionCode('CMS_ACCESS_TOUR_ADMIN')
             ->setRoleTitle('Tour Manager Privileges')
-            ->setPermissionArray(['CMS_ACCESS_TourBookingsAdmin'])
+            ->setPermissionArray(['CMS_ACCESS_TourBookingsAdmin', 'CMS_ACCESS_TourBookingsConfig'])
             ->CreateGroupAndMember();
         $member = $group->Members()->last();
 
@@ -248,13 +248,13 @@ class TourBookingSettings extends TourBaseClass
 
     public function CMSEditLink()
     {
-        $controller = singleton(TourBookingsAdmin::class);
+        $controller = singleton(TourBookingsConfig::class);
         return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/' . $this->ID . '/edit';
     }
 
     public function CMSAddLink()
     {
-        $controller = singleton(TourBookingsAdmin::class);
+        $controller = singleton(TourBookingsConfig::class);
         return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/new';
     }
 

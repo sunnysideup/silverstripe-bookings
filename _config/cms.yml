@@ -6,4 +6,5 @@ SilverStripe\Admin\LeftAndMain:
   menu_groups:
     Tours:
       - Sunnysideup\Bookings\Cms\TourBookingsAdmin
-      - SunnySideUp\EmailReminder\Cms\EmailReminder_ModelAdmin
+      - Sunnysideup\Bookings\Cms\TourBookingsConfig
+      - SunnySideUp\EmailReminder\Cms\EmailReminderModelAdmin

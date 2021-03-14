@@ -140,11 +140,12 @@ class Booking extends TourBaseClass
     ];
 
     private static $summary_fields = [
-        'Tour.Title' => 'Tour',
+        'Tour.Date.Nice' => 'Date',
+        'Tour.StartTime.Nice' => 'Time',
         'Created' => 'Created',
         'LastEdited' => 'Edited',
         'Code' => 'Reference',
-        'BookingMember.Title' => 'Contact',
+        'ContactSummary' => 'Contact',
         'CountryOfOrigin' => 'Country',
         'TotalNumberOfGuests' => 'Guests',
         'Cancelled.Nice' => 'Cancelled',
@@ -154,6 +155,7 @@ class Booking extends TourBaseClass
         'Title' => 'Varchar',
         'NumberOfAdults' => 'Int',
         'BookingReference' => 'Varchar',
+        'ContactSummary' => 'Varchar',
     ];
 
     public function i18n_singular_name()
@@ -200,6 +202,24 @@ class Booking extends TourBaseClass
         $v = strtoupper(substr($this->Code, 0, 5));
 
         return DBField::create_field('Varchar', $v);
+    }
+    public function ContactSummary()
+    {
+        return $this->getContactSummary();
+    }
+
+    public function getContactSummary()
+    {
+        $v = [
+            $this->InitiatingFirstName . ' ' .$this->InitiatingSurname . ' ',
+            $this->InitiatingEmail,
+            $this->PrimaryPhone,
+            $this->SecondaryPhone,
+            $this->CityTown,
+            $this->CountryOfOrigin,
+        ];
+        $v = array_filter($v);
+        return DBField::create_field('Varchar', implode(' / ' , $v));
     }
 
     #######################

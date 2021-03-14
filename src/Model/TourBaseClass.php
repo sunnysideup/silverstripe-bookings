@@ -8,7 +8,12 @@ use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
 use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
+use Sunnysideup\Bookings\Cms\TourBookingsConfig;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
+
+use Sunnysideup\Bookings\Model\Booking;
+use Sunnysideup\Bookings\Model\Waitlister;
+use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\SanitiseClassName\Sanitiser;
 
 class TourBaseClass extends DataObject
@@ -121,20 +126,44 @@ class TourBaseClass extends DataObject
 
     public function CMSEditLink()
     {
-        $controller = singleton(TourBookingsAdmin::class);
+        $controller = $this->getModelAdminController();
         return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/' . $this->ID . '/edit';
     }
 
     public function CMSAddLink()
     {
-        $controller = singleton(TourBookingsAdmin::class);
+        $controller = $this->getModelAdminController();
         return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/new';
     }
 
     public function CMSListLink()
     {
-        $controller = singleton(TourBookingsAdmin::class);
+        $controller = $this->getModelAdminController();
         return $controller->Link() . Sanitiser::sanitise($this->ClassName);
+    }
+
+    protected function isOperationalClass() :bool
+    {
+        if(
+            $this instanceof Tour
+            ||
+            $this instanceof Booking
+            ||
+            $this instanceof Waitlister
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected function getModelAdminController()
+    {
+        if($this->isOperationalClass()) {
+            return singleton(TourBookingsAdmin::class);
+        } else {
+            return singleton(TourBookingsConfig::class);
+        }
     }
 
     public function getCMSFields()
