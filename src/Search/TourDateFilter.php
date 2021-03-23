@@ -16,11 +16,9 @@ class TourDateFilter extends ExactMatchFilter
     {
         $value = $this->getValue();
         if ($value) {
-            $date = new DBDate();
-            $date->setValue($value);
-            $formattedDate = $date->format('Y-m-d');
+            $value = strtotime($value);
             $query->where(
-                ['Date' => $formattedDate]
+                ['Date' => Date('Y-m-d', $value)]
             );
         }
         return $query;

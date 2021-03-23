@@ -19,6 +19,7 @@ use SilverStripe\ORM\FieldType\DBBoolean;
 
 use SilverStripe\ORM\FieldType\DBField;
 use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
+use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 
@@ -90,9 +91,9 @@ class Tour extends TourBaseClass
         'Duration' => 'ExactMatchFilter',
         'IsClosed' => 'ExactMatchFilter',
         'Created' => [
-            'field' => TextField::class,
+            'field' => TourDateFilterField::class,
             'filter' => TourDateFilter::class,
-            'title' => 'Tour Date (try any phrase - e.g. next Tue)',
+            'title' => 'Tour Date',
         ],
         'TourTimeID' => 'ExactMatchFilter',
         'DateInfoID' => 'ExactMatchFilter',

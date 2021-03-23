@@ -12,9 +12,13 @@ use Sunnysideup\Bookings\Cms\TourBookingsConfig;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 
 use Sunnysideup\SanitiseClassName\Sanitiser;
+use Sunnysideup\YesNoAnyFilter\FixBooleanSearch;
 
 class TourBaseClass extends DataObject
 {
+
+    use FixBooleanSearch;
+
     private static $table_name = 'TourBaseClass';
 
     #######################

@@ -24,11 +24,14 @@ use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Member;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
+use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
+use Sunnysideup\Bookings\Search\TourDateFilter;
 use SunnySideUp\EmailReminder\Model\EmailReminderEmailRecord;
 use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
 
 class Booking extends TourBaseClass
 {
+
     #######################
     ### Names Section
     #######################
@@ -93,6 +96,11 @@ class Booking extends TourBaseClass
     ];
 
     private static $searchable_fields = [
+        'Tour.Date' => [
+            'field' => TourDateFilterField::class,
+            'filter' => TourDateFilter::class,
+            'title' => 'Tour Date',
+        ],
         'Code' => 'PartialMatchFilter',
         'InitiatingFirstName' => 'PartialMatchFilter',
         'InitiatingSurname' => 'PartialMatchFilter',
@@ -143,15 +151,18 @@ class Booking extends TourBaseClass
     ];
 
     private static $summary_fields = [
+        'Cancelled.Nice' => 'Cancelled',
         'Tour.Date.Nice' => 'Date',
         'Tour.StartTime.Nice' => 'Time',
         'Created' => 'Created',
         'LastEdited' => 'Edited',
         'Code' => 'Reference',
-        'ContactSummary' => 'Contact',
-        'CountryOfOrigin' => 'Country',
         'TotalNumberOfGuests' => 'Guests',
-        'Cancelled.Nice' => 'Cancelled',
+        'InitiatingEmail' => 'Email',
+        'PrimaryPhone' => 'Phone 1',
+        'SecondaryPhone' => 'Phone 2',
+        'CityTown ' => 'City',
+        'CountryOfOrigin ' => 'Country',
     ];
 
     private static $casting = [
