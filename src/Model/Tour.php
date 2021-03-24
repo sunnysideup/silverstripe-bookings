@@ -137,7 +137,7 @@ class Tour extends TourBaseClass
     ];
 
     private static $summary_fields = [
-        'IsClosed.Nice' => 'Closed',
+        'IsClosed.NiceAndColourfullInvertedColours' => 'Closed',
         'Date.Full' => 'Date',
         'StartTime.Nice' => 'Start Time',
         'Duration' => 'Minutes',
@@ -145,7 +145,7 @@ class Tour extends TourBaseClass
         'NumberOfPlacesAvailable' => 'Spots Left',
         'NumberOfChildren' => 'Kids Attending',
         'NumberOfGroups' => 'Groups',
-        'IsFull.Nice' => 'Full',
+        'IsFull.NiceAndColourfullInvertedColours' => 'Full',
     ];
 
     private static $readonly_fields = [

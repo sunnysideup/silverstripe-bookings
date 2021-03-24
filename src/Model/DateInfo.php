@@ -110,7 +110,7 @@ class DateInfo extends TourBaseClass
     ];
 
     private static $summary_fields = [
-        'NoTourTimes.Nice' => 'Closed',
+        'NoTourTimes.NiceAndColourfullInvertedColours' => 'Closed',
         'Title' => 'Title',
         'CalculatedFromDate' => 'From',
         'CalculatedUntilDate' => 'Until',

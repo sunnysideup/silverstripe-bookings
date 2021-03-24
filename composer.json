@@ -23,6 +23,7 @@
         "sunnysideup/permission_provider": "^6.0",
         "sunnysideup/google-calendar-interface": "^2.0",
         "sunnysideup/email_reminder": "^3.0",
+        "sunnysideup/yes-no-any-filter": "dev-master",
         "dynamic/silverstripe-country-dropdown-field": "^1.2",
         "sunnysideup/sanitise-class-name": "dev-master",
         "colymba/gridfield-bulk-editing-tools": "^3.0"

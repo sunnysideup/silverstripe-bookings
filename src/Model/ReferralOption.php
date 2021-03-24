@@ -46,7 +46,7 @@ class ReferralOption extends TourBaseClass
     private static $summary_fields = [
         'Title' => 'Option',
         'Bookings.Count' => 'Number of Bookings',
-        'Archived.Nice' => 'Archived',
+        'Archived.NiceAndColourfullInvertedColours' => 'Archived',
     ];
 
     public function i18n_singular_name()

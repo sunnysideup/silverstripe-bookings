@@ -35,9 +35,9 @@ class Booking extends TourBaseClass
     ### Names Section
     #######################
 
-    private static $singular_name = 'Tour Booking';
+    private static $singular_name = 'Booking';
 
-    private static $plural_name = 'Tour Bookings';
+    private static $plural_name = 'Bookings';
 
     #######################
     ### Model Section
@@ -150,7 +150,7 @@ class Booking extends TourBaseClass
     ];
 
     private static $summary_fields = [
-        'Cancelled.Nice' => 'Cancelled',
+        'Cancelled.NiceAndColourfullInvertedColours' => 'Cancelled',
         'Tour.Date.Nice' => 'Date',
         'Tour.StartTime.Nice' => 'Time',
         'Created' => 'Created',
@@ -173,12 +173,12 @@ class Booking extends TourBaseClass
 
     public function i18n_singular_name()
     {
-        return _t('Booking.SINGULAR_NAME', 'Tour Booking');
+        return _t('Booking.SINGULAR_NAME', 'Booking');
     }
 
     public function i18n_plural_name()
     {
-        return _t('Booking.PLURAL_NAME', 'Tour Bookings');
+        return _t('Booking.PLURAL_NAME', 'Bookings');
     }
 
     public function getTitle()
