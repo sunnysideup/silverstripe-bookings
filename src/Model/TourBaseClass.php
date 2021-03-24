@@ -16,7 +16,6 @@ use Sunnysideup\YesNoAnyFilter\FixBooleanSearch;
 
 class TourBaseClass extends DataObject
 {
-
     use FixBooleanSearch;
 
     private static $table_name = 'TourBaseClass';

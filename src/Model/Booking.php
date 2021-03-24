@@ -23,15 +23,14 @@ use SilverStripe\ORM\DataList;
 
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Member;
-use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
+use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 use SunnySideUp\EmailReminder\Model\EmailReminderEmailRecord;
 use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
 
 class Booking extends TourBaseClass
 {
-
     #######################
     ### Names Section
     #######################

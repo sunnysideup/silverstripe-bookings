@@ -7,6 +7,8 @@ use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
+use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
+use Sunnysideup\Bookings\Search\TourDateFilter;
 
 class Waitlister extends TourBaseClass
 {
@@ -39,6 +41,7 @@ class Waitlister extends TourBaseClass
     ];
 
     private static $field_labels = [
+
         'Code' => 'Waitlist Reference',
         'InitiatingFirstName' => 'First Name',
         'InitiatingSurname' => 'Surname',
@@ -53,11 +56,27 @@ class Waitlister extends TourBaseClass
     ];
 
     private static $summary_fields = [
+        'Tour.Date.Nice' => 'Date',
+        'Tour.StartTime.Nice' => 'Time',
         'Code' => 'Code',
         'TotalNumberOfGuests' => 'Number of Spaces',
         'InitiatingFirstName' => 'First Name',
         'PrimaryPhone' => 'Phone',
         'InitiatingEmail' => 'Email',
+    ];
+
+    private static $searchable_fields = [
+        'Tour.Date' => [
+            'field' => TourDateFilterField::class,
+            'filter' => TourDateFilter::class,
+            'title' => 'Tour Date',
+        ],
+        'Code' => 'PartialMatchFilter',
+        'InitiatingFirstName' => 'PartialMatchFilter',
+        'InitiatingSurname' => 'PartialMatchFilter',
+        'InitiatingEmail' => 'PartialMatchFilter',
+        'PrimaryPhone' => 'PartialMatchFilter',
+        'TotalNumberOfGuests' => 'ExactMatchFilter',
     ];
 
     private static $required_fields = [
@@ -68,9 +87,13 @@ class Waitlister extends TourBaseClass
         'PrimaryPhone',
     ];
 
+    private static $default_sort = [
+        'Created' => 'DESC',
+    ];
+
     public function i18n_singular_name()
     {
-        return _t('Waitlister.SINGULAR_NAME', Waitlister::class);
+        return _t('Waitlister.SINGULAR_NAME', 'Waitlister');
     }
 
     public function i18n_plural_name()

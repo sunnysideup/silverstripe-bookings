@@ -13,13 +13,12 @@ use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
-use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBBoolean;
 
 use SilverStripe\ORM\FieldType\DBField;
-use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
+use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 
