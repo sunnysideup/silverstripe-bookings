@@ -26,6 +26,8 @@ use Sunnysideup\Bookings\Search\TourDayFilter;
 use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 
+use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
+
 class Tour extends TourBaseClass
 {
     #######################
@@ -521,7 +523,6 @@ class Tour extends TourBaseClass
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-
         if (! $this->ID) {
             $dbFields = Config::inst()->get(Tour::class, 'db');
             foreach (array_keys($dbFields) as $dbFieldName) {
@@ -554,6 +555,8 @@ class Tour extends TourBaseClass
                 $fields->dataFieldByName('GoogleEventID')->performReadonlyTransformation()
             );
         }
+
+        DataObjectOneFieldAddEditAllLink::add_edit_links_to_checkboxes(self::class, $fields);
 
         return $fields;
     }
