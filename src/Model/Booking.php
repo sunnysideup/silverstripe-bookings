@@ -26,6 +26,7 @@ use SilverStripe\Security\Member;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
+use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
 use SunnySideUp\EmailReminder\Model\EmailReminderEmailRecord;
 use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
 
@@ -515,6 +516,9 @@ class Booking extends TourBaseClass
             $this->AddUsefulLinkToFields($fields, 'Edit Booking', $this->ConfirmLink());
             $this->AddUsefulLinkToFields($fields, 'Cancel Booking', $this->CancelLink());
         }
+
+        DataObjectOneFieldAddEditAllLink::add_edit_links_to_checkboxes(self::class, $fields);
+
         return $fields;
     }
 
