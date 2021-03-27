@@ -88,8 +88,6 @@ class OpenAction extends Handler
     /**
      * Archive the selected records passed from the archive bulk action.
      *
-     * @param HTTPRequest $request
-     *
      * @return HTTPBulkToolsResponse
      */
     public function open(HTTPRequest $request)

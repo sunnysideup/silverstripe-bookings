@@ -88,8 +88,6 @@ class CloseAction extends Handler
     /**
      * Archive the selected records passed from the archive bulk action.
      *
-     * @param HTTPRequest $request
-     *
      * @return HTTPBulkToolsResponse
      */
     public function close(HTTPRequest $request)

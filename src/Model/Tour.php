@@ -184,9 +184,6 @@ class Tour extends TourBaseClass
     private $calendarDebug = false;
 
     /**
-     * @param  int $dateTS
-     * @param  int $numberOfPeople
-     *
      * @return DataList
      */
     public static function future_tours()

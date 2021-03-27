@@ -603,8 +603,6 @@ class Booking extends TourBaseClass
      *
      * @param  EmailReminderNotificationSchedule  $reminder
      * @param  DataList                           $records
-     *
-     * @return bool
      */
     public function EmailReminderExclude($reminder, $records): bool
     {

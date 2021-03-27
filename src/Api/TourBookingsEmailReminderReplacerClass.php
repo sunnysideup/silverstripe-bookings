@@ -62,10 +62,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     /**
      * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
-     * @param string $searchString
-     * @param string $str
-     *
-     * @return string
      */
     protected function FirstName($reminder, $booking, string $searchString, string $str): string
     {
@@ -76,10 +72,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     /**
      * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
-     * @param string $searchString
-     * @param string $str
-     *
-     * @return string
      */
     protected function LastName($reminder, $booking, string $searchString, string $str): string
     {
@@ -90,10 +82,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     /**
      * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
-     * @param string $searchString
-     * @param string $str
-     *
-     * @return string
      */
     protected function BookingInfoHTML($reminder, $booking, string $searchString, string $str): string
     {
@@ -138,10 +126,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     /**
      * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
-     * @param string $searchString
-     * @param string $str
-     *
-     * @return string
      */
     protected function TourTime($reminder, $booking, string $searchString, string $str): string
     {
@@ -152,10 +136,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     /**
      * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
-     * @param string $searchString
-     * @param string $str
-     *
-     * @return string
      */
     protected function TourDuration($reminder, $booking, string $searchString, string $str): string
     {
@@ -166,10 +146,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     /**
      * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
-     * @param string $searchString
-     * @param string $str
-     *
-     * @return string
      */
     protected function BookingConfirmationLink($reminder, $booking, string $searchString, string $str): string
     {
@@ -183,10 +159,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     /**
      * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
-     * @param string $searchString
-     * @param string $str
-     *
-     * @return string
      */
     protected function BookingUpdateLink($reminder, $booking, string $searchString, string $str): string
     {
@@ -200,10 +172,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     /**
      * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $booking
-     * @param string $searchString
-     * @param string $str
-     *
-     * @return string
      */
     protected function BookingCancellationLink($reminder, $booking, string $searchString, string $str): string
     {
@@ -217,10 +185,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     /**
      * @param EmailReminderNotificationSchedule $reminder
      * @param DataObject $waitlister
-     * @param string $searchString
-     * @param string $str
-     *
-     * @return string
      */
     protected function SingleTourBookingForm($reminder, $waitlister, string $searchString, string $str): string
     {

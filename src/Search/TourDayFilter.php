@@ -8,7 +8,6 @@ use SilverStripe\ORM\Filters\ExactMatchFilter;
 class TourDayFilter extends ExactMatchFilter
 {
     /**
-     * @param DataQuery $query
      * @return DataQuery
      **/
     public function apply(DataQuery $query)

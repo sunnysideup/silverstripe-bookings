@@ -41,7 +41,6 @@ class TourBookingPageController extends PageController
     private static $url_segment = 'tour-bookings';
 
     private static $allowed_actions = [
-
         //add
         'BookingForm' => true,
         'signup' => true,
@@ -647,7 +646,6 @@ class TourBookingPageController extends PageController
      *   RequestedDay: list of tours
      *   NextDay: list of tours
      *
-     * @param  int $dateTS
      * @param  int $numberOfPlacesRequested
      *
      * @return ArrayList

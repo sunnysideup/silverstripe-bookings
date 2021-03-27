@@ -13,7 +13,6 @@ use Sunnysideup\Bookings\Model\DateInfo;
 class TourTimesToApplyForCertainDayFilter extends ExactMatchFilter
 {
     /**
-     * @param DataQuery $query
      * @return DataQuery
      **/
     public function apply(DataQuery $query)
