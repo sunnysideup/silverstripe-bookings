@@ -22,7 +22,7 @@ class TourBuilder extends BuildTask
 
     public function Link()
     {
-        return '/dev/tasks/' . static::class;
+        return '/dev/tasks/' . str_replace('\\', '-', static::class);
     }
 
     public function run($request)

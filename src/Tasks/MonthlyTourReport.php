@@ -5,6 +5,8 @@ namespace Sunnysideup\Bookings\Tasks;
 use DateTime;
 
 
+use SilverStripe\Control\Director;
+
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\ArrayList;
@@ -22,9 +24,16 @@ class MonthlyTourReport extends BuildTask
 
     protected $description = 'Sends and email at the beginning of each month containing details of Tour data for the previous month';
 
-    public function Link()
+    /**
+     * @return string  e.g. /dev/tasks/MyTask-In-Full
+     */
+    public function Link(): string
     {
-        return '/dev/tasks/' . static::class;
+        $link = $this->Config()->get('segment');
+        if (! $link) {
+            $link = str_replace('\\', '-', static::class);
+        }
+        return Director::absoluteUrl('dev/tasks/') . $link;
     }
 
     public function run($request)

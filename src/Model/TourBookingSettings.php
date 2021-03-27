@@ -291,7 +291,7 @@ class TourBookingSettings extends TourBaseClass
             TextareaField::create(
                 'WaitlistInfoMessage',
                 'Waitlist Info Message'
-            )->setRightTitle(
+            )->setDescription(
                 'Message displayed at the top of the "Join Waitlist" form to provide info about the waitlisting process'
             )
         );
@@ -300,9 +300,9 @@ class TourBookingSettings extends TourBaseClass
             $calendar = new GoogleCalendarInterface();
             $calendarVerificationField = $fields->dataFieldByName('GoogleCalendarVerificationCode');
             if (empty($calendar->config())) {
-                $calendarVerificationField->setRightTitle('Enter a Verfication Code to intergrate with a Google Calenadar');
+                $calendarVerificationField->setDescription('Enter a Verfication Code to intergrate with a Google Calenadar');
             } else {
-                $calendarVerificationField->setRightTitle('Enter a new Verfication Code to change the Google Account associated with the tour bookings system');
+                $calendarVerificationField->setDescription('Enter a new Verfication Code to change the Google Account associated with the tour bookings system');
             }
 
             $fields->insertAfter(
@@ -328,15 +328,16 @@ class TourBookingSettings extends TourBaseClass
                 'Root.Emails',
                 $formField
             );
-            if ($this->{$field}) {
+            $fieldName = $field;
+            if ($this->{$fieldName}) {
                 $emailNotifier = EmailReminderNotificationSchedule::get()->byID($this->{$field});
                 if ($emailNotifier) {
                     $cmsLink = $emailNotifier->CMSEditLink();
                     if ($cmsLink) {
-                        $formField->setRightTitle(
+                        $formField->setDescription(
                             DBField::create_field(
                                 'HTMLText',
-                                '<a href="' . $cmsLink . '" target="_blank">Edit </a> the content of this email'
+                                '<a href="' . $cmsLink . '" target="_blank">Edit the content of this email</a>? '
                             )
                         );
                     }
@@ -387,22 +388,22 @@ class TourBookingSettings extends TourBaseClass
         $this->AddUsefulLinkToFields(
             $fields,
             'Add adhoc tour at regular time',
-            '/admin/tour-bookings/Sunnysideup-Bookings-Model-DateInfo/EditForm/field/Sunnysideup-Bookings-Model-DateInfo/item/new',
-            'Add new tour date(s) with all the details and then create the tours using the <a href="/dev/tasks/TourBuilder/">create tours button</a>.'
+            '/admin/tour-bookings-config/Sunnysideup-Bookings-Model-DateInfo/EditForm/field/Sunnysideup-Bookings-Model-DateInfo/item/new',
+            'Add new tour date(s) with all the details and then create the tours using the <a href="' . Injector::inst()->get(TourBuilder::class)->Link() . '">create tours button</a>.'
         );
 
         $this->AddUsefulLinkToFields(
             $fields,
             'Add adhoc tour at irregular time',
-            '/admin/tour-bookings/Sunnysideup-Bookings-Model-TimesForTour/EditForm/field/Sunnysideup-Bookings-Model-TimesForTour/item/new',
+            '/admin/tour-bookings-config/Sunnysideup-Bookings-Model-TimesForTour/EditForm/field/Sunnysideup-Bookings-Model-TimesForTour/item/new',
             'Add the new time first and then add the tour dates.
-            After that you will have to create the tours using the <a href="/dev/tasks/TourBuilder/">create tours button</a>.'
+            After that you will have to create the tours using the <a href="' . Injector::inst()->get(TourBuilder::class)->Link() . '">create tours button</a>.'
         );
 
         $this->AddUsefulLinkToFields(
             $fields,
             'Find out what tour date rule applies on a certain day',
-            '/admin/tour-bookings/Sunnysideup-Bookings-Model-DateInfo',
+            '/admin/tour-bookings/Sunnysideup-Bookings-Model-Tour/',
             'Click on the magnifying glass and search for a particular day.'
         );
 

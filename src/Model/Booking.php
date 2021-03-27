@@ -488,7 +488,7 @@ class Booking extends TourBaseClass
                 ReadonlyField::create(
                     'ReferralText',
                     'More Details'
-                )->setRightTitle('There will only be data here if the user provides more details when selecting the "other" option.'),
+                )->setDescription('There will only be data here if the user provides more details when selecting the "other" option.'),
             ]
         );
 
@@ -542,7 +542,7 @@ class Booking extends TourBaseClass
             TextField::create(
                 'PrimaryPhone',
                 $labels['PrimaryPhone']
-            )->setRightTitle($fieldLabelsRight['PrimaryPhone'])
+            )->setDescription($fieldLabelsRight['PrimaryPhone'])
         );
 
         $fields->replaceField(

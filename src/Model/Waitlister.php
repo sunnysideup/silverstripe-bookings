@@ -131,7 +131,7 @@ class Waitlister extends TourBaseClass
             TextField::create(
                 'PrimaryPhone',
                 $labels['PrimaryPhone']
-            )->setRightTitle($fieldLabelsRight['PrimaryPhone'])
+            )->setDescription($fieldLabelsRight['PrimaryPhone'])
         );
 
         $fields->replaceField(

@@ -23,10 +23,10 @@ use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 
 use Sunnysideup\Bookings\Search\TourDayFilter;
-use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
-use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
-
 use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
+use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
+
+use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 
 class Tour extends TourBaseClass
 {
@@ -542,7 +542,7 @@ class Tour extends TourBaseClass
                 ]
             );
             $timesForTour = Injector::inst()->get(TimesForTour::class);
-            $tourTimeField->setRightTitle('<a href="' . $timesForTour->CMSAddLink() . '" target="_blank">Create a new tour time</a>.');
+            $tourTimeField->setDescription('<a href="' . $timesForTour->CMSAddLink() . '" target="_blank">Create a new tour time</a>.');
         } else {
             if ($fields->dataFieldByName('PublicContentForTour') instanceof HTMLEditorField) {
                 $fields->dataFieldByName('PublicContentForTour')->setRows('7');
