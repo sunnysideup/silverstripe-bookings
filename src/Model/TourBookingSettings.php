@@ -136,7 +136,7 @@ class TourBookingSettings extends TourBaseClass
     public static function inst()
     {
         $obj = DataObject::get_one(TourBookingSettings::class);
-        if (! $obj) {
+        if ($obj === null) {
             $obj = TourBookingSettings::create();
             $obj->write();
         }
@@ -150,7 +150,7 @@ class TourBookingSettings extends TourBaseClass
 
     public function canCreate($member = null, $context = [])
     {
-        return DataObject::get_one(static::class) ? false : true;
+        return !(bool) DataObject::get_one(static::class);
     }
 
     public function canView($member = null, $context = [])
@@ -172,7 +172,7 @@ class TourBookingSettings extends TourBaseClass
     ### write Section
     #######################
 
-    public function onBeforeWrite()
+    protected function onBeforeWrite()
     {
         parent::onBeforeWrite();
         if (class_exists(GoogleCalendarInterface::class) && $this->owner->isChanged('GoogleCalendarVerificationCode')) {
@@ -180,7 +180,7 @@ class TourBookingSettings extends TourBaseClass
         }
     }
 
-    public function onAfterWrite()
+    protected function onAfterWrite()
     {
         parent::onAfterWrite();
         //...
@@ -189,7 +189,7 @@ class TourBookingSettings extends TourBaseClass
     public function requireDefaultRecords()
     {
         parent::requireDefaultRecords();
-        DB::alteration_message('Creating Tour Bookings Manager\'s Group and User', 'created');
+        DB::alteration_message("Creating Tour Bookings Manager's Group and User", 'created');
         $email = Config::inst()->get(TourBookingSettings::class, 'manager_email');
         if (! $email) {
             $baseURL = Director::absoluteBaseURL();
@@ -240,13 +240,13 @@ class TourBookingSettings extends TourBaseClass
 
     public function CMSEditLink()
     {
-        $controller = singleton(TourBookingsConfig::class);
+        $controller = \Singleton(TourBookingsConfig::class);
         return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/' . $this->ID . '/edit';
     }
 
     public function CMSAddLink()
     {
-        $controller = singleton(TourBookingsConfig::class);
+        $controller = \Singleton(TourBookingsConfig::class);
         return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/new';
     }
 
@@ -258,10 +258,10 @@ class TourBookingSettings extends TourBaseClass
         $rightFieldDescriptions = $this->Config()->get('field_labels_right');
         foreach ($rightFieldDescriptions as $field => $desc) {
             $formField = $fields->DataFieldByName($field);
-            if (! $formField) {
+            if ($formField === null) {
                 $formField = $fields->DataFieldByName($field . 'ID');
             }
-            if ($formField) {
+            if ($formField !== null) {
                 $formField->setDescription($desc);
             }
         }
@@ -274,7 +274,7 @@ class TourBookingSettings extends TourBaseClass
                     ],
                 ]
             )->first();
-        if ($group) {
+        if ($group !== null) {
             $members = $group->Members();
             $fields->replaceField(
                 'AdministratorID',
@@ -331,7 +331,7 @@ class TourBookingSettings extends TourBaseClass
             $fieldName = $field;
             if ($this->{$fieldName}) {
                 $emailNotifier = EmailReminderNotificationSchedule::get()->byID($this->{$field});
-                if ($emailNotifier) {
+                if ($emailNotifier !== null) {
                     $cmsLink = $emailNotifier->CMSEditLink();
                     if ($cmsLink) {
                         $formField->setDescription(

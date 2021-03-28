@@ -34,9 +34,9 @@ class TourBookingPageController extends PageController
     # revivew
     #######################
 
-    protected $listOfToursFromDate = null;
+    protected $listOfToursFromDate;
 
-    protected $listOfToursUntilDate = null;
+    protected $listOfToursUntilDate;
 
     private static $url_segment = 'tour-bookings';
 
@@ -81,25 +81,25 @@ class TourBookingPageController extends PageController
     # add a booking
     #######################
 
-    private $availabilityDateAsTS = null;
+    private $availabilityDateAsTS;
 
     private $bookingCode = '';
 
     private $totalNumberOfGuests = 0;
 
-    private $currentBooking = null;
+    private $currentBooking;
 
     #######################
     # join the waitlist
     #######################
 
-    private $currentWaitlister = null;
+    private $currentWaitlister;
 
     #######################
     # on the day
     #######################
 
-    private $currentTour = null;
+    private $currentTour;
 
     /**
      * called when no other action is called
@@ -150,15 +150,12 @@ class TourBookingPageController extends PageController
 
     public function canEdit($member = null, $context = [])
     {
-        return $this->currentBooking && $this->currentBooking->exists() ? true : false;
+        return $this->currentBooking && $this->currentBooking->exists();
     }
 
     public function CurrentUserIsTourManager($member)
     {
-        if (Permission::check('CMS_ACCESS_TOUR_ADMIN', 'any', $member)) {
-            return true;
-        }
-        return false;
+        return (bool) Permission::check('CMS_ACCESS_TOUR_ADMIN', 'any', $member);
     }
 
     public function BookingForm($request = null)
@@ -179,10 +176,10 @@ class TourBookingPageController extends PageController
     public function availability($request)
     {
         $dateAsString = $request->getVar('date');
-        $this->totalNumberOfGuests = intval($request->getVar('guests'));
+        $this->totalNumberOfGuests = (int) $request->getVar('guests');
         // hack!
         // $dateAsString = str_replace(' (New Zealand Standard Time)', '', $dateAsString);
-        $dateAsString = preg_replace("/\([^)]+\)/", '', $dateAsString);
+        $dateAsString = preg_replace("#\\([^)]+\\)#", '', $dateAsString);
         $this->availabilityDateAsTS = strtotime($dateAsString);
 
         $this->bookingCode = Convert::raw2sql($request->getVar('bookingcode'));
@@ -238,7 +235,7 @@ class TourBookingPageController extends PageController
 
     public function BookingCancellationForm()
     {
-        $bookingCode = ! empty($this->currentBooking) ? $this->currentBooking->Code : 0;
+        $bookingCode = empty($this->currentBooking) ? 0 : $this->currentBooking->Code;
         return TourBookingCancellationForm::create($this, 'BookingCancellationForm', $bookingCode);
     }
 
@@ -374,7 +371,7 @@ class TourBookingPageController extends PageController
     public function calendar($request)
     {
         $member = Security::getCurrentUser();
-        if (! $member) {
+        if ($member === null) {
             return Security::permissionFailure($this);
         } elseif (Permission::checkMember($member, 'CMS_ACCESS_TOUR_ADMIN')) {
             $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/CalendarView');
@@ -405,8 +402,8 @@ class TourBookingPageController extends PageController
 
     public function nextdays($request)
     {
-        $numberOfDays = intval($request->param('ID'));
-        if (! $numberOfDays) {
+        $numberOfDays = (int) $request->param('ID');
+        if ($numberOfDays === 0) {
             $numberOfDays = 7;
         }
         $this->listOfToursFromDate = Date('Y-m-d', strtotime('today'));
@@ -446,7 +443,7 @@ class TourBookingPageController extends PageController
     public function ClosedDatesAsArray()
     {
         $closedData = [];
-        for ($i = 1; $i <= 365; $i++) {
+        for ($i = 1; $i <= 365; ++$i) {
             $dateTS = strtotime('today +' . $i . ' day');
             $dateInfo = DateInfo::best_match_for_date($dateTS);
             if ($dateInfo->NoTourTimes) {
@@ -487,7 +484,7 @@ class TourBookingPageController extends PageController
 
     public function confirmonecheckin($request)
     {
-        $booking = Booking::get()->byID(intval($request->getVar('id')));
+        $booking = Booking::get()->byID((int) $request->getVar('id'));
         $booking->HasArrived = Convert::raw2sql($request->getVar('arrived'));
         return $booking->write();
     }
@@ -566,10 +563,7 @@ class TourBookingPageController extends PageController
     {
         $hideHeader = (bool) $this->request->getVar('hideheader');
         //if hideheader get var has explicitly been set to false then pretend this is not the factory, even it if is
-        if ($this->factoryIP === $_SERVER['REMOTE_ADDR'] || $hideHeader) {
-            return true;
-        }
-        return false;
+        return $this->factoryIP === $_SERVER['REMOTE_ADDR'] || $hideHeader;
     }
 
     protected function init()
@@ -620,11 +614,7 @@ class TourBookingPageController extends PageController
     protected function getTourFromRequestOrIDParam()
     {
         $this->currentTour = null;
-        if ($id = $this->request->postVar('TourID')) {
-            $id = intval($id);
-        } else {
-            $id = intval($this->request->param('ID'));
-        }
+        $id = ($id = $this->request->postVar('TourID')) ? (int) $id : (int) $this->request->param('ID');
         $this->currentTour = Tour::get()->byID($id);
         return $this->currentTour;
     }
@@ -632,10 +622,10 @@ class TourBookingPageController extends PageController
     protected function getNumberOfGuestsFromRequestOrIDParam()
     {
         $this->totalNumberOfGuests = null;
-        if ($guests = $this->request->param('OtherID')) {
-            $this->totalNumberOfGuests = intval($guests);
+        if (($guests = $this->request->param('OtherID')) !== '') {
+            $this->totalNumberOfGuests = (int) $guests;
         } elseif ($guests = $this->request->postVar('TotalNumberOfGuests')) {
-            $this->totalNumberOfGuests = intval($guests);
+            $this->totalNumberOfGuests = (int) $guests;
         }
         return $this->totalNumberOfGuests;
     }

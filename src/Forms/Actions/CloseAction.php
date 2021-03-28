@@ -98,7 +98,7 @@ class CloseAction extends Handler
         try {
             foreach ($records as $record) {
                 $record->IsClosed = true;
-                $outcome = $record->write() ? true : false;
+                $outcome = (bool) $record->write();
                 if ($outcome) {
                     $response->addSuccessRecord($record);
                 } else {
@@ -114,9 +114,9 @@ class CloseAction extends Handler
                 $doneCount + $failCount
             );
             $response->setMessage($message);
-        } catch (Exception $ex) {
+        } catch (Exception $exception) {
             $response->setStatusCode(500);
-            $response->setMessage($ex->getMessage());
+            $response->setMessage($exception->getMessage());
         }
 
         return $response;

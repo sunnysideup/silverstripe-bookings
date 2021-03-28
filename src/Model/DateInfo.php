@@ -31,7 +31,7 @@ class DateInfo extends TourBaseClass
         'OneDayOnly' => 'Boolean',
         'FromDate' => 'Date',
         'UntilDate' => 'Date',
-        'RepeatEvery' => 'Enum(\'No Repeat,Week,Fortnight,Month,Quarter,Year\', \'No Repeat\')',
+        'RepeatEvery' => "Enum('No Repeat,Week,Fortnight,Month,Quarter,Year', 'No Repeat')",
         'SortOrder' => 'Int',
         'PublicContent' => 'HTMLText',
         'PrivateContent' => 'HTMLText',
@@ -200,11 +200,7 @@ class DateInfo extends TourBaseClass
 
     public function getTourTimesNice()
     {
-        if ($this->NoTourTimes) {
-            $html = 'CLOSED';
-        } else {
-            $html = '- ' . implode('<br />- ', $this->TourTimes()->column('Title'));
-        }
+        $html = $this->NoTourTimes ? 'CLOSED' : '- ' . implode('<br />- ', $this->TourTimes()->column('Title'));
         return DBField::create_field('HTMLText', $html);
     }
 
@@ -235,12 +231,7 @@ class DateInfo extends TourBaseClass
                 $toAdd = '+1 year';
                 break;
             default:
-                if ($fromDateTS <= $dateTS && $untilDateTS >= $dateTS) {
-                    return true;
-                }
-                return false;
-
-                break;
+                return $fromDateTS <= $dateTS && $untilDateTS >= $dateTS;
         }
         while ($fromDateTS <= $dateTS) {
             if ($fromDateTS <= $dateTS && $untilDateTS >= $dateTS) {
@@ -263,7 +254,7 @@ class DateInfo extends TourBaseClass
     ### write Section
     #######################
 
-    public function onBeforeWrite()
+    protected function onBeforeWrite()
     {
         parent::onBeforeWrite();
         if ($this->OneDayOnly || ! $this->UntilDate) {
@@ -279,7 +270,7 @@ class DateInfo extends TourBaseClass
         }
     }
 
-    public function onAfterWrite()
+    protected function onAfterWrite()
     {
         parent::onAfterWrite();
         //...
@@ -329,7 +320,7 @@ class DateInfo extends TourBaseClass
 
         // $link = Injector::inst()->get(TourBuilder::class)->Link();
 
-        if ($fields->fieldByName('Root.Tours')) {
+        if ($fields->fieldByName('Root.Tours') !== null) {
             $fields->fieldByName('Root.Tours')->setTitle('Created Tours for this Rule');
         }
 

@@ -68,7 +68,7 @@ class MonthlyTourReport extends BuildTask
                     $nationalities[$countryCode] = 1;
                 }
                 $cityTown = ucwords(strtolower(trim($booking->CityTown)));
-                if ($cityTown) {
+                if ($cityTown !== '') {
                     if (isset($citiesAndTowns[$cityTown])) {
                         ++$citiesAndTowns[$cityTown];
                     } else {

@@ -111,6 +111,7 @@ class TimesForTour extends TourBaseClass
         $fakeDate = date('Y-m-d') . ' ' . $this->StartTime;
         $fakeDateTS = strtotime($fakeDate);
         $fakeDateTS = strtotime('+' . $this->Duration . ' minute', $fakeDateTS);
+
         $v = date('H:i:s', $fakeDateTS);
 
         return DBField::create_field('Time', $v);
@@ -126,13 +127,13 @@ class TimesForTour extends TourBaseClass
     ### write Section
     #######################
 
-    public function onBeforeWrite()
+    protected function onBeforeWrite()
     {
         parent::onBeforeWrite();
         //...
     }
 
-    public function onAfterWrite()
+    protected function onAfterWrite()
     {
         parent::onAfterWrite();
         //...
@@ -158,7 +159,7 @@ class TimesForTour extends TourBaseClass
 
         $fields->dataFieldByName('PublicContent')->setRows('7');
         $fields->dataFieldByName('PrivateContent')->setRows('7');
-        if ($fields->fieldByName('Root.DateInfos')) {
+        if ($fields->fieldByName('Root.DateInfos') !== null) {
             $fields->fieldByName('Root.DateInfos')->setTitle('Info and Rules');
         }
 

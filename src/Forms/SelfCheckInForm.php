@@ -98,7 +98,7 @@ class SelfCheckInForm extends Form
         foreach ($fieldsToCheck as $fieldToCheck => $niceFieldName) {
             $booking = Booking::get()->filter(
                 [
-                    'TourID' => intval($data['TodaysTours']),
+                    'TourID' => (int) $data['TodaysTours'],
                     $fieldToCheck => $data['BookingData'],
                 ]
             );
@@ -132,7 +132,7 @@ class SelfCheckInForm extends Form
         if (! $bookingFound) {
             //TODO: message should be editable from CMS
             $this->sessionError(
-                'Oops, this booking doesn\'t seem to exist in the Peanut Butter World ether. Probably best to ask the PB guru who\'s hanging out behind the desk for some help ',
+                "Oops, this booking doesn't seem to exist in the Peanut Butter World ether. Probably best to ask the PB guru who's hanging out behind the desk for some help ",
                 'bad'
             );
             return $this->controller->redirectBack();

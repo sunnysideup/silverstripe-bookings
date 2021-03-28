@@ -58,7 +58,7 @@ class TourBookingCancellationForm extends Form
     {
         $data = Convert::raw2sql($data);
         $booking = Booking::get()->filter(['Code' => $data['BookingCode']])->first();
-        if ($booking) {
+        if ($booking !== null) {
             if ($data['ConfirmingEmail'] === $booking->InitiatingEmail) {
                 //do nothing
             } else {

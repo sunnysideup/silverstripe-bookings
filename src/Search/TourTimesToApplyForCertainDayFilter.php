@@ -38,7 +38,7 @@ class TourTimesToApplyForCertainDayFilter extends ExactMatchFilter
             }
 
             // Default to NZ date format - strtotime expects a US date
-            if (preg_match('#^([0-9]+)/([0-9]+)/([0-9]+)$#', $value, $parts)) {
+            if (preg_match('#^(\d+)/(\d+)/(\d+)$#', $value, $parts)) {
                 $value = "{$parts[2]}/{$parts[1]}/{$parts[3]}";
             }
 
@@ -48,7 +48,7 @@ class TourTimesToApplyForCertainDayFilter extends ExactMatchFilter
                 try {
                     $date = new DateTime($value);
                     $value = $date->Format('Y-m-d');
-                } catch (Exception $e) {
+                } catch (Exception $exception) {
                     return $query;
                 }
             }

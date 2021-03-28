@@ -21,7 +21,7 @@ use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 
 class TourWaitlistForm extends Form
 {
-    protected $currentTour = null;
+    protected $currentTour;
 
     public function __construct($controller, $name, $selectedTour = null, $numberOfGuests = 1)
     {
@@ -145,7 +145,7 @@ class TourWaitlistForm extends Form
 
         $form->saveInto($waitlister);
         //TotalNumberOfGuests needs to manually set as the field is read only
-        $waitlister->TotalNumberOfGuests = intval($data['TotalNumberOfGuests']);
+        $waitlister->TotalNumberOfGuests = (int) $data['TotalNumberOfGuests'];
 
         $validationObject = $waitlister->validate();
 
@@ -157,6 +157,7 @@ class TourWaitlistForm extends Form
         $confirmationEmail = $settings->WaitlistConfirmationEmail();
         $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
         $mailOut->runOne($confirmationEmail, $waitlister);
+
         $redirect = $this->controller->Link('confirmwaitlist/' . $waitlister->Code);
         //extra tours have been selected
         if (isset($data['ExtraTours'])) {
@@ -174,14 +175,12 @@ class TourWaitlistForm extends Form
                     $waitlister = Waitlister::create();
                 }
                 $form->saveInto($waitlister);
-                $waitlister->TotalNumberOfGuests = intval($data['TotalNumberOfGuests']);
+                $waitlister->TotalNumberOfGuests = (int) $data['TotalNumberOfGuests'];
                 $waitlister->TourID = $tourID;
                 $waitlister->write();
             }
         }
         return $this->controller->redirect($redirect);
-
-        return $this->controller->redirectBack();
     }
 
     /**

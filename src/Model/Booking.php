@@ -136,7 +136,7 @@ class Booking extends TourBaseClass
 
     private static $field_labels_right = [
         'BookingMember' => 'Person making the booking',
-        'PrimaryPhone' => 'If you don\'t have a mobile number, please provide a landline number',
+        'PrimaryPhone' => "If you don't have a mobile number, please provide a landline number",
         'SecondaryPhone' => 'Enter as +64 5 555 2222',
         'CountryOfOrigin' => 'In what country do most of the people in this group live?',
         'TotalNumberOfGuests' => 'Including children',
@@ -270,9 +270,9 @@ class Booking extends TourBaseClass
         if ($this->TourID) {
             $errorCount = Booking::get()
                 ->filter(['InitiatingEmail' => $this->InitiatingEmail,  'TourID' => $this->TourID])
-                ->exclude(['ID' => intval($this->ID)])
+                ->exclude(['ID' => $this->ID])
                 ->count();
-            if ($errorCount) {
+            if ($errorCount !== 0) {
                 $result->addError(
                     'Another booking for this tour with the same email already exists. You can only make one booking per tour per email number.',
                     'UNIQUE_' . $this->ClassName . '_InitiatingEmail'
@@ -282,9 +282,9 @@ class Booking extends TourBaseClass
             if ($this->PrimaryPhone) {
                 $errorCount = Booking::get()
                     ->filter(['PrimaryPhone' => $this->PrimaryPhone,  'TourID' => $this->TourID])
-                    ->exclude(['ID' => intval($this->ID)])
+                    ->exclude(['ID' => $this->ID])
                     ->count();
-                if ($errorCount) {
+                if ($errorCount !== 0) {
                     $result->addError(
                         'Another booking for this tour with the same mobile phone already exists. You can only make one booking per tour per mobile phone number.',
                         'UNIQUE_' . $this->ClassName . 'PrimaryPhone'
@@ -292,7 +292,7 @@ class Booking extends TourBaseClass
                 }
             }
             $tour = Tour::get()->byID($this->TourID);
-            if ($tour) {
+            if ($tour !== null) {
                 $availableRaw = $tour->getNumberOfPlacesAvailable()->RAW();
                 if ($this->exists()) {
                     //we have to get the booking from the DB again because that value for $this->TotalNumberOfGuests has already changed
@@ -306,7 +306,7 @@ class Booking extends TourBaseClass
                     $placesAvailable = $availableRaw;
                 }
                 //admins can override the following validation
-                $adminOverrideNotSet = $this->TotalGuestsAdminOverride ? false : true;
+                $adminOverrideNotSet = !(bool) $this->TotalGuestsAdminOverride;
                 if ($this->TotalNumberOfGuests > $placesAvailable && $adminOverrideNotSet) {
                     $result->addError(
                         'Sorry, there are not enough places available for your booking. Your booking is for ' . $this->TotalNumberOfGuests . ' and the places still available is: ' . $placesAvailable,
@@ -315,13 +315,13 @@ class Booking extends TourBaseClass
                 }
             }
         }
-        if (intval($this->TotalNumberOfGuests) < 1) {
+        if ((int) $this->TotalNumberOfGuests < 1) {
             $result->addError(
                 'You need to have at least one person attending to make a booking.',
                 'UNIQUE_' . $this->ClassName . '_TotalNumberOfGuests'
             );
         }
-        if (intval($this->TotalNumberOfGuests) < (intval($this->NumberOfChildren) + 1)) {
+        if ((int) $this->TotalNumberOfGuests < ((int) $this->NumberOfChildren + 1)) {
             $result->addError(
                 'You need to have at least one adult attending. It appears you only have children listed for this booking.',
                 'UNIQUE_' . $this->ClassName . '_NumberOfChildren'
@@ -331,7 +331,7 @@ class Booking extends TourBaseClass
         return $result;
     }
 
-    public function onBeforeWrite()
+    protected function onBeforeWrite()
     {
         parent::onBeforeWrite();
         if (! $this->Code) {
@@ -340,14 +340,14 @@ class Booking extends TourBaseClass
         $this->Date = $this->Tour()->Date;
     }
 
-    public function onAfterWrite()
+    protected function onAfterWrite()
     {
         parent::onAfterWrite();
 
         //create member ...
         if (! $this->BookingMemberID && $this->InitiatingEmail) {
             $member = Member::get()->filter(['Email' => $this->InitiatingEmail])->last();
-            if (! $member) {
+            if ($member === null) {
                 $member = Member::create(
                     [
                         'Email' => $this->InitiatingEmail,
@@ -358,7 +358,7 @@ class Booking extends TourBaseClass
                 $member->write();
             }
             $this->BookingMemberID = $member->ID;
-            if ($this->BookingMemberID) {
+            if ($this->BookingMemberID !== 0) {
                 $this->write();
             }
         }
@@ -368,7 +368,7 @@ class Booking extends TourBaseClass
         $this->Tour()->write();
     }
 
-    public function onAfterDelete()
+    protected function onAfterDelete()
     {
         parent::onAfterDelete();
         //always update the tour after a booking has been deleted
@@ -662,10 +662,6 @@ class Booking extends TourBaseClass
 
     protected function CurrentMemberIsOwner(): bool
     {
-        if (Member::currentUserID() === $this->BookingMemberID) {
-            return true;
-        }
-
-        return false;
+        return Member::currentUserID() === $this->BookingMemberID;
     }
 }

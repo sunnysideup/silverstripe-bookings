@@ -282,6 +282,7 @@ class Tour extends TourBaseClass
         $fakeDate = date('Y-m-d') . ' ' . $this->StartTime;
         $fakeDateTS = strtotime($fakeDate);
         $fakeDateTS = strtotime('+' . $this->Duration . ' minute', $fakeDateTS);
+
         $v = date('H:i:s', $fakeDateTS);
 
         return DBField::create_field('Time', $v);
@@ -323,11 +324,7 @@ class Tour extends TourBaseClass
 
     public function getNumberOfPlacesAvailable()
     {
-        if ($this->IsClosed) {
-            $v = 0;
-        } else {
-            $v = $this->TotalSpacesAtStart - $this->getNumberOfPlacesBooked()->RAW();
-        }
+        $v = $this->IsClosed ? 0 : $this->TotalSpacesAtStart - $this->getNumberOfPlacesBooked()->RAW();
 
         return DBField::create_field('Int', $v);
     }
@@ -339,11 +336,7 @@ class Tour extends TourBaseClass
 
     public function getIsFull()
     {
-        if ($this->IsClosed) {
-            $v = true;
-        } else {
-            $v = ($this->getNumberOfPlacesAvailable()->RAW() < 1 ? true : false);
-        }
+        $v = $this->IsClosed ? true : $this->getNumberOfPlacesAvailable()->RAW() < 1;
 
         return DBField::create_field(DBBoolean::class, $v);
     }
@@ -357,7 +350,7 @@ class Tour extends TourBaseClass
     {
         $v = 0;
         foreach ($this->ValidBookings() as $booking) {
-            $v += intval($booking->getNumberOfAdults()->Raw());
+            $v += (int) $booking->getNumberOfAdults()->Raw();
         }
 
         return DBField::create_field(DBBoolean::class, $v);
@@ -372,7 +365,7 @@ class Tour extends TourBaseClass
     {
         $v = 0;
         foreach ($this->ValidBookings() as $booking) {
-            $v += intval($booking->NumberOfChildren);
+            $v += (int) $booking->NumberOfChildren;
         }
 
         return DBField::create_field('Int', $v);
@@ -407,7 +400,7 @@ class Tour extends TourBaseClass
         return $this->CurrentUserIsTourManager($member);
     }
 
-    public function onBeforeWrite()
+    protected function onBeforeWrite()
     {
         parent::onBeforeWrite();
 
@@ -443,11 +436,7 @@ class Tour extends TourBaseClass
                     $decription .= $this->NumberOfChildren()->Value . ' children; ';
                 }
 
-                if ($decription) {
-                    $decription = 'Tour: ' . $decription;
-                } else {
-                    $decription = 'Tour: No Current Bookings';
-                }
+                $decription = $decription !== '' ? 'Tour: ' . $decription : 'Tour: No Current Bookings';
 
                 $eventAttributes = [
                     'summary' => json_encode($decription),
@@ -467,7 +456,7 @@ class Tour extends TourBaseClass
                 } else {
                     $googleEvent = $calendar->addCalendarEvent($eventAttributes);
                 }
-                if (isset($googleEvent->id)) {
+                if (property_exists($googleEvent, 'id') && $googleEvent->id !== null) {
                     $this->GoogleEventID = $googleEvent->id;
                 }
             }
@@ -491,7 +480,7 @@ class Tour extends TourBaseClass
         }
     }
 
-    public function onBeforeDelete()
+    protected function onBeforeDelete()
     {
         parent::onBeforeDelete();
         if (class_exists(GoogleCalendarInterface::class)) {
@@ -520,7 +509,7 @@ class Tour extends TourBaseClass
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        if (! $this->ID) {
+        if ($this->ID === 0) {
             $dbFields = Config::inst()->get(Tour::class, 'db');
             foreach (array_keys($dbFields) as $dbFieldName) {
                 $fields->removeByName($dbFieldName);

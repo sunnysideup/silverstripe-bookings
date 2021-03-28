@@ -26,10 +26,7 @@ class TourBaseClass extends DataObject
 
     public function CurrentUserIsTourManager($member)
     {
-        if (Permission::check('CMS_ACCESS_TOUR_ADMIN', 'any', $member)) {
-            return true;
-        }
-        return false;
+        return (bool) Permission::check('CMS_ACCESS_TOUR_ADMIN', 'any', $member);
     }
 
     public function canCreate($member = null, $context = [])
@@ -194,10 +191,10 @@ class TourBaseClass extends DataObject
         if ($rightFieldDescriptions) {
             foreach ($rightFieldDescriptions as $field => $desc) {
                 $formField = $fields->DataFieldByName($field);
-                if (! $formField) {
+                if ($formField === null) {
                     $formField = $fields->DataFieldByName($field . 'ID');
                 }
-                if ($formField) {
+                if ($formField !== null) {
                     $formField->setDescription($desc);
                 }
             }
@@ -213,23 +210,19 @@ class TourBaseClass extends DataObject
 
     protected function isOperationalClass(): bool
     {
-        if ($this instanceof Tour
+        return $this instanceof Tour
             ||
             $this instanceof Booking
             ||
-            $this instanceof Waitlister
-        ) {
-            return true;
-        }
-        return false;
+            $this instanceof Waitlister;
     }
 
     protected function getModelAdminController()
     {
         if ($this->isOperationalClass()) {
-            return singleton(TourBookingsAdmin::class);
+            return \Singleton(TourBookingsAdmin::class);
         }
-        return singleton(TourBookingsConfig::class);
+        return \Singleton(TourBookingsConfig::class);
     }
 
     protected function CurrentMemberIsOwner()
@@ -239,7 +232,7 @@ class TourBaseClass extends DataObject
 
     protected function AddUsefulLinkToFields($fields, $title, $link, $explanation = '')
     {
-        $name = preg_replace('/[^A-Za-z0-9 ]/', '', $title);
+        $name = preg_replace('#[^A-Za-z0-9 ]#', '', $title);
         $fields->addFieldsToTab(
             'Root.UsefulLinks',
             [

@@ -23,9 +23,9 @@ use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 
 class TourBookingForm extends Form
 {
-    protected $currentBooking = null;
+    protected $currentBooking;
 
-    protected $currentTour = null;
+    protected $currentTour;
 
     private static $show_city_field_for_countries = [
         'NZ',
@@ -55,7 +55,7 @@ class TourBookingForm extends Form
         if ($this->currentBooking) {
             $LeftColHeader = HeaderField::create('UpdateBookingHeader', 'Update your booking.', 1);
         } else {
-            $LeftColHeader = HeaderField::create('LeftColHeader', 'Pic\'s Peanut Butter Factory Tour');
+            $LeftColHeader = HeaderField::create('LeftColHeader', "Pic's Peanut Butter Factory Tour");
         }
 
         $column1->push(
@@ -97,7 +97,7 @@ class TourBookingForm extends Form
             $fields->dataFieldByName('CountryOfOrigin')->setValue('nz');
             //referral options
             $referralOptions = ReferralOption::get()->filter(['Archived' => false]);
-            if ($referralOptions->count()) {
+            if ($referralOptions->count() !== 0) {
                 $referralOptionsField = CheckboxSetField::create(
                     'ReferralOptions',
                     'How did you hear about our tours?',
@@ -109,7 +109,7 @@ class TourBookingForm extends Form
                 );
 
                 $hasOther = ReferralOption::get()->filter(['IsOther' => true])->first();
-                if ($hasOther) {
+                if ($hasOther !== null) {
                     $referralOptionsField->setAttribute('data-other', $hasOther->ID);
 
                     $column2->push(
@@ -184,7 +184,7 @@ class TourBookingForm extends Form
         $data = Convert::raw2sql($data);
         if ($this->currentTour) {
             $spacesLeft = $this->currentTour->getNumberOfPlacesAvailable()->value;
-            if (intval($data['TotalNumberOfGuests']) > $spacesLeft) {
+            if ((int) $data['TotalNumberOfGuests'] > $spacesLeft) {
                 $message = 'Sorry there is only ' . $spacesLeft . 'space';
                 if ($spacesLeft > 1) {
                     $message = 'Sorry there are only ' . $spacesLeft . ' spaces';
@@ -225,9 +225,9 @@ class TourBookingForm extends Form
         }
         if (isset($data['ReferralOptions'])) {
             foreach ($data['ReferralOptions'] as $referralOptionID) {
-                $referralOptionID = intval($referralOptionID);
+                $referralOptionID = (int) $referralOptionID;
                 $referralOption = ReferralOption::get()->byID($referralOptionID);
-                if ($referralOption) {
+                if ($referralOption !== null) {
                     $this->currentBooking->ReferralOptions()->add($referralOption);
                 }
             }

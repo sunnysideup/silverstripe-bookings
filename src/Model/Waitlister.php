@@ -51,7 +51,7 @@ class Waitlister extends TourBaseClass
     ];
 
     private static $field_labels_right = [
-        'PrimaryPhone' => 'If you don\'t have a mobile number, please provide a landline number',
+        'PrimaryPhone' => "If you don't have a mobile number, please provide a landline number",
         'TotalNumberOfGuests' => 'Including children',
     ];
 
@@ -156,7 +156,7 @@ class Waitlister extends TourBaseClass
         return RequiredFields::create($fields);
     }
 
-    public function onBeforeWrite()
+    protected function onBeforeWrite()
     {
         parent::onBeforeWrite();
         if (! $this->Code) {

@@ -68,7 +68,7 @@ class TourBookingsConfig extends ModelAdmin
         }
 
         if (is_subclass_of($this->modelClass, TourBookingSettings::class) || $this->modelClass === TourBookingSettings::class) {
-            if ($gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+            if (($gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) !== null) {
                 if ($gridField instanceof GridField) {
                     $config = $gridField->getConfig();
                     $config->removeComponentsByType(GridFieldExportButton::class);

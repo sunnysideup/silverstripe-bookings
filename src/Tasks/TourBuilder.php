@@ -31,8 +31,7 @@ class TourBuilder extends BuildTask
         $today = strtotime('today');
         //revers sort to get first match!!!!
         //make sure to start at one not zero ....
-        for ($i = 1; $i <= $this->getNumberOfDaysInFuture(); $i++) {
-            $dateTS = $today + ($i * 86400);
+        for ($i = 1; $i <= $this->getNumberOfDaysInFuture(); ++$i) {
             $dateTS = strtotime('today +' . $i . ' day');
             $mysqlDate = date('Y-m-d', $dateTS);
             DB::alteration_message('<strong>' . $mysqlDate . '</strong>');
