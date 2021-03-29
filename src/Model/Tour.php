@@ -545,7 +545,7 @@ class Tour extends TourBaseClass
             self::class,
             $fields,
             [
-                'IsClosed' => 'Tour.Date > \'' . date('Y-m-d', strtotime('-2 days')) . '\''
+                'IsClosed' => "Tour.Date > '" . date('Y-m-d', strtotime('-2 days')) . "'"
             ]
         );
 
@@ -608,4 +608,11 @@ class Tour extends TourBaseClass
             $newData
         );
     }
+
+
+    protected function getModelAdminController()
+    {
+        return \Singleton(TourBookingsConfig::class);
+    }
+
 }
