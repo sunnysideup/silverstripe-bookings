@@ -101,12 +101,15 @@ class DateInfo extends TourBaseClass
     ];
 
     private static $field_labels_right = [
-        'SortOrder' => 'When tours are auto-generated a Date Info/Rule with a HIGHER number will overrule a Date Info/Rule with a lower number.</br> Closed days (eg no tours) should always have a higher priority than open days.',
+        'SortOrder' => '
+            When tours are auto-generated a Date Info/Rule with a HIGHER number will overrule a Date Info/Rule with a lower number.</br>
+            Closed days (eg no tours) should always have a higher priority than open days.',
         'Title' => 'Helps to identify this entry',
-        'FromDate' => 'First day of period',
-        'UntilDate' => 'Last day of period',
+        'FromDate' => 'First day of period we are defining (e.g. first day of Xmas Holiday)',
+        'UntilDate' => 'Last day of period we are defining (e.g. last day of Xmas Holiday)',
         'PrivateContent' => 'More information for staff only',
         'PublicContent' => 'Information for public',
+        'RepeatEvery' => 'Rules run forever, if they repeat.',
     ];
 
     private static $summary_fields = [

@@ -9,6 +9,8 @@ use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
 use SilverStripe\Forms\GridField\GridFieldSortableHeader;
+
+use SilverStripe\Forms\LiteralField;
 use Sunnysideup\Bookings\Model\DateInfo;
 use Sunnysideup\Bookings\Model\ReferralOption;
 use Sunnysideup\Bookings\Model\TimesForTour;
@@ -57,15 +59,19 @@ class TourBookingsConfig extends ModelAdmin
                 $gridField->getConfig()->removeComponentsByType(GridFieldPrintButton::class);
                 $gridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
             }
-
-            $gridField->setDescription(
-                '<h3>
-                    The TOUR BUILDER automatically generates tours based on the rules in the table above.<br />
-                    Only one rule is applied to each day.  The applicable rule is found by checking the rules (starting from the bottom of the table) above until a match is found.
-                    <br />
-                    <br />
-                    To find out what rule applies for a certain day, click on the magnifying glass and search for a particular day.
-                </h3>'
+            $form->Fields()->insertBefore(
+                $this->sanitiseClassName($this->modelClass),
+                LiteralField::create(
+                    'Explanation',
+                    '
+                        <p>
+                        - The TOUR BUILDER automatically generates tours based on the rules in the table below.<br />
+                        - Only one rule is applied to each day.  The applicable rule is found by checking the rules (starting from the bottom of the table) below until a match is found.<br />
+                        - This means the most standard rules - i.e. business as usual shows at the top, and specific rules, such as "closed for Xmas", are at the bottom.
+                        - To find out what rule applies for a certain day, click on the magnifying glass and search for a particular day.
+                        </p>
+                    '
+                )
             );
         }
 
