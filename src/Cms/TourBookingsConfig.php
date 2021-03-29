@@ -12,6 +12,7 @@ use SilverStripe\Forms\GridField\GridFieldSortableHeader;
 use Sunnysideup\Bookings\Model\DateInfo;
 use Sunnysideup\Bookings\Model\ReferralOption;
 use Sunnysideup\Bookings\Model\TimesForTour;
+use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 
@@ -28,6 +29,7 @@ class TourBookingsConfig extends ModelAdmin
         TimesForTour::class,
         DateInfo::class,
         ReferralOption::class,
+        Tour::class,
     ];
 
     private static $url_segment = 'tour-bookings-config';

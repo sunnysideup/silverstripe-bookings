@@ -541,8 +541,13 @@ class Tour extends TourBaseClass
                 $fields->dataFieldByName('GoogleEventID')->performReadonlyTransformation()
             );
         }
-
-        DataObjectOneFieldAddEditAllLink::add_edit_links_to_checkboxes(self::class, $fields);
+        DataObjectOneFieldAddEditAllLink::add_edit_links_to_checkboxes(
+            self::class,
+            $fields,
+            [
+                'IsClosed' => 'Tour.Date > \'' . date('Y-m-d', strtotime('-2 days')) . '\''
+            ]
+        );
 
         return $fields;
     }

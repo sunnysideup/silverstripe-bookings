@@ -210,7 +210,9 @@ class TourBaseClass extends DataObject
 
     protected function isOperationalClass(): bool
     {
-        return $this instanceof Tour
+        //we exclude tours here, because we only show the future tours in the operational side ...
+        return
+            $this instanceof Tour
             ||
             $this instanceof Booking
             ||
