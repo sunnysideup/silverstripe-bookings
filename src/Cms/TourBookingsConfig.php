@@ -76,15 +76,14 @@ class TourBookingsConfig extends ModelAdmin
         }
 
         if (is_subclass_of($this->modelClass, TourBookingSettings::class) || $this->modelClass === TourBookingSettings::class) {
-            if (($gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) !== null) {
-                if ($gridField instanceof GridField) {
-                    $config = $gridField->getConfig();
-                    $config->removeComponentsByType(GridFieldExportButton::class);
-                    $config->removeComponentsByType(GridFieldPrintButton::class);
-                    $config->removeComponentsByType(GridFieldImportButton::class);
-                    $config->removeComponentsByType(GridFieldFilterHeader::class);
-                    $config->removeComponentsByType(GridFieldSortableHeader::class);
-                }
+            $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass));
+            if ($gridField && $gridField instanceof GridField) {
+                $config = $gridField->getConfig();
+                $config->removeComponentsByType(GridFieldExportButton::class);
+                $config->removeComponentsByType(GridFieldPrintButton::class);
+                $config->removeComponentsByType(GridFieldImportButton::class);
+                $config->removeComponentsByType(GridFieldFilterHeader::class);
+                $config->removeComponentsByType(GridFieldSortableHeader::class);
             }
         }
 
