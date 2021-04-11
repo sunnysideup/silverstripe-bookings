@@ -7,23 +7,23 @@ use Exception;
 use SilverStripe\ORM\DataQuery;
 use SilverStripe\ORM\FieldType\DBDate;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
-
 use Sunnysideup\Bookings\Model\DateInfo;
 
 class TourTimesToApplyForCertainDayFilter extends ExactMatchFilter
 {
     /**
      * @return DataQuery
-     **/
+     */
     public function apply(DataQuery $query)
     {
         $value = $this->getValue();
         if ($value) {
             $where = '"DateInfo"."ID" = 0';
-            if ($value === false || $value === null || (is_string($value) && ! strlen($value))) {
+            if (false === $value || null === $value || (is_string($value) && ! strlen($value))) {
                 // don't try to evaluate empty values with strtotime() below, as it returns "1970-01-01" when it should be
                 // saved as NULL in database
                 $this->value = null;
+
                 return $query;
             }
 
@@ -31,6 +31,7 @@ class TourTimesToApplyForCertainDayFilter extends ExactMatchFilter
             if (is_array($value)) {
                 if (! empty($value['Day']) && ! empty($value['Month']) && ! empty($value['Year'])) {
                     $this->value = $value['Year'] . '-' . $value['Month'] . '-' . $value['Day'];
+
                     return;
                 }
                 // return nothing (so checks below don't fail on an empty array)
@@ -64,6 +65,7 @@ class TourTimesToApplyForCertainDayFilter extends ExactMatchFilter
             }
             $query->where($where);
         }
+
         return $query;
     }
 }

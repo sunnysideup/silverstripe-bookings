@@ -34,17 +34,17 @@ class TourBookingSettings extends TourBaseClass
 
     private static $monthly_tour_report_email_to = '';
 
-    #######################
-    ### Names Section
-    #######################
+    //######################
+    //## Names Section
+    //######################
 
     private static $singular_name = 'Tour Booking Settings';
 
     private static $plural_name = 'Tour Booking Settings';
 
-    #######################
-    ### Model Section
-    #######################
+    //######################
+    //## Model Section
+    //######################
     private static $table_name = 'TourBookingSettings';
 
     private static $db = [
@@ -65,9 +65,9 @@ class TourBookingSettings extends TourBaseClass
         'TourSpacesAvailableEmail' => EmailReminderNotificationSchedule::class,
     ];
 
-    #######################
-    ### Further DB Field Details
-    #######################
+    //######################
+    //## Further DB Field Details
+    //######################
 
     private static $defaults = [
         'MaximumNumberPerGroup' => '10',
@@ -82,9 +82,9 @@ class TourBookingSettings extends TourBaseClass
         'AdministratorID',
     ];
 
-    #######################
-    ### Field Names and Presentation Section
-    #######################
+    //######################
+    //## Field Names and Presentation Section
+    //######################
 
     private static $field_labels = [
         'Administrator' => 'Tour Booking Manager',
@@ -136,7 +136,7 @@ class TourBookingSettings extends TourBaseClass
     public static function inst()
     {
         $obj = DataObject::get_one(TourBookingSettings::class);
-        if ($obj === null) {
+        if (null === $obj) {
             $obj = TourBookingSettings::create();
             $obj->write();
         }
@@ -144,13 +144,13 @@ class TourBookingSettings extends TourBaseClass
         return $obj;
     }
 
-    #######################
-    ### can Section
-    #######################
+    //######################
+    //## can Section
+    //######################
 
     public function canCreate($member = null, $context = [])
     {
-        return !(bool) DataObject::get_one(static::class);
+        return ! (bool) DataObject::get_one(static::class);
     }
 
     public function canView($member = null, $context = [])
@@ -166,24 +166,6 @@ class TourBookingSettings extends TourBaseClass
     public function canDelete($member = null, $context = [])
     {
         return false;
-    }
-
-    #######################
-    ### write Section
-    #######################
-
-    protected function onBeforeWrite()
-    {
-        parent::onBeforeWrite();
-        if (class_exists(GoogleCalendarInterface::class) && $this->owner->isChanged('GoogleCalendarVerificationCode')) {
-            $this->createNewGoogleCalendarAccessToken();
-        }
-    }
-
-    protected function onAfterWrite()
-    {
-        parent::onAfterWrite();
-        //...
     }
 
     public function requireDefaultRecords()
@@ -207,10 +189,11 @@ class TourBookingSettings extends TourBaseClass
             ->setPermissionCode('CMS_ACCESS_TOUR_ADMIN')
             ->setRoleTitle('Tour Manager Privileges')
             ->setPermissionArray(['CMS_ACCESS_TourBookingsAdmin', 'CMS_ACCESS_TourBookingsConfig'])
-            ->CreateGroupAndMember();
+            ->CreateGroupAndMember()
+        ;
         $member = $group->Members()->last();
 
-        if (TourBookingSettings::get()->count() === 0) {
+        if (0 === TourBookingSettings::get()->count()) {
             DB::alteration_message('Creating Tour Bookings Settings', 'created');
             $obj = TourBookingSettings::create();
             if (! $obj->AdministratorID) {
@@ -230,23 +213,25 @@ class TourBookingSettings extends TourBaseClass
         }
     }
 
-    #######################
-    ### Import / Export Section
-    #######################
+    //######################
+    //## Import / Export Section
+    //######################
 
-    #######################
-    ### CMS Edit Section
-    #######################
+    //######################
+    //## CMS Edit Section
+    //######################
 
     public function CMSEditLink()
     {
         $controller = \Singleton(TourBookingsConfig::class);
+
         return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/' . $this->ID . '/edit';
     }
 
     public function CMSAddLink()
     {
         $controller = \Singleton(TourBookingsConfig::class);
+
         return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/new';
     }
 
@@ -258,10 +243,10 @@ class TourBookingSettings extends TourBaseClass
         $rightFieldDescriptions = $this->Config()->get('field_labels_right');
         foreach ($rightFieldDescriptions as $field => $desc) {
             $formField = $fields->DataFieldByName($field);
-            if ($formField === null) {
+            if (null === $formField) {
                 $formField = $fields->DataFieldByName($field . 'ID');
             }
-            if ($formField !== null) {
+            if (null !== $formField) {
                 $formField->setDescription($desc);
             }
         }
@@ -274,7 +259,7 @@ class TourBookingSettings extends TourBaseClass
                     ],
                 ]
             )->first();
-        if ($group !== null) {
+        if (null !== $group) {
             $members = $group->Members();
             $fields->replaceField(
                 'AdministratorID',
@@ -331,7 +316,7 @@ class TourBookingSettings extends TourBaseClass
             $fieldName = $field;
             if ($this->{$fieldName}) {
                 $emailNotifier = EmailReminderNotificationSchedule::get()->byID($this->{$field});
-                if ($emailNotifier !== null) {
+                if (null !== $emailNotifier) {
                     $cmsLink = $emailNotifier->CMSEditLink();
                     if ($cmsLink) {
                         $formField->setDescription(
@@ -408,5 +393,23 @@ class TourBookingSettings extends TourBaseClass
         );
 
         return $fields;
+    }
+
+    //######################
+    //## write Section
+    //######################
+
+    protected function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+        if (class_exists(GoogleCalendarInterface::class) && $this->owner->isChanged('GoogleCalendarVerificationCode')) {
+            $this->createNewGoogleCalendarAccessToken();
+        }
+    }
+
+    protected function onAfterWrite()
+    {
+        parent::onAfterWrite();
+        //...
     }
 }

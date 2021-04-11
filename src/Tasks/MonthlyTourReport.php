@@ -3,10 +3,7 @@
 namespace Sunnysideup\Bookings\Tasks;
 
 use DateTime;
-
-
 use SilverStripe\Control\Director;
-
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\ArrayList;
@@ -14,10 +11,6 @@ use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
 use Sunnysideup\Geoip\Geoip;
 
-/**
- * @package cms
- * @subpackage assets
- */
 class MonthlyTourReport extends BuildTask
 {
     protected $title = 'Monthly Tour Report';
@@ -25,7 +18,7 @@ class MonthlyTourReport extends BuildTask
     protected $description = 'Sends and email at the beginning of each month containing details of Tour data for the previous month';
 
     /**
-     * @return string  e.g. /dev/tasks/MyTask-In-Full
+     * @return string e.g. /dev/tasks/MyTask-In-Full
      */
     public function Link(): string
     {
@@ -33,6 +26,7 @@ class MonthlyTourReport extends BuildTask
         if (! $link) {
             $link = str_replace('\\', '-', static::class);
         }
+
         return Director::absoluteUrl('dev/tasks/') . $link;
     }
 
@@ -55,7 +49,8 @@ class MonthlyTourReport extends BuildTask
                     'Date:GreaterThanOrEqual' => $monthStart->format('Y-m-d'),
                     'Date:LessThanOrEqual' => $monthEnd->format('Y-m-d'),
                 ]
-            );
+            )
+        ;
         foreach ($tours as $tour) {
             $totalNumberOfPlacesBooked += $tour->NumberOfPlacesBooked()->value;
             $totalNumberOfGroups += $tour->NumberOfGroups()->value;
@@ -68,7 +63,7 @@ class MonthlyTourReport extends BuildTask
                     $nationalities[$countryCode] = 1;
                 }
                 $cityTown = ucwords(strtolower(trim($booking->CityTown)));
-                if ($cityTown !== '') {
+                if ('' !== $cityTown) {
                     if (isset($citiesAndTowns[$cityTown])) {
                         ++$citiesAndTowns[$cityTown];
                     } else {
@@ -132,6 +127,7 @@ class MonthlyTourReport extends BuildTask
             ];
             $list->push($data);
         }
+
         return $list;
     }
 
@@ -146,6 +142,7 @@ class MonthlyTourReport extends BuildTask
             ];
             $list->push($data);
         }
+
         return $list;
     }
 
@@ -170,6 +167,7 @@ class MonthlyTourReport extends BuildTask
             $data['OtherResponses'] = $otherResponses;
             $list->push($data);
         }
+
         return $list;
     }
 }

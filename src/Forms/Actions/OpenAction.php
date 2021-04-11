@@ -15,7 +15,7 @@ use SilverStripe\Control\HTTPRequest;
 class OpenAction extends Handler
 {
     /**
-     * Front-end label for this handler's action
+     * Front-end label for this handler's action.
      *
      * @var string
      */
@@ -30,16 +30,16 @@ class OpenAction extends Handler
 
     /**
      * Extra classes to add to the bulk action button for this handler
-     * Can also be used to set the button font-icon e.g. font-icon-trash
+     * Can also be used to set the button font-icon e.g. font-icon-trash.
      *
      * @var string
      */
     protected $buttonClasses = 'font-icon-eye';
 
     /**
-     * Whether this handler should be called via an XHR from the front-end
+     * Whether this handler should be called via an XHR from the front-end.
      *
-     * @var boolean
+     * @var bool
      */
     protected $xhr = true;
 
@@ -47,13 +47,13 @@ class OpenAction extends Handler
      * Set to true is this handler will destroy any data.
      * A warning and confirmation will be shown on the front-end.
      *
-     * @var boolean
+     * @var bool
      */
     protected $destructive = true;
 
     /**
      * URL segment used to call this handler
-     * If none given, @BulkManager will fallback to the Unqualified class name
+     * If none given, @BulkManager will fallback to the Unqualified class name.
      *
      * @var string
      */
@@ -76,7 +76,7 @@ class OpenAction extends Handler
     ];
 
     /**
-     * Return i18n localized front-end label
+     * Return i18n localized front-end label.
      *
      * @return array
      */

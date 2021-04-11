@@ -80,11 +80,13 @@ class SelfCheckInForm extends Form
             );
 
             return $this->controller->redirectBack();
-        } elseif (empty($data['BookingData'])) {
+        }
+        if (empty($data['BookingData'])) {
             $this->sessionError(
                 'You need to enter either your surname, email, phone number or booking code into the field below.',
                 'bad'
             );
+
             return $this->controller->redirectBack();
         }
         $bookingFound = false;
@@ -110,6 +112,7 @@ class SelfCheckInForm extends Form
                             'Sorry there is more than one tour group with a booking for that ' . $niceFieldName,
                             'bad'
                         );
+
                         return $this->controller->redirectBack();
                     }
                 }
@@ -120,11 +123,13 @@ class SelfCheckInForm extends Form
                         'This booking has already been checked in   ',
                         'bad'
                     );
+
                     return $this->controller->redirectBack();
                 }
                 $booking->HasArrived = true;
                 $booking->write();
                 $redirect = $this->controller->Link('confirmselfcheckin/' . $booking->Code);
+
                 return $this->controller->redirect($redirect);
             }
         }
@@ -135,6 +140,7 @@ class SelfCheckInForm extends Form
                 "Oops, this booking doesn't seem to exist in the Peanut Butter World ether. Probably best to ask the PB guru who's hanging out behind the desk for some help ",
                 'bad'
             );
+
             return $this->controller->redirectBack();
         }
     }
@@ -146,7 +152,7 @@ class SelfCheckInForm extends Form
     {
         $data = $this->getData();
 
-        /**
+        /*
          * ### @@@@ START REPLACEMENT @@@@ ###
          * WHY: automated upgrade
          * OLD: Session:: (case sensitive)

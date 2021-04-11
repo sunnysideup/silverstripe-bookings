@@ -10,7 +10,6 @@ use SilverStripe\Security\Permission;
 use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
 use Sunnysideup\Bookings\Cms\TourBookingsConfig;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
-
 use Sunnysideup\SanitiseClassName\Sanitiser;
 use Sunnysideup\YesNoAnyFilter\FixBooleanSearch;
 
@@ -20,9 +19,9 @@ class TourBaseClass extends DataObject
 
     private static $table_name = 'TourBaseClass';
 
-    #######################
-    ### can Section
-    #######################
+    //######################
+    //## can Section
+    //######################
 
     public function CurrentUserIsTourManager($member)
     {
@@ -34,6 +33,7 @@ class TourBaseClass extends DataObject
         if ($this->CurrentMemberIsOwner()) {
             return true;
         }
+
         return $this->CurrentUserIsTourManager($member);
     }
 
@@ -42,6 +42,7 @@ class TourBaseClass extends DataObject
         if ($this->CurrentMemberIsOwner()) {
             return true;
         }
+
         return $this->CurrentUserIsTourManager($member);
     }
 
@@ -50,6 +51,7 @@ class TourBaseClass extends DataObject
         if ($this->CurrentMemberIsOwner()) {
             return true;
         }
+
         return $this->CurrentUserIsTourManager($member);
     }
 
@@ -58,12 +60,13 @@ class TourBaseClass extends DataObject
         if ($this->CurrentMemberIsOwner()) {
             return true;
         }
+
         return $this->CurrentUserIsTourManager($member);
     }
 
-    #######################
-    ### write Section
-    #######################
+    //######################
+    //## write Section
+    //######################
 
     public function validate()
     {
@@ -76,7 +79,7 @@ class TourBaseClass extends DataObject
                 $value = $this->{$field};
                 if (! $value) {
                     $fieldWithoutID = $field;
-                    if (substr($fieldWithoutID, -2) === 'ID') {
+                    if ('ID' === substr($fieldWithoutID, -2)) {
                         $fieldWithoutID = substr($fieldWithoutID, 0, -2);
                     }
                     $myName = isset($fieldLabels[$fieldWithoutID]) ? $fieldLabels[$fieldWithoutID] : $fieldWithoutID;
@@ -88,12 +91,13 @@ class TourBaseClass extends DataObject
                         'REQUIRED_Booking_' . $field
                     );
                 }
-                if (isset($indexes[$field]) && isset($indexes[$field]['type']) && $indexes[$field]['type'] === 'unique') {
+                if (isset($indexes[$field], $indexes[$field]['type']) && 'unique' === $indexes[$field]['type']) {
                     $id = (empty($this->ID) ? 0 : $this->ID);
                     $count = self::get()
                         ->filter([$field => $value, 'ClassName' => $this->ClassName])
                         ->exclude(['ID' => $id])
-                        ->count();
+                        ->count()
+                    ;
                     if ($count > 0) {
                         $myName = $fieldLabels['$field'];
                         $result->addError(
@@ -111,31 +115,32 @@ class TourBaseClass extends DataObject
         return $result;
     }
 
-    #######################
-    ### Import / Export Section
-    #######################
+    //######################
+    //## Import / Export Section
+    //######################
 
-
-
-    #######################
-    ### CMS Edit Section
-    #######################
+    //######################
+    //## CMS Edit Section
+    //######################
 
     public function CMSEditLink()
     {
         $controller = $this->getModelAdminController();
+
         return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/' . $this->ID . '/edit';
     }
 
     public function CMSAddLink()
     {
         $controller = $this->getModelAdminController();
+
         return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/new';
     }
 
     public function CMSListLink()
     {
         $controller = $this->getModelAdminController();
+
         return $controller->Link() . Sanitiser::sanitise($this->ClassName);
     }
 
@@ -191,10 +196,10 @@ class TourBaseClass extends DataObject
         if ($rightFieldDescriptions) {
             foreach ($rightFieldDescriptions as $field => $desc) {
                 $formField = $fields->DataFieldByName($field);
-                if ($formField === null) {
+                if (null === $formField) {
                     $formField = $fields->DataFieldByName($field . 'ID');
                 }
-                if ($formField !== null) {
+                if (null !== $formField) {
                     $formField->setDescription($desc);
                 }
             }
@@ -222,6 +227,7 @@ class TourBaseClass extends DataObject
         if ($this->isOperationalClass()) {
             return \Singleton(TourBookingsAdmin::class);
         }
+
         return \Singleton(TourBookingsConfig::class);
     }
 

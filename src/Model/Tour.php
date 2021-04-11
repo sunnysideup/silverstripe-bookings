@@ -3,10 +3,6 @@
 namespace Sunnysideup\Bookings\Model;
 
 use DateTime;
-
-
-
-
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
@@ -15,32 +11,29 @@ use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBBoolean;
-
 use SilverStripe\ORM\FieldType\DBField;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
 use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
-
 use Sunnysideup\Bookings\Search\TourDayFilter;
 use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
 use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
-
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 
 class Tour extends TourBaseClass
 {
-    #######################
-    ### Names Section
-    #######################
+    //######################
+    //## Names Section
+    //######################
 
     private static $singular_name = 'Tour';
 
     private static $plural_name = 'Tours';
 
-    #######################
-    ### Model Section
-    #######################
+    //######################
+    //## Model Section
+    //######################
 
     private static $table_name = 'Tour';
 
@@ -67,9 +60,9 @@ class Tour extends TourBaseClass
         'Waitlisters' => Waitlister::class,
     ];
 
-    #######################
-    ### Further DB Field Details
-    #######################
+    //######################
+    //## Further DB Field Details
+    //######################
 
     private static $indexes = [
         'IsClosed' => true,
@@ -105,9 +98,9 @@ class Tour extends TourBaseClass
         ],
     ];
 
-    #######################
-    ### Field Names and Presentation Section
-    #######################
+    //######################
+    //## Field Names and Presentation Section
+    //######################
 
     private static $field_labels = [
         'IsClosed' => 'Closed',
@@ -160,9 +153,9 @@ class Tour extends TourBaseClass
         'PrivateContent',
     ];
 
-    #######################
-    ### Casting Section
-    #######################
+    //######################
+    //## Casting Section
+    //######################
 
     private static $casting = [
         'Title' => 'Varchar',
@@ -177,9 +170,9 @@ class Tour extends TourBaseClass
         'CalculatedPrivateContent' => 'HTMLText',
     ];
 
-    #######################
-    ### write Section
-    #######################
+    //######################
+    //## write Section
+    //######################
 
     private $calendarDebug = false;
 
@@ -247,7 +240,7 @@ class Tour extends TourBaseClass
         $v = $this->PublicContent . $this->PublicContentForTour;
         if (strlen($v) > 10) {
             $v .= '<br>';
-        } elseif ($v === '<br>') {
+        } elseif ('<br>' === $v) {
             $v = '';
         }
         if ($this->IsFull()->value) {
@@ -257,6 +250,7 @@ class Tour extends TourBaseClass
             $singularPlural = $this->NumberOfPlacesAvailable()->value > 1 ? ' spaces' : ' space';
             $v .= '<strong>' . $this->NumberOfPlacesAvailable()->value . $singularPlural . ' left</strong>';
         }
+
         return DBField::create_field('HTMLText', $v);
     }
 
@@ -383,9 +377,9 @@ class Tour extends TourBaseClass
         return DBField::create_field('Int', $v);
     }
 
-    #######################
-    ### can Section
-    #######################
+    //######################
+    //## can Section
+    //######################
 
     public function canCreate($member = null, $context = [])
     {
@@ -397,99 +391,8 @@ class Tour extends TourBaseClass
         if ($this->getNumberOfGroups()->RAW() > 0) {
             return false;
         }
+
         return $this->CurrentUserIsTourManager($member);
-    }
-
-    protected function onBeforeWrite()
-    {
-        parent::onBeforeWrite();
-
-        if (! $this->TotalSpacesAtStart && $this->TourTimeID) {
-            if ($this->TourTime()->exists()) {
-                $this->StartTime = $this->TourTime()->StartTime;
-                $this->Duration = $this->TourTime()->Duration;
-                $this->TotalSpacesAtStart = $this->TourTime()->NumberOfSpacesAvailable;
-                $this->PublicContent = implode('<br />', [$this->TourTime()->PublicContent]);
-                $this->PrivateContent = implode('<br />', [$this->TourTime()->PrivateContent]);
-            }
-        }
-
-        if ($this->Date && $this->isChanged('Date')) {
-            foreach ($this->Bookings() as $booking) {
-                $booking->Date = $this->Date;
-                $booking->write();
-            }
-        }
-
-        if (class_exists(GoogleCalendarInterface::class) && (Director::isLive() || $this->calendarDebug)) {
-            $settings = TourBookingSettings::inst();
-            $calendar = new GoogleCalendarInterface();
-            if (! empty($calendar->config())) {
-                $timeZone = Config::inst()->get(GoogleCalendarInterface::class, 'time_zone');
-
-                $decription = '';
-
-                if ($this->NumberOfGroups()->Value) {
-                    $decription .= $this->NumberOfPlacesBooked()->Value . ' people attending' . '; ';
-                    $decription .= $this->NumberOfGroups()->Value . ' groups; ';
-                    $decription .= $this->NumberOfAdults()->Value . ' adults; ';
-                    $decription .= $this->NumberOfChildren()->Value . ' children; ';
-                }
-
-                $decription = $decription !== '' ? 'Tour: ' . $decription : 'Tour: No Current Bookings';
-
-                $eventAttributes = [
-                    'summary' => json_encode($decription),
-                    'description' => $this->Title()->Value,
-                    'start' => [
-                        'dateTime' => $this->Date . 'T' . $this->StartTime,
-                        'timeZone' => $timeZone,
-                    ],
-                    'end' => [
-                        'dateTime' => $this->Date . 'T' . $this->EndTime(),
-                        'timeZone' => $timeZone,
-                    ],
-                ];
-
-                if ($this->GoogleEventID && $calendar->getCalendarEvent($this->GoogleEventID)) {
-                    $googleEvent = $calendar->updateCalendarEvent($eventAttributes, $this->GoogleEventID);
-                } else {
-                    $googleEvent = $calendar->addCalendarEvent($eventAttributes);
-                }
-                if (property_exists($googleEvent, 'id') && $googleEvent->id !== null) {
-                    $this->GoogleEventID = $googleEvent->id;
-                }
-            }
-        }
-
-        $tourDate = new DateTime($this->Date);
-        $now = new DateTime(date('Y-m-d'));
-        //we only want to do this if the the tour is not in the past
-        if ($this->Waitlisters()->count() && $tourDate->getTimestamp() >= $now->getTimestamp()) {
-            $settings = TourBookingSettings::inst();
-            $spacesAvailableEmail = $settings->TourSpacesAvailableEmail();
-            $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
-
-            $placesAvailable = $this->NumberOfPlacesAvailable()->value;
-            $waitlisters = $this->Waitlisters()->filter(['TotalNumberOfGuests:LessThanOrEqual' => $placesAvailable]);
-
-            foreach ($waitlisters as $waitlister) {
-                //send an email to the waitlister containing link to booking form
-                $mailOut->runOne($spacesAvailableEmail, $waitlister);
-            }
-        }
-    }
-
-    protected function onBeforeDelete()
-    {
-        parent::onBeforeDelete();
-        if (class_exists(GoogleCalendarInterface::class)) {
-            // $settings = TourBookingSettings::inst();
-            $calendar = new GoogleCalendarInterface();
-            if (! empty($calendar->config()) && $this->GoogleEventID) {
-                $calendar->deleteCalendarEvent($this->GoogleEventID);
-            }
-        }
     }
 
     public function requireDefaultRecords()
@@ -498,18 +401,18 @@ class Tour extends TourBaseClass
         //...
     }
 
-    #######################
-    ### Import / Export Section
-    #######################
+    //######################
+    //## Import / Export Section
+    //######################
 
-    #######################
-    ### CMS Edit Section
-    #######################
+    //######################
+    //## CMS Edit Section
+    //######################
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        if ($this->ID === 0) {
+        if (0 === $this->ID) {
             $dbFields = Config::inst()->get(Tour::class, 'db');
             foreach (array_keys($dbFields) as $dbFieldName) {
                 $fields->removeByName($dbFieldName);
@@ -558,13 +461,106 @@ class Tour extends TourBaseClass
         if ($absolute) {
             $v = Director::absoluteURL($v);
         }
+
         return $v;
+    }
+
+    protected function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+
+        if (! $this->TotalSpacesAtStart && $this->TourTimeID) {
+            if ($this->TourTime()->exists()) {
+                $this->StartTime = $this->TourTime()->StartTime;
+                $this->Duration = $this->TourTime()->Duration;
+                $this->TotalSpacesAtStart = $this->TourTime()->NumberOfSpacesAvailable;
+                $this->PublicContent = implode('<br />', [$this->TourTime()->PublicContent]);
+                $this->PrivateContent = implode('<br />', [$this->TourTime()->PrivateContent]);
+            }
+        }
+
+        if ($this->Date && $this->isChanged('Date')) {
+            foreach ($this->Bookings() as $booking) {
+                $booking->Date = $this->Date;
+                $booking->write();
+            }
+        }
+
+        if (class_exists(GoogleCalendarInterface::class) && (Director::isLive() || $this->calendarDebug)) {
+            $settings = TourBookingSettings::inst();
+            $calendar = new GoogleCalendarInterface();
+            if (! empty($calendar->config())) {
+                $timeZone = Config::inst()->get(GoogleCalendarInterface::class, 'time_zone');
+
+                $decription = '';
+
+                if ($this->NumberOfGroups()->Value) {
+                    $decription .= $this->NumberOfPlacesBooked()->Value . ' people attending' . '; ';
+                    $decription .= $this->NumberOfGroups()->Value . ' groups; ';
+                    $decription .= $this->NumberOfAdults()->Value . ' adults; ';
+                    $decription .= $this->NumberOfChildren()->Value . ' children; ';
+                }
+
+                $decription = '' !== $decription ? 'Tour: ' . $decription : 'Tour: No Current Bookings';
+
+                $eventAttributes = [
+                    'summary' => json_encode($decription),
+                    'description' => $this->Title()->Value,
+                    'start' => [
+                        'dateTime' => $this->Date . 'T' . $this->StartTime,
+                        'timeZone' => $timeZone,
+                    ],
+                    'end' => [
+                        'dateTime' => $this->Date . 'T' . $this->EndTime(),
+                        'timeZone' => $timeZone,
+                    ],
+                ];
+
+                if ($this->GoogleEventID && $calendar->getCalendarEvent($this->GoogleEventID)) {
+                    $googleEvent = $calendar->updateCalendarEvent($eventAttributes, $this->GoogleEventID);
+                } else {
+                    $googleEvent = $calendar->addCalendarEvent($eventAttributes);
+                }
+                if (property_exists($googleEvent, 'id') && null !== $googleEvent->id) {
+                    $this->GoogleEventID = $googleEvent->id;
+                }
+            }
+        }
+
+        $tourDate = new DateTime($this->Date);
+        $now = new DateTime(date('Y-m-d'));
+        //we only want to do this if the the tour is not in the past
+        if ($this->Waitlisters()->count() && $tourDate->getTimestamp() >= $now->getTimestamp()) {
+            $settings = TourBookingSettings::inst();
+            $spacesAvailableEmail = $settings->TourSpacesAvailableEmail();
+            $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
+
+            $placesAvailable = $this->NumberOfPlacesAvailable()->value;
+            $waitlisters = $this->Waitlisters()->filter(['TotalNumberOfGuests:LessThanOrEqual' => $placesAvailable]);
+
+            foreach ($waitlisters as $waitlister) {
+                //send an email to the waitlister containing link to booking form
+                $mailOut->runOne($spacesAvailableEmail, $waitlister);
+            }
+        }
+    }
+
+    protected function onBeforeDelete()
+    {
+        parent::onBeforeDelete();
+        if (class_exists(GoogleCalendarInterface::class)) {
+            // $settings = TourBookingSettings::inst();
+            $calendar = new GoogleCalendarInterface();
+            if (! empty($calendar->config()) && $this->GoogleEventID) {
+                $calendar->deleteCalendarEvent($this->GoogleEventID);
+            }
+        }
     }
 
     protected function collateTitleData($type)
     {
         $a = [];
-        if ($this->NumberOfPlacesBooked()->RAW() === 0) {
+        if (0 === $this->NumberOfPlacesBooked()->RAW()) {
             $a[] = [
                 'Short' => '0/' . $this->TotalSpacesAtStart,
                 'Long' => 'No bookings (' . $this->TotalSpacesAtStart . ' spots left)',
@@ -598,6 +594,7 @@ class Tour extends TourBaseClass
         foreach ($a as $entry) {
             $newData[] = $entry[$type];
         }
+
         return implode(
             ', ',
             $newData

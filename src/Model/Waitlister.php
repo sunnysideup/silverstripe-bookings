@@ -12,17 +12,17 @@ use Sunnysideup\Bookings\Search\TourDateFilter;
 
 class Waitlister extends TourBaseClass
 {
-    #######################
-    ### Names Section
-    #######################
+    //######################
+    //## Names Section
+    //######################
 
     private static $singular_name = 'Waitlister';
 
     private static $plural_name = 'Waitlisters';
 
-    #######################
-    ### Model Section
-    #######################
+    //######################
+    //## Model Section
+    //######################
 
     private static $table_name = 'Waitlister';
 
@@ -41,7 +41,6 @@ class Waitlister extends TourBaseClass
     ];
 
     private static $field_labels = [
-
         'Code' => 'Waitlist Reference',
         'InitiatingFirstName' => 'First Name',
         'InitiatingSurname' => 'Surname',
@@ -146,7 +145,8 @@ class Waitlister extends TourBaseClass
     }
 
     /**
-     * Validation for the front end
+     * Validation for the front end.
+     *
      * @return RequiredFields
      */
     public function getFrontEndValidator()
@@ -154,17 +154,6 @@ class Waitlister extends TourBaseClass
         $fields = Config::inst()->get(Waitlister::class, 'required_fields');
 
         return RequiredFields::create($fields);
-    }
-
-    protected function onBeforeWrite()
-    {
-        parent::onBeforeWrite();
-        if (! $this->Code) {
-            $this->Code = substr(hash('md5', uniqid()), 0, 9);
-        }
-        if (! $this->TourDate) {
-            $this->TourDate = $this->Tour()->Date;
-        }
     }
 
     public function FutureWaitlistings()
@@ -176,6 +165,18 @@ class Waitlister extends TourBaseClass
                     'TourDate:GreaterThanOrEqual' => date('Y-m-d'),
                 ]
             )
-            ->sort('TourDate', 'ASC');
+            ->sort('TourDate', 'ASC')
+        ;
+    }
+
+    protected function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+        if (! $this->Code) {
+            $this->Code = substr(hash('md5', uniqid()), 0, 9);
+        }
+        if (! $this->TourDate) {
+            $this->TourDate = $this->Tour()->Date;
+        }
     }
 }

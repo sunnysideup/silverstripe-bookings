@@ -9,16 +9,17 @@ class TourDateFilter extends ExactMatchFilter
 {
     /**
      * @return DataQuery
-     **/
+     */
     public function apply(DataQuery $query)
     {
         $value = $this->getValue();
         if ($value) {
             $value = strtotime($value);
             $query->where(
-                ['Date' => Date('Y-m-d', $value)]
+                ['Date' => date('Y-m-d', $value)]
             );
         }
+
         return $query;
     }
 }

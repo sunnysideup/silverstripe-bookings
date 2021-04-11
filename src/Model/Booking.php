@@ -4,7 +4,6 @@ namespace Sunnysideup\Bookings\Model;
 
 use Dynamic\CountryDropdownField\Fields\CountryDropdownField;
 use SilverStripe\Control\Director;
-
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\CheckboxField;
@@ -20,7 +19,6 @@ use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataList;
-
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Member;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
@@ -32,17 +30,17 @@ use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
 
 class Booking extends TourBaseClass
 {
-    #######################
-    ### Names Section
-    #######################
+    //######################
+    //## Names Section
+    //######################
 
     private static $singular_name = 'Booking';
 
     private static $plural_name = 'Bookings';
 
-    #######################
-    ### Model Section
-    #######################
+    //######################
+    //## Model Section
+    //######################
 
     private static $table_name = 'Booking';
 
@@ -75,9 +73,9 @@ class Booking extends TourBaseClass
         'ReferralOptions' => ReferralOption::class,
     ];
 
-    #######################
-    ### Further DB Field Details
-    #######################
+    //######################
+    //## Further DB Field Details
+    //######################
 
     private static $indexes = [
         'Code' => true,
@@ -112,9 +110,9 @@ class Booking extends TourBaseClass
         'Cancelled' => 'ExactMatchFilter',
     ];
 
-    #######################
-    ### Field Names and Presentation Section
-    #######################
+    //######################
+    //## Field Names and Presentation Section
+    //######################
 
     private static $field_labels = [
         'Code' => 'Booking Reference',
@@ -234,12 +232,13 @@ class Booking extends TourBaseClass
             $this->CountryOfOrigin,
         ];
         $v = array_filter($v);
+
         return DBField::create_field('Varchar', implode(' / ', $v));
     }
 
-    #######################
-    ### can Section
-    #######################
+    //######################
+    //## can Section
+    //######################
 
     public function canEdit($member = null, $context = [])
     {
@@ -259,9 +258,9 @@ class Booking extends TourBaseClass
         return parent::canEdit($member);
     }
 
-    #######################
-    ### write Section
-    #######################
+    //######################
+    //## write Section
+    //######################
 
     public function validate()
     {
@@ -271,8 +270,9 @@ class Booking extends TourBaseClass
             $errorCount = Booking::get()
                 ->filter(['InitiatingEmail' => $this->InitiatingEmail,  'TourID' => $this->TourID])
                 ->exclude(['ID' => $this->ID])
-                ->count();
-            if ($errorCount !== 0) {
+                ->count()
+            ;
+            if (0 !== $errorCount) {
                 $result->addError(
                     'Another booking for this tour with the same email already exists. You can only make one booking per tour per email number.',
                     'UNIQUE_' . $this->ClassName . '_InitiatingEmail'
@@ -283,8 +283,9 @@ class Booking extends TourBaseClass
                 $errorCount = Booking::get()
                     ->filter(['PrimaryPhone' => $this->PrimaryPhone,  'TourID' => $this->TourID])
                     ->exclude(['ID' => $this->ID])
-                    ->count();
-                if ($errorCount !== 0) {
+                    ->count()
+                ;
+                if (0 !== $errorCount) {
                     $result->addError(
                         'Another booking for this tour with the same mobile phone already exists. You can only make one booking per tour per mobile phone number.',
                         'UNIQUE_' . $this->ClassName . 'PrimaryPhone'
@@ -292,7 +293,7 @@ class Booking extends TourBaseClass
                 }
             }
             $tour = Tour::get()->byID($this->TourID);
-            if ($tour !== null) {
+            if (null !== $tour) {
                 $availableRaw = $tour->getNumberOfPlacesAvailable()->RAW();
                 if ($this->exists()) {
                     //we have to get the booking from the DB again because that value for $this->TotalNumberOfGuests has already changed
@@ -306,7 +307,7 @@ class Booking extends TourBaseClass
                     $placesAvailable = $availableRaw;
                 }
                 //admins can override the following validation
-                $adminOverrideNotSet = !(bool) $this->TotalGuestsAdminOverride;
+                $adminOverrideNotSet = ! (bool) $this->TotalGuestsAdminOverride;
                 if ($this->TotalNumberOfGuests > $placesAvailable && $adminOverrideNotSet) {
                     $result->addError(
                         'Sorry, there are not enough places available for your booking. Your booking is for ' . $this->TotalNumberOfGuests . ' and the places still available is: ' . $placesAvailable,
@@ -331,65 +332,19 @@ class Booking extends TourBaseClass
         return $result;
     }
 
-    protected function onBeforeWrite()
-    {
-        parent::onBeforeWrite();
-        if (! $this->Code) {
-            $this->Code = hash('md5', uniqid());
-        }
-        $this->Date = $this->Tour()->Date;
-    }
-
-    protected function onAfterWrite()
-    {
-        parent::onAfterWrite();
-
-        //create member ...
-        if (! $this->BookingMemberID && $this->InitiatingEmail) {
-            $member = Member::get()->filter(['Email' => $this->InitiatingEmail])->last();
-            if ($member === null) {
-                $member = Member::create(
-                    [
-                        'Email' => $this->InitiatingEmail,
-                        'FirstName' => $this->InitiatingFirstName,
-                        'Surname' => $this->InitiatingSurname,
-                    ]
-                );
-                $member->write();
-            }
-            $this->BookingMemberID = $member->ID;
-            if ($this->BookingMemberID !== 0) {
-                $this->write();
-            }
-        }
-
-        //always update the tour after a booking has been updated/added
-        //this ensures that data for the tour is always up to date and that it will be synched with the google calendar
-        $this->Tour()->write();
-    }
-
-    protected function onAfterDelete()
-    {
-        parent::onAfterDelete();
-        //always update the tour after a booking has been deleted
-        //this ensures that data for the tour is always up to date and that it will be synched with the google calendar
-        $this->Tour()->write();
-    }
-
     public function requireDefaultRecords()
     {
         parent::requireDefaultRecords();
         //...
     }
 
-    #######################
-    ### Import / Export Section
-    #######################
+    //######################
+    //## Import / Export Section
+    //######################
 
-
-    #######################
-    ### CMS Edit Section
-    #######################
+    //######################
+    //## CMS Edit Section
+    //######################
 
     public function getCMSFields()
     {
@@ -473,7 +428,6 @@ class Booking extends TourBaseClass
         $fields->addFieldsToTab(
             'Root.ReferralInfo',
             [
-
                 HeaderField::create(
                     'ReferralInfoHeading',
                     'How did the booking contact hear about this tour?',
@@ -584,11 +538,13 @@ class Booking extends TourBaseClass
                 'TourID'
             )
         );
+
         return $fields;
     }
 
     /**
-     * Validation for the front end
+     * Validation for the front end.
+     *
      * @return RequiredFields
      */
     public function getFrontEndValidator()
@@ -599,19 +555,19 @@ class Booking extends TourBaseClass
     }
 
     /**
-     * This function is used to exclude cancelled bookings from reminder and follow up emails
+     * This function is used to exclude cancelled bookings from reminder and follow up emails.
      *
-     * @param  EmailReminderNotificationSchedule  $reminder
-     * @param  DataList                           $records
+     * @param EmailReminderNotificationSchedule $reminder
+     * @param DataList                          $records
      */
     public function EmailReminderExclude($reminder, $records): bool
     {
         return (bool) $this->Cancelled;
     }
 
-    #######################
-    ### Links
-    #######################
+    //######################
+    //## Links
+    //######################
 
     public function AddLink($absolute = false): string
     {
@@ -619,6 +575,7 @@ class Booking extends TourBaseClass
         if ($absolute) {
             $v = Director::absoluteURL($v);
         }
+
         return $v;
     }
 
@@ -629,6 +586,7 @@ class Booking extends TourBaseClass
             if ($absolute) {
                 $v = Director::absoluteURL($v);
             }
+
             return $v;
         }
 
@@ -642,6 +600,7 @@ class Booking extends TourBaseClass
             if ($absolute) {
                 $v = Director::absoluteURL($v);
             }
+
             return $v;
         }
 
@@ -655,9 +614,56 @@ class Booking extends TourBaseClass
             if ($absolute) {
                 $v = Director::absoluteURL($v);
             }
+
             return $v;
         }
+
         return 'error';
+    }
+
+    protected function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+        if (! $this->Code) {
+            $this->Code = hash('md5', uniqid());
+        }
+        $this->Date = $this->Tour()->Date;
+    }
+
+    protected function onAfterWrite()
+    {
+        parent::onAfterWrite();
+
+        //create member ...
+        if (! $this->BookingMemberID && $this->InitiatingEmail) {
+            $member = Member::get()->filter(['Email' => $this->InitiatingEmail])->last();
+            if (null === $member) {
+                $member = Member::create(
+                    [
+                        'Email' => $this->InitiatingEmail,
+                        'FirstName' => $this->InitiatingFirstName,
+                        'Surname' => $this->InitiatingSurname,
+                    ]
+                );
+                $member->write();
+            }
+            $this->BookingMemberID = $member->ID;
+            if (0 !== $this->BookingMemberID) {
+                $this->write();
+            }
+        }
+
+        //always update the tour after a booking has been updated/added
+        //this ensures that data for the tour is always up to date and that it will be synched with the google calendar
+        $this->Tour()->write();
+    }
+
+    protected function onAfterDelete()
+    {
+        parent::onAfterDelete();
+        //always update the tour after a booking has been deleted
+        //this ensures that data for the tour is always up to date and that it will be synched with the google calendar
+        $this->Tour()->write();
     }
 
     protected function CurrentMemberIsOwner(): bool

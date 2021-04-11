@@ -6,17 +6,17 @@ use SilverStripe\Forms\CheckboxField;
 
 class ReferralOption extends TourBaseClass
 {
-    #######################
-    ### Names Section
-    #######################
+    //######################
+    //## Names Section
+    //######################
 
     private static $singular_name = 'Referral Option';
 
     private static $plural_name = 'Referral Options';
 
-    #######################
-    ### Model Section
-    #######################
+    //######################
+    //## Model Section
+    //######################
 
     private static $table_name = 'ReferralOption';
 
@@ -31,9 +31,9 @@ class ReferralOption extends TourBaseClass
         'Bookings' => Booking::class,
     ];
 
-    #######################
-    ### Further DB Field Details
-    #######################
+    //######################
+    //## Further DB Field Details
+    //######################
 
     private static $default_sort = [
         'Title' => 'ASC',
@@ -59,9 +59,9 @@ class ReferralOption extends TourBaseClass
         return _t(self::class . '.PLURAL_NAME', 'Referral Options');
     }
 
-    #######################
-    ### CMS Edit Section
-    #######################
+    //######################
+    //## CMS Edit Section
+    //######################
 
     public function getCMSFields()
     {
@@ -92,6 +92,7 @@ class ReferralOption extends TourBaseClass
         if ($this->Bookings()->count() > 0) {
             return false;
         }
+
         return $this->CurrentUserIsTourManager($member);
     }
 }

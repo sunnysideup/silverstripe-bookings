@@ -12,17 +12,17 @@ use Sunnysideup\Bookings\Tasks\TourBuilder;
 
 class DateInfo extends TourBaseClass
 {
-    #######################
-    ### Names Section
-    #######################
+    //######################
+    //## Names Section
+    //######################
 
     private static $singular_name = 'Tour Date - Info and Rules';
 
     private static $plural_name = 'Tour Dates - Info and Rules';
 
-    #######################
-    ### Model Section
-    #######################
+    //######################
+    //## Model Section
+    //######################
 
     private static $table_name = 'DateInfo';
 
@@ -49,9 +49,9 @@ class DateInfo extends TourBaseClass
 
     private static $many_many_extraFields = [];
 
-    #######################
-    ### Further DB Field Details
-    #######################
+    //######################
+    //## Further DB Field Details
+    //######################
 
     private static $indexes = [
         'SortOrder' => true,
@@ -83,9 +83,9 @@ class DateInfo extends TourBaseClass
         ],
     ];
 
-    #######################
-    ### Field Names and Presentation Section
-    #######################
+    //######################
+    //## Field Names and Presentation Section
+    //######################
 
     private static $defaults = [
         'SortOrder' => 0,
@@ -118,9 +118,9 @@ class DateInfo extends TourBaseClass
         'TourTimesNice' => 'Tour Times',
     ];
 
-    #######################
-    ### Casting Section
-    #######################
+    //######################
+    //## Casting Section
+    //######################
 
     private static $casting = [
         'NumberOfDays' => 'Int',
@@ -130,8 +130,10 @@ class DateInfo extends TourBaseClass
     ];
 
     /**
-     * [best_match_for_date description]
-     * @param  int $dateTS
+     * [best_match_for_date description].
+     *
+     * @param int $dateTS
+     *
      * @return DateInfo
      */
     public static function best_match_for_date($dateTS)
@@ -201,14 +203,16 @@ class DateInfo extends TourBaseClass
     public function getTourTimesNice()
     {
         $html = $this->NoTourTimes ? 'CLOSED' : '- ' . implode('<br />- ', $this->TourTimes()->column('Title'));
+
         return DBField::create_field('HTMLText', $html);
     }
 
     /**
-     * does a particular date match this DateInfo
-     * @param  int $dateTS date to match as timestamp
+     * does a particular date match this DateInfo.
      *
-     * @return boolean
+     * @param int $dateTS date to match as timestamp
+     *
+     * @return bool
      */
     public function IsDateMatch($dateTS)
     {
@@ -217,18 +221,23 @@ class DateInfo extends TourBaseClass
         switch ($this->RepeatEvery) {
             case 'Week':
                 $toAdd = '+1 week';
+
                 break;
             case 'Fortnight':
                 $toAdd = '+2 weeks';
+
                 break;
             case 'Month':
                 $toAdd = '+1 month';
+
                 break;
             case 'Quarter':
                 $toAdd = '+3 month';
+
                 break;
             case 'Year':
                 $toAdd = '+1 year';
+
                 break;
             default:
                 return $fromDateTS <= $dateTS && $untilDateTS >= $dateTS;
@@ -244,51 +253,19 @@ class DateInfo extends TourBaseClass
         return false;
     }
 
-    #######################
-    ### can Section
-    #######################
-
-
-
-    #######################
-    ### write Section
-    #######################
-
-    protected function onBeforeWrite()
-    {
-        parent::onBeforeWrite();
-        if ($this->OneDayOnly || ! $this->UntilDate) {
-            $this->UntilDate = $this->FromDate;
-        }
-        if ($this->RepeatEvery === 'No Repeat') {
-            if (strtotime('today') > strtotime($this->UntilDate)) {
-                $this->Archived = true;
-            }
-        }
-        if ($this->NoTourTimes) {
-            $this->TourTimes()->removeAll();
-        }
-    }
-
-    protected function onAfterWrite()
-    {
-        parent::onAfterWrite();
-        //...
-    }
-
     public function requireDefaultRecords()
     {
         parent::requireDefaultRecords();
         //...
     }
 
-    #######################
-    ### Import / Export Section
-    #######################
+    //######################
+    //## Import / Export Section
+    //######################
 
-    #######################
-    ### CMS Edit Section
-    #######################
+    //######################
+    //## CMS Edit Section
+    //######################
 
     public function getCMSFields()
     {
@@ -320,11 +297,41 @@ class DateInfo extends TourBaseClass
 
         // $link = Injector::inst()->get(TourBuilder::class)->Link();
 
-        if ($fields->fieldByName('Root.Tours') !== null) {
+        if (null !== $fields->fieldByName('Root.Tours')) {
             $fields->fieldByName('Root.Tours')->setTitle('Created Tours for this Rule');
         }
 
         return $fields;
+    }
+
+    //######################
+    //## can Section
+    //######################
+
+    //######################
+    //## write Section
+    //######################
+
+    protected function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+        if ($this->OneDayOnly || ! $this->UntilDate) {
+            $this->UntilDate = $this->FromDate;
+        }
+        if ('No Repeat' === $this->RepeatEvery) {
+            if (strtotime('today') > strtotime($this->UntilDate)) {
+                $this->Archived = true;
+            }
+        }
+        if ($this->NoTourTimes) {
+            $this->TourTimes()->removeAll();
+        }
+    }
+
+    protected function onAfterWrite()
+    {
+        parent::onAfterWrite();
+        //...
     }
 
     protected function getCalculatedNiceDate($date, $fromDate = true)
@@ -336,6 +343,7 @@ class DateInfo extends TourBaseClass
         switch ($this->RepeatEvery) {
             case 'Week':
                 $format = 'D';
+
                 break;
             case 'Fortnight':
                 $prefix = 'Every second ';
@@ -343,10 +351,12 @@ class DateInfo extends TourBaseClass
                 if ($fromDate) {
                     $postfix = ' starting ' . date('jS M', strtotime($date));
                 }
+
                 break;
             case 'Month':
                 $format = 'jS';
                 $postfix = ' of every month';
+
                 break;
             case 'Quarter':
                 $format = 'jS';
@@ -354,12 +364,15 @@ class DateInfo extends TourBaseClass
                 if ($fromDate) {
                     $postfix .= ' starting from ' . date('M', strtotime($date));
                 }
+
                 break;
             case 'Year':
                 $format = 'jS M';
+
                 break;
             default:
                 $format = 'jS M Y';
+
                 break;
         }
 

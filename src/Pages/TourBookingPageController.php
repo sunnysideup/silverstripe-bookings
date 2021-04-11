@@ -3,7 +3,6 @@
 namespace Sunnysideup\Bookings\Pages;
 
 use PageController;
-
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Injector\Injector;
@@ -30,9 +29,9 @@ class TourBookingPageController extends PageController
 
     protected $factoryIP = '';
 
-    #######################
-    # revivew
-    #######################
+    //######################
+    // revivew
+    //######################
 
     protected $listOfToursFromDate;
 
@@ -77,9 +76,9 @@ class TourBookingPageController extends PageController
         'confirmselfcheckin' => true,
     ];
 
-    #######################
-    # add a booking
-    #######################
+    //######################
+    // add a booking
+    //######################
 
     private $availabilityDateAsTS;
 
@@ -89,32 +88,36 @@ class TourBookingPageController extends PageController
 
     private $currentBooking;
 
-    #######################
-    # join the waitlist
-    #######################
+    //######################
+    // join the waitlist
+    //######################
 
     private $currentWaitlister;
 
-    #######################
-    # on the day
-    #######################
+    //######################
+    // on the day
+    //######################
 
     private $currentTour;
 
     /**
      * called when no other action is called
-     * redirects to start sign up process
+     * redirects to start sign up process.
+     *
+     * @param mixed $request
      */
     public function index($request)
     {
-        if ($this->ClassName === TourBookingPage::class) {
+        if (TourBookingPage::class === $this->ClassName) {
             return $this->redirect($this->Link('signup'));
         }
+
         return ['Content' => DBField::create_field('HTMLText', $this->Content)];
     }
 
     /**
      * @param string $action
+     *
      * @return string
      */
     public static function find_link(?string $action = null): ?string
@@ -125,7 +128,7 @@ class TourBookingPageController extends PageController
             $allowedActions = Config::inst()->get(TourBookingPageController::class, 'allowed_actions');
             $actionToTest = explode('/', $action)[0];
         }
-        if ($actionToTest === null || isset($allowedActions[$actionToTest])) {
+        if (null === $actionToTest || isset($allowedActions[$actionToTest])) {
             $obj = Injector::inst()->get(TourBookingPageController::class);
 
             return $obj->Link($action);
@@ -140,6 +143,7 @@ class TourBookingPageController extends PageController
         if ($action) {
             $action = '/' . $action . '/';
         }
+
         return $this->Config()->get('url_segment') . $action;
     }
 
@@ -161,6 +165,7 @@ class TourBookingPageController extends PageController
     public function BookingForm($request = null)
     {
         $this->getBookingFromRequestOrIDParam();
+
         return TourBookingForm::create($this, 'BookingForm', $this->currentBooking);
     }
 
@@ -170,6 +175,7 @@ class TourBookingPageController extends PageController
         if ($this->IsFactory()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
+
         return $this->RenderWith(['Page']);
     }
 
@@ -179,7 +185,7 @@ class TourBookingPageController extends PageController
         $this->totalNumberOfGuests = (int) $request->getVar('guests');
         // hack!
         // $dateAsString = str_replace(' (New Zealand Standard Time)', '', $dateAsString);
-        $dateAsString = preg_replace("#\\([^)]+\\)#", '', $dateAsString);
+        $dateAsString = preg_replace('#\\([^)]+\\)#', '', $dateAsString);
         $this->availabilityDateAsTS = strtotime($dateAsString);
 
         $this->bookingCode = Convert::raw2sql($request->getVar('bookingcode'));
@@ -201,6 +207,7 @@ class TourBookingPageController extends PageController
         if ($this->IsFactory()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
+
         return $this->RenderWith(['Page']);
     }
 
@@ -229,13 +236,14 @@ class TourBookingPageController extends PageController
         return $this->totalNumberOfGuests;
     }
 
-    #######################
-    # edit or cancel booking
-    #######################
+    //######################
+    // edit or cancel booking
+    //######################
 
     public function BookingCancellationForm()
     {
         $bookingCode = empty($this->currentBooking) ? 0 : $this->currentBooking->Code;
+
         return TourBookingCancellationForm::create($this, 'BookingCancellationForm', $bookingCode);
     }
 
@@ -244,6 +252,7 @@ class TourBookingPageController extends PageController
         if (! empty($this->currentBooking)) {
             return $this->currentBooking->Cancelled;
         }
+
         return false;
     }
 
@@ -264,6 +273,7 @@ class TourBookingPageController extends PageController
         if ($this->IsFactory()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
+
         return $this->RenderWith(['Page']);
     }
 
@@ -296,12 +306,14 @@ class TourBookingPageController extends PageController
     {
         $this->getTourFromRequestOrIDParam();
         $this->getNumberOfGuestsFromRequestOrIDParam();
+
         return TourWaitlistForm::create($this, 'WaitlistForm', $this->currentTour, $this->totalNumberOfGuests);
     }
 
     public function SingleTourBookingForm($request = null)
     {
         $this->getTourFromRequestOrIDParam();
+
         return TourBookingForm::create($this, 'SingleTourBookingForm', null, $this->currentTour);
     }
 
@@ -314,6 +326,7 @@ class TourBookingPageController extends PageController
         if ($this->IsFactory()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
+
         return $this->RenderWith(['Page']);
     }
 
@@ -359,21 +372,24 @@ class TourBookingPageController extends PageController
     public function TourFullMessage()
     {
         $settings = TourBookingSettings::inst();
+
         return $settings->TourFullMessage;
     }
 
     public function ConfirmationPageContent()
     {
         $settings = TourBookingSettings::inst();
+
         return $settings->ConfirmationPageContent;
     }
 
     public function calendar($request)
     {
         $member = Security::getCurrentUser();
-        if ($member === null) {
+        if (null === $member) {
             return Security::permissionFailure($this);
-        } elseif (Permission::checkMember($member, 'CMS_ACCESS_TOUR_ADMIN')) {
+        }
+        if (Permission::checkMember($member, 'CMS_ACCESS_TOUR_ADMIN')) {
             $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/CalendarView');
 
             return $this->RenderWith(['Sunnysideup/Bookings/Layout/CalendarPage']);
@@ -383,31 +399,32 @@ class TourBookingPageController extends PageController
 
     public function all($request)
     {
-        $this->listOfToursFromDate = Date('Y-m-d', strtotime('today'));
-        $this->listOfToursUntilDate = Date('Y-m-d', strtotime('+1 years'));
+        $this->listOfToursFromDate = date('Y-m-d', strtotime('today'));
+        $this->listOfToursUntilDate = date('Y-m-d', strtotime('+1 years'));
+
         return json_encode(array_merge($this->ClosedDatesAsArray(), $this->TourDateAsArray()));
     }
 
     public function today($request)
     {
-        $this->listOfToursFromDate = Date('Y-m-d');
-        $this->listOfToursUntilDate = Date('Y-m-d');
+        $this->listOfToursFromDate = date('Y-m-d');
+        $this->listOfToursUntilDate = date('Y-m-d');
     }
 
     public function tomorrow($request)
     {
-        $this->listOfToursFromDate = Date('Y-m-d', strtotime('tomorrow'));
-        $this->listOfToursUntilDate = Date('Y-m-d', strtotime('tomorrow'));
+        $this->listOfToursFromDate = date('Y-m-d', strtotime('tomorrow'));
+        $this->listOfToursUntilDate = date('Y-m-d', strtotime('tomorrow'));
     }
 
     public function nextdays($request)
     {
         $numberOfDays = (int) $request->param('ID');
-        if ($numberOfDays === 0) {
+        if (0 === $numberOfDays) {
             $numberOfDays = 7;
         }
-        $this->listOfToursFromDate = Date('Y-m-d', strtotime('today'));
-        $this->listOfToursUntilDate = Date('Y-m-d', strtotime('+ ' . $numberOfDays . ' days'));
+        $this->listOfToursFromDate = date('Y-m-d', strtotime('today'));
+        $this->listOfToursUntilDate = date('Y-m-d', strtotime('+ ' . $numberOfDays . ' days'));
     }
 
     public function ListOfTours()
@@ -437,6 +454,7 @@ class TourBookingPageController extends PageController
             }
             $tourData[] = $array;
         }
+
         return $tourData;
     }
 
@@ -458,6 +476,7 @@ class TourBookingPageController extends PageController
                 $closedData[] = $array;
             }
         }
+
         return $closedData;
     }
 
@@ -467,6 +486,7 @@ class TourBookingPageController extends PageController
         if (! $this->currentTour) {
             return $this->httpError(404, 'Not Found');
         }
+
         return $this->RenderWith('Sunnysideup/Bookings/Includes/QuickView');
     }
 
@@ -486,6 +506,7 @@ class TourBookingPageController extends PageController
     {
         $booking = Booking::get()->byID((int) $request->getVar('id'));
         $booking->HasArrived = Convert::raw2sql($request->getVar('arrived'));
+
         return $booking->write();
     }
 
@@ -542,6 +563,7 @@ class TourBookingPageController extends PageController
             }
             $al->push(Injector::inst()->get($key));
         }
+
         return $al;
     }
 
@@ -551,6 +573,7 @@ class TourBookingPageController extends PageController
         if ($member && $this->CurrentUserIsTourManager($member)) {
             return $this->AbsoluteLink('calendar');
         }
+
         return false;
     }
 
@@ -587,9 +610,9 @@ class TourBookingPageController extends PageController
         $this->getBookingFromRequestOrIDParam();
     }
 
-    #######################
-    # protected functions
-    #######################
+    //######################
+    // protected functions
+    //######################
 
     protected function getBookingFromRequestOrIDParam()
     {
@@ -616,6 +639,7 @@ class TourBookingPageController extends PageController
         $this->currentTour = null;
         $id = ($id = $this->request->postVar('TourID')) ? (int) $id : (int) $this->request->param('ID');
         $this->currentTour = Tour::get()->byID($id);
+
         return $this->currentTour;
     }
 
@@ -627,6 +651,7 @@ class TourBookingPageController extends PageController
         } elseif ($guests = $this->request->postVar('TotalNumberOfGuests')) {
             $this->totalNumberOfGuests = (int) $guests;
         }
+
         return $this->totalNumberOfGuests;
     }
 
@@ -634,9 +659,9 @@ class TourBookingPageController extends PageController
      * returns an ArrayData with
      *   PreviousDay: list of tours
      *   RequestedDay: list of tours
-     *   NextDay: list of tours
+     *   NextDay: list of tours.
      *
-     * @param  int $numberOfPlacesRequested
+     * @param int $numberOfPlacesRequested
      *
      * @return ArrayList
      */
@@ -654,7 +679,7 @@ class TourBookingPageController extends PageController
             if ($tour->ID === $myTourID) {
                 $calculatedNumberOfPlacesRequested = $numberOfPlacesRequested - $this->currentBooking->TotalNumberOfGuests;
             }
-            if ($tour->getNumberOfPlacesAvailable()->Value === 0 && $calculatedNumberOfPlacesRequested > 0) {
+            if (0 === $tour->getNumberOfPlacesAvailable()->Value && $calculatedNumberOfPlacesRequested > 0) {
                 $availability = 'Full';
                 $isAvailable = false;
             } elseif ($tour->getNumberOfPlacesAvailable()->Value >= $calculatedNumberOfPlacesRequested) {
@@ -671,6 +696,7 @@ class TourBookingPageController extends PageController
             $tour->IsAvailable = $isAvailable;
             $finalArrayList->push($tour);
         }
+
         return $finalArrayList;
     }
 }

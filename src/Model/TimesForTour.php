@@ -6,17 +6,17 @@ use SilverStripe\ORM\FieldType\DBField;
 
 class TimesForTour extends TourBaseClass
 {
-    #######################
-    ### Names Section
-    #######################
+    //######################
+    //## Names Section
+    //######################
 
     private static $singular_name = 'Tour Time';
 
     private static $plural_name = 'Tour Times';
 
-    #######################
-    ### Model Section
-    #######################
+    //######################
+    //## Model Section
+    //######################
 
     private static $table_name = 'TimesForTour';
 
@@ -33,9 +33,9 @@ class TimesForTour extends TourBaseClass
         'DateInfos' => DateInfo::class,
     ];
 
-    #######################
-    ### Further DB Field Details
-    #######################
+    //######################
+    //## Further DB Field Details
+    //######################
 
     private static $indexes = [
         'Title' => true,
@@ -58,9 +58,9 @@ class TimesForTour extends TourBaseClass
         'Duration',
     ];
 
-    #######################
-    ### Field Names and Presentation Section
-    #######################
+    //######################
+    //## Field Names and Presentation Section
+    //######################
 
     private static $field_labels = [
         'Title' => 'Name',
@@ -83,9 +83,9 @@ class TimesForTour extends TourBaseClass
         'NumberOfSpacesAvailable' => 'Spaces Available',
     ];
 
-    #######################
-    ### Casting Section
-    #######################
+    //######################
+    //## Casting Section
+    //######################
 
     private static $casting = [
         'EndTime' => 'Time',
@@ -117,15 +117,40 @@ class TimesForTour extends TourBaseClass
         return DBField::create_field('Time', $v);
     }
 
-    #######################
-    ### can Section
-    #######################
+    public function requireDefaultRecords()
+    {
+        parent::requireDefaultRecords();
+        //...
+    }
 
+    //######################
+    //## Import / Export Section
+    //######################
 
+    //######################
+    //## CMS Edit Section
+    //######################
 
-    #######################
-    ### write Section
-    #######################
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
+
+        $fields->dataFieldByName('PublicContent')->setRows('7');
+        $fields->dataFieldByName('PrivateContent')->setRows('7');
+        if (null !== $fields->fieldByName('Root.DateInfos')) {
+            $fields->fieldByName('Root.DateInfos')->setTitle('Info and Rules');
+        }
+
+        return $fields;
+    }
+
+    //######################
+    //## can Section
+    //######################
+
+    //######################
+    //## write Section
+    //######################
 
     protected function onBeforeWrite()
     {
@@ -137,32 +162,5 @@ class TimesForTour extends TourBaseClass
     {
         parent::onAfterWrite();
         //...
-    }
-
-    public function requireDefaultRecords()
-    {
-        parent::requireDefaultRecords();
-        //...
-    }
-
-    #######################
-    ### Import / Export Section
-    #######################
-
-    #######################
-    ### CMS Edit Section
-    #######################
-
-    public function getCMSFields()
-    {
-        $fields = parent::getCMSFields();
-
-        $fields->dataFieldByName('PublicContent')->setRows('7');
-        $fields->dataFieldByName('PrivateContent')->setRows('7');
-        if ($fields->fieldByName('Root.DateInfos') !== null) {
-            $fields->fieldByName('Root.DateInfos')->setTitle('Info and Rules');
-        }
-
-        return $fields;
     }
 }

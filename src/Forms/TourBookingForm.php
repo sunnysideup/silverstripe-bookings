@@ -31,7 +31,7 @@ class TourBookingForm extends Form
         'NZ',
     ];
 
-    /* important note: $existingBooking and $singleTour should not both exist at the same time */
+    // important note: $existingBooking and $singleTour should not both exist at the same time
     public function __construct($controller, $name, $existingBooking = null, $singleTour = null)
     {
         if ($existingBooking) {
@@ -70,7 +70,7 @@ class TourBookingForm extends Form
             $guestsField->setValue(2);
         }
 
-        if ($this->currentTour === null) {
+        if (null === $this->currentTour) {
             $column1->push(
                 $dateField = TextField::create('BookingDate', 'Select Your Date')
             );
@@ -97,7 +97,7 @@ class TourBookingForm extends Form
             $fields->dataFieldByName('CountryOfOrigin')->setValue('nz');
             //referral options
             $referralOptions = ReferralOption::get()->filter(['Archived' => false]);
-            if ($referralOptions->count() !== 0) {
+            if (0 !== $referralOptions->count()) {
                 $referralOptionsField = CheckboxSetField::create(
                     'ReferralOptions',
                     'How did you hear about our tours?',
@@ -109,7 +109,7 @@ class TourBookingForm extends Form
                 );
 
                 $hasOther = ReferralOption::get()->filter(['IsOther' => true])->first();
-                if ($hasOther !== null) {
+                if (null !== $hasOther) {
                     $referralOptionsField->setAttribute('data-other', $hasOther->ID);
 
                     $column2->push(
@@ -193,6 +193,7 @@ class TourBookingForm extends Form
                     $message . ' left. Please reduce the number of people for your booking or book a tour at a different time.',
                     'bad'
                 );
+
                 return $this->controller->redirectBack();
             }
         }
@@ -207,6 +208,7 @@ class TourBookingForm extends Form
                     'You need to enter the same email address used to create the original booking, please try again or contact the tour manager for assistance: ' . $email,
                     'bad'
                 );
+
                 return $this->controller->redirectBack();
             }
         } else {
@@ -227,7 +229,7 @@ class TourBookingForm extends Form
             foreach ($data['ReferralOptions'] as $referralOptionID) {
                 $referralOptionID = (int) $referralOptionID;
                 $referralOption = ReferralOption::get()->byID($referralOptionID);
-                if ($referralOption !== null) {
+                if (null !== $referralOption) {
                     $this->currentBooking->ReferralOptions()->add($referralOption);
                 }
             }

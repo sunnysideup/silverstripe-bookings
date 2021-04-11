@@ -9,13 +9,14 @@ class TourDayFilter extends ExactMatchFilter
 {
     /**
      * @return DataQuery
-     **/
+     */
     public function apply(DataQuery $query)
     {
         $value = $this->getValue();
         if ($value) {
             $query->where('DAYOFWEEK("Date") = ' . $value . '');
         }
+
         return $query;
     }
 }

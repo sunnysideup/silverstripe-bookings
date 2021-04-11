@@ -56,7 +56,7 @@ class TourWaitlistForm extends Form
         )->addExtraClass('left-column');
 
         foreach ($fields as $field) {
-            if ($field->Name === 'TotalNumberOfGuests') {
+            if ('TotalNumberOfGuests' === $field->Name) {
                 $field->setValue($numberOfGuests);
                 $field->setReadOnly(true);
             }
@@ -81,7 +81,8 @@ class TourWaitlistForm extends Form
                     'Date:LessThanOrEqual' => $oneWeekLater,
                 ]
             )
-            ->exclude(['ID' => $this->currentTour->ID]);
+            ->exclude(['ID' => $this->currentTour->ID])
+        ;
 
         foreach ($allToursForFortnight as $tour) {
             if ($tour->getNumberOfPlacesAvailable()->Value < $numberOfGuests) {
@@ -180,6 +181,7 @@ class TourWaitlistForm extends Form
                 $waitlister->write();
             }
         }
+
         return $this->controller->redirect($redirect);
     }
 

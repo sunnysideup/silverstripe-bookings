@@ -58,7 +58,7 @@ class TourBookingCancellationForm extends Form
     {
         $data = Convert::raw2sql($data);
         $booking = Booking::get()->filter(['Code' => $data['BookingCode']])->first();
-        if ($booking !== null) {
+        if (null !== $booking) {
             if ($data['ConfirmingEmail'] === $booking->InitiatingEmail) {
                 //do nothing
             } else {
@@ -68,6 +68,7 @@ class TourBookingCancellationForm extends Form
                     'You need to enter the same email address used to create the original booking, please try again or contact the tour manager for assistance: ' . $email,
                     'bad'
                 );
+
                 return $this->controller->redirectBack();
             }
             $booking->Cancelled = true;

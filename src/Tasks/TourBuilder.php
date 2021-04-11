@@ -8,10 +8,6 @@ use Sunnysideup\Bookings\Model\DateInfo;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
 
-/**
- * @package cms
- * @subpackage assets
- */
 class TourBuilder extends BuildTask
 {
     protected $title = 'Tour Builder';
@@ -39,11 +35,11 @@ class TourBuilder extends BuildTask
             if ($myDateInfo) {
                 DB::alteration_message('... found rule: ' . $myDateInfo->Title);
                 $existingToursForThatDay = Tour::get()->filter(['Date' => $mysqlDate]);
-                if ($existingToursForThatDay->count() === 0) {
+                if (0 === $existingToursForThatDay->count()) {
                     DB::alteration_message('... no existing tours found for that day: ', 'deleted');
                 }
                 $existingTourTimesForThatDay = $myDateInfo->TourTimes();
-                if ($existingTourTimesForThatDay->count() === 0) {
+                if (0 === $existingTourTimesForThatDay->count()) {
                     DB::alteration_message('... ... no template tour times found for that day', 'deleted');
                 } else {
                     foreach ($existingTourTimesForThatDay as $tourTime) {
@@ -84,6 +80,7 @@ class TourBuilder extends BuildTask
     public function getNumberOfDaysInFuture()
     {
         $settings = TourBookingSettings::inst();
+
         return $settings->NumberOfDaysToGenerateToursInAdvance;
     }
 }
