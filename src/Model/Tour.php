@@ -17,6 +17,8 @@ use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 use Sunnysideup\Bookings\Search\TourDayFilter;
+
+use Sunnysideup\Bookings\Cms\TourBookingsConfig;
 use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
 use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
@@ -606,8 +608,8 @@ class Tour extends TourBaseClass
         );
     }
 
-    protected function getModelAdminController()
+    protected function getModelAdminController() : TourBookingsConfig
     {
-        return \Singleton(TourBookingsConfig::class);
+        return Injector::inst()->get(TourBookingsConfig::class);
     }
 }
