@@ -3,10 +3,6 @@
 namespace Sunnysideup\Bookings\Model;
 
 use DateTime;
-
-
-
-
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
@@ -15,32 +11,29 @@ use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBBoolean;
-
 use SilverStripe\ORM\FieldType\DBField;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
 use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
-
 use Sunnysideup\Bookings\Search\TourDayFilter;
 use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
 use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
-
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 
 class Tour extends TourBaseClass
 {
-    #######################
-    ### Names Section
-    #######################
+    //######################
+    //## Names Section
+    //######################
 
     private static $singular_name = 'Tour';
 
     private static $plural_name = 'Tours';
 
-    #######################
-    ### Model Section
-    #######################
+    //######################
+    //## Model Section
+    //######################
 
     private static $table_name = 'Tour';
 
@@ -67,9 +60,9 @@ class Tour extends TourBaseClass
         'Waitlisters' => Waitlister::class,
     ];
 
-    #######################
-    ### Further DB Field Details
-    #######################
+    //######################
+    //## Further DB Field Details
+    //######################
 
     private static $indexes = [
         'IsClosed' => true,
@@ -105,9 +98,9 @@ class Tour extends TourBaseClass
         ],
     ];
 
-    #######################
-    ### Field Names and Presentation Section
-    #######################
+    //######################
+    //## Field Names and Presentation Section
+    //######################
 
     private static $field_labels = [
         'IsClosed' => 'Closed',
@@ -160,9 +153,9 @@ class Tour extends TourBaseClass
         'PrivateContent',
     ];
 
-    #######################
-    ### Casting Section
-    #######################
+    //######################
+    //## Casting Section
+    //######################
 
     private static $casting = [
         'Title' => 'Varchar',
@@ -177,9 +170,9 @@ class Tour extends TourBaseClass
         'CalculatedPrivateContent' => 'HTMLText',
     ];
 
-    #######################
-    ### write Section
-    #######################
+    //######################
+    //## write Section
+    //######################
 
     private $calendarDebug = false;
 
@@ -247,7 +240,7 @@ class Tour extends TourBaseClass
         $v = $this->PublicContent . $this->PublicContentForTour;
         if (strlen($v) > 10) {
             $v .= '<br>';
-        } elseif ($v === '<br>') {
+        } elseif ('<br>' === $v) {
             $v = '';
         }
         if ($this->IsFull()->value) {
@@ -257,6 +250,7 @@ class Tour extends TourBaseClass
             $singularPlural = $this->NumberOfPlacesAvailable()->value > 1 ? ' spaces' : ' space';
             $v .= '<strong>' . $this->NumberOfPlacesAvailable()->value . $singularPlural . ' left</strong>';
         }
+
         return DBField::create_field('HTMLText', $v);
     }
 
@@ -383,9 +377,9 @@ class Tour extends TourBaseClass
         return DBField::create_field('Int', $v);
     }
 
-    #######################
-    ### can Section
-    #######################
+    //######################
+    //## can Section
+    //######################
 
     public function canCreate($member = null, $context = [])
     {
@@ -397,7 +391,83 @@ class Tour extends TourBaseClass
         if ($this->getNumberOfGroups()->RAW() > 0) {
             return false;
         }
+
         return $this->CurrentUserIsTourManager($member);
+    }
+
+    public function requireDefaultRecords()
+    {
+        parent::requireDefaultRecords();
+        //...
+    }
+
+    //######################
+    //## Import / Export Section
+    //######################
+
+    //######################
+    //## CMS Edit Section
+    //######################
+
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
+        if (0 === $this->ID) {
+            $dbFields = Config::inst()->get(Tour::class, 'db');
+            foreach (array_keys($dbFields) as $dbFieldName) {
+                $fields->removeByName($dbFieldName);
+            }
+            $fields->removeByName('Date');
+            $fields->removeByName('TourTimeID');
+            $fields->removeByName('DateInfoID');
+
+            $times = ['' => '-- please select one --'] + TimesForTour::get()->map()->toArray();
+
+            $fields->addFieldsToTab(
+                'Root.Main',
+                [
+                    $dateField = DateField::create('Date', 'Date'),
+                    $tourTimeField = DropdownField::create('TourTimeID', 'Type of Tour', $times),
+                ]
+            );
+            $timesForTour = Injector::inst()->get(TimesForTour::class);
+            $tourTimeField->setDescription('<a href="' . $timesForTour->CMSAddLink() . '" target="_blank">Create a new tour time</a>.');
+        } else {
+            if ($fields->dataFieldByName('PublicContentForTour') instanceof HTMLEditorField) {
+                $fields->dataFieldByName('PublicContentForTour')->setRows('7');
+            }
+            if ($fields->dataFieldByName('PrivateContentForTour') instanceof HTMLEditorField) {
+                $fields->dataFieldByName('PrivateContentForTour')->setRows('7');
+            }
+            $fields->replaceField(
+                'GoogleEventID',
+                $fields->dataFieldByName('GoogleEventID')->performReadonlyTransformation()
+            );
+        }
+        DataObjectOneFieldAddEditAllLink::add_edit_links_to_checkboxes(
+            self::class,
+            $fields,
+            [
+                'IsClosed' => "Tour.Date > '" . date('Y-m-d', strtotime('-2 days')) . "'",
+            ]
+        );
+
+        return $fields;
+    }
+
+    public function ValidBookings()
+    {
+        return $this->Bookings()->exclude(['Cancelled' => 1]);
+    }
+
+    public function JoinLink($absolute = false)
+    {
+        $v = TourBookingPageController::find_link('jointour') . $this->ID . '/';
+        if ($absolute) {
+            $v = Director::absoluteURL($v);
+        }
+
+        return $v;
     }
 
     protected function onBeforeWrite()
@@ -436,7 +506,7 @@ class Tour extends TourBaseClass
                     $decription .= $this->NumberOfChildren()->Value . ' children; ';
                 }
 
-                $decription = $decription !== '' ? 'Tour: ' . $decription : 'Tour: No Current Bookings';
+                $decription = '' !== $decription ? 'Tour: ' . $decription : 'Tour: No Current Bookings';
 
                 $eventAttributes = [
                     'summary' => json_encode($decription),
@@ -456,7 +526,7 @@ class Tour extends TourBaseClass
                 } else {
                     $googleEvent = $calendar->addCalendarEvent($eventAttributes);
                 }
-                if (property_exists($googleEvent, 'id') && $googleEvent->id !== null) {
+                if (property_exists($googleEvent, 'id') && null !== $googleEvent->id) {
                     $this->GoogleEventID = $googleEvent->id;
                 }
             }
@@ -492,84 +562,10 @@ class Tour extends TourBaseClass
         }
     }
 
-    public function requireDefaultRecords()
-    {
-        parent::requireDefaultRecords();
-        //...
-    }
-
-    #######################
-    ### Import / Export Section
-    #######################
-
-    #######################
-    ### CMS Edit Section
-    #######################
-
-    public function getCMSFields()
-    {
-        $fields = parent::getCMSFields();
-        if ($this->ID === 0) {
-            $dbFields = Config::inst()->get(Tour::class, 'db');
-            foreach (array_keys($dbFields) as $dbFieldName) {
-                $fields->removeByName($dbFieldName);
-            }
-            $fields->removeByName('Date');
-            $fields->removeByName('TourTimeID');
-            $fields->removeByName('DateInfoID');
-
-            $times = ['' => '-- please select one --'] + TimesForTour::get()->map()->toArray();
-
-            $fields->addFieldsToTab(
-                'Root.Main',
-                [
-                    $dateField = DateField::create('Date', 'Date'),
-                    $tourTimeField = DropdownField::create('TourTimeID', 'Type of Tour', $times),
-                ]
-            );
-            $timesForTour = Injector::inst()->get(TimesForTour::class);
-            $tourTimeField->setDescription('<a href="' . $timesForTour->CMSAddLink() . '" target="_blank">Create a new tour time</a>.');
-        } else {
-            if ($fields->dataFieldByName('PublicContentForTour') instanceof HTMLEditorField) {
-                $fields->dataFieldByName('PublicContentForTour')->setRows('7');
-            }
-            if ($fields->dataFieldByName('PrivateContentForTour') instanceof HTMLEditorField) {
-                $fields->dataFieldByName('PrivateContentForTour')->setRows('7');
-            }
-            $fields->replaceField(
-                'GoogleEventID',
-                $fields->dataFieldByName('GoogleEventID')->performReadonlyTransformation()
-            );
-        }
-        DataObjectOneFieldAddEditAllLink::add_edit_links_to_checkboxes(
-            self::class,
-            $fields,
-            [
-                'IsClosed' => "Tour.Date > '" . date('Y-m-d', strtotime('-2 days')) . "'"
-            ]
-        );
-
-        return $fields;
-    }
-
-    public function ValidBookings()
-    {
-        return $this->Bookings()->exclude(['Cancelled' => 1]);
-    }
-
-    public function JoinLink($absolute = false)
-    {
-        $v = TourBookingPageController::find_link('jointour') . $this->ID . '/';
-        if ($absolute) {
-            $v = Director::absoluteURL($v);
-        }
-        return $v;
-    }
-
     protected function collateTitleData($type)
     {
         $a = [];
-        if ($this->NumberOfPlacesBooked()->RAW() === 0) {
+        if (0 === $this->NumberOfPlacesBooked()->RAW()) {
             $a[] = [
                 'Short' => '0/' . $this->TotalSpacesAtStart,
                 'Long' => 'No bookings (' . $this->TotalSpacesAtStart . ' spots left)',
@@ -603,16 +599,15 @@ class Tour extends TourBaseClass
         foreach ($a as $entry) {
             $newData[] = $entry[$type];
         }
+
         return implode(
             ', ',
             $newData
         );
     }
 
-
     protected function getModelAdminController()
     {
         return \Singleton(TourBookingsConfig::class);
     }
-
 }

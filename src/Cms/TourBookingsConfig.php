@@ -9,7 +9,6 @@ use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
 use SilverStripe\Forms\GridField\GridFieldSortableHeader;
-
 use SilverStripe\Forms\LiteralField;
 use Sunnysideup\Bookings\Model\DateInfo;
 use Sunnysideup\Bookings\Model\ReferralOption;
@@ -45,14 +44,14 @@ class TourBookingsConfig extends ModelAdmin
         $form = parent::getEditForm($id, $fields);
 
         //This check is simply to ensure you are on the managed model you want adjust accordingly
-        if ($this->modelClass === TimesForTour::class && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if (TimesForTour::class === $this->modelClass && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField instanceof GridField) {
                 $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
             }
         }
 
-        if ($this->modelClass === DateInfo::class && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if (DateInfo::class === $this->modelClass && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField instanceof GridField) {
                 $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
@@ -75,7 +74,7 @@ class TourBookingsConfig extends ModelAdmin
             );
         }
 
-        if (is_subclass_of($this->modelClass, TourBookingSettings::class) || $this->modelClass === TourBookingSettings::class) {
+        if (is_subclass_of($this->modelClass, TourBookingSettings::class) || TourBookingSettings::class === $this->modelClass) {
             $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass));
             if ($gridField && $gridField instanceof GridField) {
                 $config = $gridField->getConfig();
@@ -87,7 +86,7 @@ class TourBookingsConfig extends ModelAdmin
             }
         }
 
-        if ($this->modelClass === ReferralOption::class && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if (ReferralOption::class === $this->modelClass && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField instanceof GridField) {
                 $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
