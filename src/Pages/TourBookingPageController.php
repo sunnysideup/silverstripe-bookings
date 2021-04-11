@@ -646,10 +646,12 @@ class TourBookingPageController extends PageController
     protected function getNumberOfGuestsFromRequestOrIDParam()
     {
         $this->totalNumberOfGuests = null;
-        if (($guests = $this->request->param('OtherID')) !== '') {
-            $this->totalNumberOfGuests = (int) $guests;
-        } elseif ($guests = $this->request->postVar('TotalNumberOfGuests')) {
-            $this->totalNumberOfGuests = (int) $guests;
+        $guests1 = (int) $this->request->param('OtherID');
+        $guests2 = (int) $this->request->postVar('TotalNumberOfGuests');
+        if ($guests1 > 0) {
+            $this->totalNumberOfGuests = $guests1;
+        } elseif ($guests2 > 0) {
+            $this->totalNumberOfGuests = $guests2;
         }
 
         return $this->totalNumberOfGuests;

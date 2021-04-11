@@ -187,7 +187,8 @@ class Booking extends TourBaseClass
             ' for ' . $this->getNumberOfAdults()->Nice() . ' adults,' .
             ' and ' . $this->NumberOfChildren . ' children, ' .
             ' on ' . $this->Tour()->Date .
-            ' at ' . $this->Tour()->Time;
+            ' at ' . $this->Tour()->StartTime .
+            ' by ' . $this->InitiatingEmail;
 
         return DBField::create_field('Varchar', $v);
     }
