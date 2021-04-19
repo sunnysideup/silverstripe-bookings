@@ -671,7 +671,7 @@ class TourBookingPageController extends PageController
     {
         $finalArrayList = ArrayList::create();
         $dateMysql = date('Y-m-d', $dateTS);
-        $tours = Tour::get()->filter(['Date' => $dateMysql])->sort(['StartTime' => 'ASC', 'ID' => 'ASC']);
+        $tours = Tour::get()->filter(['Date' => $dateMysql, 'IsClosed' => false])->sort(['StartTime' => 'ASC', 'ID' => 'ASC']);
         $myTourID = 0;
         if ($this->currentBooking && $this->currentBooking->exists()) {
             $myTourID = $this->currentBooking->TourID;
