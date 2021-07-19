@@ -342,56 +342,6 @@ class TourBookingSettings extends TourBaseClass
             );
         }
 
-        $bookingSingleton = Injector::inst()->get(Booking::class);
-
-        $this->AddUsefulLinkToFields(
-            $fields,
-            'Open Tour Booking Page',
-            TourBookingPageController::find_link()
-        );
-
-        $this->AddUsefulLinkToFields(
-            $fields,
-            'Create Future Tours Now',
-            Injector::inst()->get(TourBuilder::class)->Link(),
-            'This task runs regularly, but you can run it now by clicking above link.'
-        );
-
-        $this->AddUsefulLinkToFields(
-            $fields,
-            'Monthly Tour Report',
-            Injector::inst()->get(MonthlyTourReport::class)->Link(),
-            'This task runs once a month, but you can get the report sent now by clicking above link.'
-        );
-
-        $this->AddUsefulLinkToFields(
-            $fields,
-            'Add New Booking',
-            $bookingSingleton->AddLink()
-        );
-
-        $this->AddUsefulLinkToFields(
-            $fields,
-            'Add adhoc tour at regular time',
-            '/admin/tour-bookings-config/Sunnysideup-Bookings-Model-DateInfo/EditForm/field/Sunnysideup-Bookings-Model-DateInfo/item/new',
-            'Add new tour date(s) with all the details and then create the tours using the <a href="' . Injector::inst()->get(TourBuilder::class)->Link() . '">create tours button</a>.'
-        );
-
-        $this->AddUsefulLinkToFields(
-            $fields,
-            'Add adhoc tour at irregular time',
-            '/admin/tour-bookings-config/Sunnysideup-Bookings-Model-TimesForTour/EditForm/field/Sunnysideup-Bookings-Model-TimesForTour/item/new',
-            'Add the new time first and then add the tour dates.
-            After that you will have to create the tours using the <a href="' . Injector::inst()->get(TourBuilder::class)->Link() . '">create tours button</a>.'
-        );
-
-        $this->AddUsefulLinkToFields(
-            $fields,
-            'Find out what tour date rule applies on a certain day',
-            '/admin/tour-bookings-admin/Sunnysideup-Bookings-Model-Tour/',
-            'Click on the magnifying glass and search for a particular day.'
-        );
-
         return $fields;
     }
 

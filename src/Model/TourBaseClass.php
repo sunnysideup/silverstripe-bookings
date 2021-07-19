@@ -238,13 +238,16 @@ class TourBaseClass extends DataObject
         return false;
     }
 
-    protected function AddUsefulLinkToFields($fields, $title, $link, $explanation = '')
+    protected function AddUsefulLinkToFields(FieldList $fields, string $title, string $link, ?string $explanation = '')
     {
         $name = preg_replace('#[^A-Za-z0-9 ]#', '', $title);
         $fields->addFieldsToTab(
             'Root.UsefulLinks',
             [
-                LiteralField::create($name . '_UseFulLink', '<h2>› <a href="' . $link . '">' . $title . '</a></h2><p>' . $explanation . '</p>'),
+                LiteralField::create(
+                    $name . '_UseFulLink',
+                    '<h2>› <a href="' . $link . '">' . $title . '</a></h2><p>' . $explanation . '</p>'
+                ),
             ]
         );
     }
