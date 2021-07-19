@@ -138,15 +138,6 @@ class TourBookingPageController extends PageController
         return 'error';
     }
 
-    public function Link($action = null)
-    {
-        if ($action) {
-            $action = '/' . $action . '/';
-        }
-
-        return $this->Config()->get('url_segment') . $action;
-    }
-
     public function CalendarLink()
     {
         return $this->Link('calendar');
@@ -600,7 +591,7 @@ class TourBookingPageController extends PageController
                 if(typeof TourBookingsInPageData === "undefined") {
                     var TourBookingsInPageData = {};
                 }
-                TourBookingsInPageData.url = "' . $this->Link() . '";
+                TourBookingsInPageData.url = "' . trim($this->Link(), '/') . '";
                 TourBookingsInPageData.maxPerGroup = "' . $settings->MaximumNumberPerGroup . '";
                 TourBookingsInPageData.emailContact = "' . $settings->Administrator()->Email . '";
                 TourBookingsInPageData.showCityTownForCountries = ' . $countries . ';

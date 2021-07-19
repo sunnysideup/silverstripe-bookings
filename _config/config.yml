@@ -1,6 +1,0 @@
----
-Name: bookings
-After:
-  - '#coreconfig'
----
-{  }

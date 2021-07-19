@@ -29,7 +29,7 @@ class TourBookingsAdmin extends ModelAdmin
         Waitlister::class,
     ];
 
-    private static $url_segment = 'tour-bookings';
+    private static $url_segment = 'tour-bookings-admin';
 
     private static $menu_title = 'Tour Bookings';
 

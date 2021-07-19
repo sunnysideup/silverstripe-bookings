@@ -388,7 +388,7 @@ class TourBookingSettings extends TourBaseClass
         $this->AddUsefulLinkToFields(
             $fields,
             'Find out what tour date rule applies on a certain day',
-            '/admin/tour-bookings/Sunnysideup-Bookings-Model-Tour/',
+            '/admin/tour-bookings-admin/Sunnysideup-Bookings-Model-Tour/',
             'Click on the magnifying glass and search for a particular day.'
         );
 
