@@ -20,13 +20,15 @@
     ],
     "require": {
         "silverstripe/recipe-cms": "^4.4",
+
+        "dynamic/silverstripe-country-dropdown-field": "^1.0",
+        "colymba/gridfield-bulk-editing-tools": "^3.0"
+        
         "sunnysideup/permission_provider": "dev-master",
         "sunnysideup/google-calendar-interface": "dev-master",
         "sunnysideup/email_reminder": "dev-master",
         "sunnysideup/yes-no-any-filter": "dev-master",
-        "dynamic/silverstripe-country-dropdown-field": "dev-master",
-        "sunnysideup/sanitise-class-name": "dev-master",
-        "colymba/gridfield-bulk-editing-tools": "^3.0"
+        "sunnysideup/sanitise-class-name": "dev-master"
     },
     "autoload": {
         "psr-4": {
