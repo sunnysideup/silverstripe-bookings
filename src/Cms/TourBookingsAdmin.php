@@ -73,7 +73,8 @@ class TourBookingsAdmin extends ModelAdmin
         if (TourBookingSettings::class === $this->modelClass) {
 
                     $bookingSingleton = Injector::inst()->get(Booking::class);
-                    $timesForTour = Injector::inst()->get(TimesForTour::class);
+                    $timesForTourSingleton = Injector::inst()->get(TimesForTour::class);
+                    $tourSingleton = Injector::inst()->get(Tour::class);
                     $createToursLink = Injector::inst()->get(TourBuilder::class)->Link();
                     $page = TourBookingPage::get()->first();
                     if($page) {
