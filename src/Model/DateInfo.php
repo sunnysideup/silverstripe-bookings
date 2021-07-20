@@ -36,71 +36,8 @@ class DateInfo extends TourBaseClass
         'PublicContent' => 'HTMLText',
         'PrivateContent' => 'HTMLText',
         'Archived' => 'Boolean',
-        'NoTourTimes' => 'Boolean'
+        'NoTourTimes' => 'Boolean',
     ];
-
-
-    public function getCalculatedFromDateFormated()
-    {
-        return $this->getCalculatedNiceDateFormated($this->FromDate);
-    }
-
-    public function getCalculatedUntilDateFormated()
-    {
-        return $this->getCalculatedNiceDateFormated($this->UntilDate ,false);
-    }
-
-
-    protected function getCalculatedNiceDateFormated($date, $fromDate = true)
-    {
-        $prefix = '';
-        $format = 'D jS M Y';
-        $postfix = '';
-        $value = '';
-        switch ($this->RepeatEvery) {
-            case 'Week':
-                $format = 'D';
-
-                break;
-            case 'Fortnight':
-                $prefix = 'Every second ';
-                $format = 'l';
-                if ($fromDate) {
-                    $postfix = ' starting ' . date('D jS M', strtotime($date));
-                }
-
-                break;
-            case 'Month':
-                $format = 'D jS';
-                $postfix = ' of every month';
-
-                break;
-            case 'Quarter':
-                $format = 'D jS';
-                $postfix = ' of the month';
-                if ($fromDate) {
-                    $postfix .= ' starting from ' . date('M', strtotime($date));
-                }
-
-                break;
-            case 'Year':
-                $format = 'D jS M';
-
-                break;
-            default:
-                $format = 'D jS M Y';
-
-                break;
-        }
-
-        if ($fromDate) {
-            $value = $prefix . date($format, strtotime($date)) . $postfix;
-        } elseif (! $fromDate && ! $this->OneDayOnly) {
-            $value = $prefix . date($format, strtotime($date)) . $postfix;
-        }
-
-        return DBField::create_field('Varchar', $value);
-    }
 
     private static $has_many = [
         'Tours' => Tour::class,
@@ -196,6 +133,16 @@ class DateInfo extends TourBaseClass
         'CalculatedUntilDate' => 'Varchar',
         'TourTimesNice' => 'HTMLText',
     ];
+
+    public function getCalculatedFromDateFormated()
+    {
+        return $this->getCalculatedNiceDateFormated($this->FromDate);
+    }
+
+    public function getCalculatedUntilDateFormated()
+    {
+        return $this->getCalculatedNiceDateFormated($this->UntilDate, false);
+    }
 
     /**
      * [best_match_for_date description].
@@ -325,7 +272,7 @@ class DateInfo extends TourBaseClass
     {
         parent::requireDefaultRecords();
         $list = DateInfo::get();
-        foreach($list as $item) {
+        foreach ($list as $item) {
             $item->write();
         }
         //...
@@ -377,6 +324,57 @@ class DateInfo extends TourBaseClass
         return $fields;
     }
 
+    protected function getCalculatedNiceDateFormated($date, $fromDate = true)
+    {
+        $prefix = '';
+        $format = 'D jS M Y';
+        $postfix = '';
+        $value = '';
+        switch ($this->RepeatEvery) {
+            case 'Week':
+                $format = 'D';
+
+                break;
+            case 'Fortnight':
+                $prefix = 'Every second ';
+                $format = 'l';
+                if ($fromDate) {
+                    $postfix = ' starting ' . date('D jS M', strtotime($date));
+                }
+
+                break;
+            case 'Month':
+                $format = 'D jS';
+                $postfix = ' of every month';
+
+                break;
+            case 'Quarter':
+                $format = 'D jS';
+                $postfix = ' of the month';
+                if ($fromDate) {
+                    $postfix .= ' starting from ' . date('M', strtotime($date));
+                }
+
+                break;
+            case 'Year':
+                $format = 'D jS M';
+
+                break;
+            default:
+                $format = 'D jS M Y';
+
+                break;
+        }
+
+        if ($fromDate) {
+            $value = $prefix . date($format, strtotime($date)) . $postfix;
+        } elseif (! $fromDate && ! $this->OneDayOnly) {
+            $value = $prefix . date($format, strtotime($date)) . $postfix;
+        }
+
+        return DBField::create_field('Varchar', $value);
+    }
+
     //######################
     //## can Section
     //######################
@@ -388,10 +386,10 @@ class DateInfo extends TourBaseClass
     protected function onBeforeWrite()
     {
         parent::onBeforeWrite();
-        if($this->SortOrder < 10000 && $this->NoTourTimes) {
-            $this->SortOrder = $this->SortOrder + 1000;
-        } elseif($this->SortOrder > 10000 && !$this->NoTourTimes) {
-            $this->SortOrder = $this->SortOrder - 1000;
+        if ($this->SortOrder < 10000 && $this->NoTourTimes) {
+            $this->SortOrder += 1000;
+        } elseif ($this->SortOrder > 10000 && ! $this->NoTourTimes) {
+            $this->SortOrder -= 1000;
         }
         if ($this->OneDayOnly || ! $this->UntilDate) {
             $this->UntilDate = $this->FromDate;

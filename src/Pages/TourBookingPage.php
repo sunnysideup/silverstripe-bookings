@@ -2,20 +2,13 @@
 
 namespace Sunnysideup\Bookings\Pages;
 
-use SilverStripe\Forms\TextareaField;
 use Page;
-
 use SilverStripe\Core\Config\Config;
-
-use SilverStripe\Core\Injector\Injector;
-
+use SilverStripe\Forms\TextareaField;
 use SilverStripe\ORM\DataObject;
-
-use Sunnysideup\Bookings\Pages\TourBookingPageController;
 
 class TourBookingPage extends Page
 {
-
     private static $table_name = 'TourBookingPage';
 
     private static $db = [
@@ -38,11 +31,10 @@ class TourBookingPage extends Page
         }
         if (null === $actionToTest || isset($allowedActions[$actionToTest])) {
             $obj = DataObject::get_one(TourBookingPage::class);
-            if($obj) {
+            if ($obj) {
                 return $obj->Link($action);
-            } else {
-                user_error('You need to create a TourBookingPage');
             }
+            user_error('You need to create a TourBookingPage');
         }
         user_error('Action ' . $action . ' is not found. Available actions are: ' . implode(', ', array_keys($allowedActions)));
 
@@ -70,10 +62,9 @@ class TourBookingPage extends Page
                     'Checkin Message NOT on location'
                 )
                     ->setDescription('e.g. You can only check-in on location usign our amazing wifi. Please make your way ...'),
-
             ]
         );
+
         return $fields;
     }
-
 }
