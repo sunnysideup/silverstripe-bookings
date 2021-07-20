@@ -7,6 +7,7 @@ use Colymba\BulkManager\BulkManager;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\Tab;
@@ -92,15 +93,20 @@ class TourBookingsAdmin extends ModelAdmin
                 $toursList1 = $fields->fieldByName('Sunnysideup-Bookings-Model-Tour');
                 $fields->removeByName('Sunnysideup-Bookings-Model-Tour');
 
-                $toursList2 = new GridField('Sunnysideup-Bookings-Model-Tour-Todays', '', $toursList1->getList()->filter('Date', date('Y-d-m')), $toursList1->getConfig());
+                $toursList2 = new GridField(
+                    'Sunnysideup-Bookings-Model-Tour-Todays',
+                    '',
+                    Tour::get()->filter(['Date' => date('Y-m-d')]),
+                    GridFieldConfig_RecordViewer::create()
+                );
                 $toursList2->setForm($form);
 
                 $fields->insertAfter(
                     'Sunnysideup-Bookings-Model-Tour-All',
                     new TabSet(
                         'ToursSetInner',
-                        new Tab('TodayTours', "Today's Tours", $toursList1),
-                        new Tab('UpcomingTours', 'All Upcoming Tours', $toursList2)
+                        new Tab('TodayTours', "Today's Tours", $toursList2),
+                        new Tab('UpcomingTours', 'All Upcoming Tours', $toursList1)
                     )
                 );
 
