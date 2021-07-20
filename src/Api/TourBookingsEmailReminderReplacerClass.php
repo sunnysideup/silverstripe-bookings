@@ -196,7 +196,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     {
         $replace = '';
         if ($waitlister instanceof Waitlister) {
-            $replace = $waitlister->Tour()->JoinLink(true);
+            $replace = $waitlister->Tour()->JoinLink();
         }
 
         return str_replace($searchString, $replace, $str);

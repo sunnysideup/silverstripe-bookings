@@ -79,66 +79,58 @@ class TourBookingsConfig extends ModelAdmin
     public function getEditForm($id = null, $fields = null)
     {
         $form = parent::getEditForm($id, $fields);
-
+        $fields = $form->Fields();
+        $gridField = $fields->dataFieldByName($this->sanitiseClassName($this->modelClass));
+        $gridFieldConfig = null;
+        if($gridField && $gridField instanceof GridField) {
+            $gridFieldConfig = $gridField->getConfig();
+        }
         //This check is simply to ensure you are on the managed model you want adjust accordingly
-        if (TimesForTour::class === $this->modelClass && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if (self::is_model_class($this->modelClass, TimesForTour::class)) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
-            if ($gridField instanceof GridField) {
-                $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
+            if ($gridFieldConfig) {
+                $gridFieldConfig->removeComponentsByType(GridFieldExportButton::class);
             }
         }
 
-        if (DateInfo::class === $this->modelClass && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if (self::is_model_class($this->modelClass, DateInfo::class)) {
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
-            if ($gridField instanceof GridField) {
-                $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
-                $gridField->getConfig()->removeComponentsByType(GridFieldPrintButton::class);
-                $gridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
+            if ($gridFieldConfig) {
+                $gridFieldConfig->removeComponentsByType(GridFieldExportButton::class);
+                $gridFieldConfig->removeComponentsByType(GridFieldPrintButton::class);
+                $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
             }
-            $form->Fields()->insertBefore(
-                $this->sanitiseClassName($this->modelClass),
-                LiteralField::create(
-                    'Explanation',
-                    '
-                        <p>
-                        - The TOUR BUILDER automatically generates tours based on the rules in the table below.<br />
-                        - Only one rule is applied to each day.  The applicable rule is found by checking the rules (starting from the bottom of the table) below until a match is found.<br />
-                        - This means the most standard rules - i.e. business as usual shows at the top, and specific rules, such as "closed for Xmas", are at the bottom.
-                        - To find out what rule applies for a certain day, click on the magnifying glass and search for a particular day.
-                        </p>
-                    '
-                )
-            );
+            $this->addRulesExplanations();
         }
 
-        if (is_subclass_of($this->modelClass, TourBookingSettings::class) || TourBookingSettings::class === $this->modelClass) {
-            $fields = $form->Fields();
-            $gridField = $fields->dataFieldByName($this->sanitiseClassName($this->modelClass));
-            if ($gridField && $gridField instanceof GridField) {
-                $config = $gridField->getConfig();
-                $config->removeComponentsByType(GridFieldExportButton::class);
-                $config->removeComponentsByType(GridFieldPrintButton::class);
-                $config->removeComponentsByType(GridFieldImportButton::class);
-                $config->removeComponentsByType(GridFieldFilterHeader::class);
-                $config->removeComponentsByType(GridFieldSortableHeader::class);
+        if (self::is_model_class($this->modelClass, TourBookingSettings::class)) {
+            if ($gridFieldConfig) {
+                $gridFieldConfig->removeComponentsByType(GridFieldExportButton::class);
+                $gridFieldConfig->removeComponentsByType(GridFieldPrintButton::class);
+                $gridFieldConfig->removeComponentsByType(GridFieldImportButton::class);
+                $gridFieldConfig->removeComponentsByType(GridFieldFilterHeader::class);
+                $gridFieldConfig->removeComponentsByType(GridFieldSortableHeader::class);
             }
             $this->addConfigExplanations($fields);
 
             return $form;
         }
 
-        if (ReferralOption::class === $this->modelClass && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
-            //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
-            if ($gridField instanceof GridField) {
-                $gridField->getConfig()->removeComponentsByType(GridFieldExportButton::class);
-                $gridField->getConfig()->removeComponentsByType(GridFieldPrintButton::class);
-                $gridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
+        if (self::is_model_class($this->modelClass, ReferralOption::class)) {
+            if ($gridFieldConfig) {
+                $gridFieldConfig->removeComponentsByType(GridFieldExportButton::class);
+                $gridFieldConfig->removeComponentsByType(GridFieldPrintButton::class);
+                $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
             }
         }
 
         return $form;
     }
 
+    public static function is_model_class(string $modelClass, string $className) : bool
+    {
+        return is_subclass_of($modelClass, $className) || $className === $modelClass;
+    }
 
     protected function addConfigExplanations($fields)
     {
@@ -149,42 +141,47 @@ class TourBookingsConfig extends ModelAdmin
         $createToursLink = Injector::inst()->get(TourBuilder::class)->Link();
         $page = TourBookingPage::get()->first();
         if($page) {
-            $this->AddUsefulLinkToFields(
+            $this->addUsefulLinkToFields(
                 $fields,
                 'Open Tour Booking Page',
                 $page->Link()
             );
+            $this->addUsefulLinkToFields(
+                $fields,
+                'Open Calendar',
+                $page->CalendarLink()
+            );
         }
 
-        $this->AddUsefulLinkToFields(
+        $this->addUsefulLinkToFields(
             $fields,
             'Create Future Tours Now',
             $createToursLink,
             'This task runs regularly, but you can run it now by clicking above link.'
         );
 
-        $this->AddUsefulLinkToFields(
+        $this->addUsefulLinkToFields(
             $fields,
             'Monthly Tour Report',
             Injector::inst()->get(MonthlyTourReport::class)->Link(),
             'This task runs once a month, but you can get the report sent now by clicking above link.'
         );
 
-        $this->AddUsefulLinkToFields(
+        $this->addUsefulLinkToFields(
             $fields,
             'Add New Booking',
             $page->Link(),
             'The best way to add a booking is to use the front-end of the website.'
         );
 
-        $this->AddUsefulLinkToFields(
+        $this->addUsefulLinkToFields(
             $fields,
             'Add new tour at an existing time slot, using your rules',
             $dateInfoSingleton->CMSAddLink(),
             'Add new tour date(s) with all the details and then create the tours using the <a href="' . $createToursLink . '">create tours button</a>.'
         );
 
-        $this->AddUsefulLinkToFields(
+        $this->addUsefulLinkToFields(
             $fields,
             'Add new tour at an a new time slot, using your rules',
             $timesForTourSingleton->CMSAddLink(),
@@ -192,7 +189,7 @@ class TourBookingsConfig extends ModelAdmin
             After that you will have to create the tours using the <a href="' . Injector::inst()->get(TourBuilder::class)->Link() . '">create tours button</a>.'
         );
 
-        $this->AddUsefulLinkToFields(
+        $this->addUsefulLinkToFields(
             $fields,
             'Find out what tour date rule applies on a certain day',
             $dateInfoSingleton->CMSListLink(),
@@ -201,7 +198,7 @@ class TourBookingsConfig extends ModelAdmin
 
     }
 
-    protected function AddUsefulLinkToFields(FieldList $fields, string $title, string $link, ?string $explanation = '')
+    protected function addUsefulLinkToFields(FieldList $fields, string $title, string $link, ?string $explanation = '')
     {
         $name = preg_replace('#[^A-Za-z0-9 ]#', '', $title);
         $fields->push(
@@ -209,6 +206,24 @@ class TourBookingsConfig extends ModelAdmin
                 $name . '_UseFulLink',
                 '<h2>› <a href="' . $link . '">' . $title . '</a></h2><p>' . $explanation . '</p>'
             ),
+        );
+    }
+
+    protected function addRulesExplanations($fields)
+    {
+        $fields->insertBefore(
+            $this->sanitiseClassName($this->modelClass),
+            LiteralField::create(
+                'Explanation',
+                '
+                    <p>
+                    - The TOUR BUILDER automatically generates tours based on the rules in the table below.<br />
+                    - Only one rule is applied to each day.  The applicable rule is found by checking the rules (starting from the bottom of the table) below until a match is found.<br />
+                    - This means the most standard rules - i.e. business as usual shows at the top, and specific rules, such as "closed for Xmas", are at the bottom.
+                    - To find out what rule applies for a certain day, click on the magnifying glass and search for a particular day.
+                    </p>
+                '
+            )
         );
     }
 }

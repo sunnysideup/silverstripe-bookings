@@ -17,6 +17,8 @@ use Sunnysideup\Bookings\Model\Waitlister;
 use Sunnysideup\Bookings\Model\TimesForTour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
 
+use Sunnysideup\Bookings\Cms\TourBookingsConfig;
+
 class TourBookingsAdmin extends ModelAdmin
 {
     public $showImportForm = false;
@@ -28,9 +30,26 @@ class TourBookingsAdmin extends ModelAdmin
     ];
 
     private static $managed_models = [
-        Tour::class,
-        Booking::class,
-        Waitlister::class,
+        // Tour::class => [
+        //     'dataClass' => Tour::class,
+        //     'title' => 'Today',
+        // ],
+        // Tour::class => [
+        //     'dataClass' => Tour::class,
+        //     'title' => 'This week',
+        // ],
+        Tour::class => [
+            'dataClass' => Tour::class,
+            'title' => 'All future tours',
+        ],
+        Booking::class => [
+            'dataClass' => Booking::class,
+            'title' => 'All future bookings',
+        ],
+        Waitlister::class => [
+            'dataClass' => Waitlister::class,
+            'title' => 'All future Waitlisters',
+        ],
     ];
 
     private static $url_segment = 'tour-bookings-admin';
@@ -42,7 +61,7 @@ class TourBookingsAdmin extends ModelAdmin
     public function getList()
     {
         $list = parent::getList();
-        if (Tour::class === $this->modelClass) {
+        if (TourBookingsConfig::is_model_class($this->modelClass, Tour::class)) {
             $mysqlDate = date('Y-m-d', strtotime('-2 days'));
             $list = $list->filter(['Date:GreaterThan' => $mysqlDate]);
         }
@@ -53,7 +72,7 @@ class TourBookingsAdmin extends ModelAdmin
     public function getEditForm($id = null, $fields = null)
     {
         $form = parent::getEditForm($id, $fields);
-        if (Tour::class === $this->modelClass) {
+        if (TourBookingsConfig::is_model_class($this->modelClass, Tour::class)) {
             $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass));
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField && $gridField instanceof GridField) {
@@ -69,5 +88,6 @@ class TourBookingsAdmin extends ModelAdmin
                 }
             }
         }
+        return $form;
     }
 }

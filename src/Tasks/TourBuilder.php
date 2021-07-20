@@ -27,7 +27,8 @@ class TourBuilder extends BuildTask
         $today = strtotime('today');
         //revers sort to get first match!!!!
         //make sure to start at one not zero ....
-        for ($i = 1; $i <= $this->getNumberOfDaysInFuture(); ++$i) {
+        $daysInTheFuture = $this->getNumberOfDaysInFuture();
+        for ($i = 1; $i <= $daysInTheFuture; ++$i) {
             $dateTS = strtotime('today +' . $i . ' day');
             $mysqlDate = date('Y-m-d', $dateTS);
             DB::alteration_message('<strong>' . $mysqlDate . '</strong>');
@@ -35,11 +36,11 @@ class TourBuilder extends BuildTask
             if ($myDateInfo) {
                 DB::alteration_message('... found rule: ' . $myDateInfo->Title);
                 $existingToursForThatDay = Tour::get()->filter(['Date' => $mysqlDate]);
-                if (0 === $existingToursForThatDay->count()) {
+                if (!$existingToursForThatDay->exists()) {
                     DB::alteration_message('... no existing tours found for that day: ', 'deleted');
                 }
                 $existingTourTimesForThatDay = $myDateInfo->TourTimes();
-                if (0 === $existingTourTimesForThatDay->count()) {
+                if (! $existingTourTimesForThatDay->exists()) {
                     DB::alteration_message('... ... no template tour times found for that day', 'deleted');
                 } else {
                     foreach ($existingTourTimesForThatDay as $tourTime) {
