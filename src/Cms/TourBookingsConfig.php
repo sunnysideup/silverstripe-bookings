@@ -3,6 +3,8 @@
 namespace Sunnysideup\Bookings\Cms;
 
 use SilverStripe\Admin\ModelAdmin;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
 use SilverStripe\Forms\GridField\GridFieldFilterHeader;
@@ -10,26 +12,17 @@ use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
 use SilverStripe\Forms\GridField\GridFieldSortableHeader;
 use SilverStripe\Forms\LiteralField;
-use SilverStripe\Core\Injector\Injector;
+use Sunnysideup\Bookings\Model\Booking;
 use Sunnysideup\Bookings\Model\DateInfo;
 use Sunnysideup\Bookings\Model\ReferralOption;
 use Sunnysideup\Bookings\Model\TimesForTour;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
-use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
-use Colymba\BulkManager\BulkAction\EditHandler;
-use Colymba\BulkManager\BulkManager;
-use SilverStripe\Forms\GridField\GridFieldPaginator;
-
-use SilverStripe\Forms\FieldList;
-use Sunnysideup\Bookings\Forms\Actions\CloseAction;
-use Sunnysideup\Bookings\Forms\Actions\OpenAction;
-use Sunnysideup\Bookings\Model\Booking;
 use Sunnysideup\Bookings\Model\Waitlister;
-use Sunnysideup\Bookings\Tasks\TourBuilder;
-use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
 use Sunnysideup\Bookings\Pages\TourBookingPage;
-
+use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
+use Sunnysideup\Bookings\Tasks\TourBuilder;
+use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 
 class TourBookingsConfig extends ModelAdmin
 {
@@ -67,7 +60,7 @@ class TourBookingsConfig extends ModelAdmin
         Waitlister::class => [
             'dataClass' => Waitlister::class,
             'title' => 'Waitlists Archive',
-        ]
+        ],
     ];
 
     private static $url_segment = 'tour-bookings-config';
@@ -82,7 +75,7 @@ class TourBookingsConfig extends ModelAdmin
         $fields = $form->Fields();
         $gridField = $fields->dataFieldByName($this->sanitiseClassName($this->modelClass));
         $gridFieldConfig = null;
-        if($gridField && $gridField instanceof GridField) {
+        if ($gridField && $gridField instanceof GridField) {
             $gridFieldConfig = $gridField->getConfig();
         }
         //This check is simply to ensure you are on the managed model you want adjust accordingly
@@ -127,7 +120,7 @@ class TourBookingsConfig extends ModelAdmin
         return $form;
     }
 
-    public static function is_model_class(string $modelClass, string $className) : bool
+    public static function is_model_class(string $modelClass, string $className): bool
     {
         return is_subclass_of($modelClass, $className) || $className === $modelClass;
     }
@@ -140,7 +133,7 @@ class TourBookingsConfig extends ModelAdmin
         $tourSingleton = Injector::inst()->get(Tour::class);
         $createToursLink = Injector::inst()->get(TourBuilder::class)->Link();
         $page = TourBookingPage::get()->first();
-        if($page) {
+        if ($page) {
             $this->addUsefulLinkToFields(
                 $fields,
                 'Open Tour Booking Page',
@@ -195,7 +188,6 @@ class TourBookingsConfig extends ModelAdmin
             $dateInfoSingleton->CMSListLink(),
             'Click on the magnifying glass and search for a particular day.'
         );
-
     }
 
     protected function addUsefulLinkToFields(FieldList $fields, string $title, string $link, ?string $explanation = '')
@@ -244,8 +236,7 @@ class TourBookingsConfig extends ModelAdmin
 $dateInfoGridfield = $fields->fieldByName('Sunnysideup-Bookings-Model-DateInfo');
 
 // Update form fields under 'Tour Dates'
-if($dateInfoGridfield)
-{
+if ($dateInfoGridfield) {
     $fields->insertAfter(
         'Sunnysideup-Bookings-Model-DateInfo',
         LiteralField::create('Bookings-Model-DateInfo-Description', '

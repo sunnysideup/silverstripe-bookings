@@ -115,7 +115,6 @@ class TourBookingPageController extends PageController
         return ['Content' => DBField::create_field('HTMLText', $this->Content)];
     }
 
-
     public function canEdit($member = null, $context = [])
     {
         return $this->currentBooking && $this->currentBooking->exists();
@@ -393,7 +392,7 @@ class TourBookingPageController extends PageController
         $this->listOfToursUntilDate = date('Y-m-d', strtotime('+ ' . $numberOfDays . ' days'));
     }
 
-    public function ListOfTours() : DataList
+    public function ListOfTours(): DataList
     {
         return Tour::get()->filter(
             [
@@ -403,7 +402,7 @@ class TourBookingPageController extends PageController
         );
     }
 
-    public function TourDateAsArray() : array
+    public function TourDateAsArray(): array
     {
         $tours = $this->ListOfTours();
         $tourData = [];
@@ -424,7 +423,7 @@ class TourBookingPageController extends PageController
         return $tourData;
     }
 
-    public function ClosedDatesAsArray() : array
+    public function ClosedDatesAsArray(): array
     {
         $closedData = [];
         for ($i = 1; $i <= 365; ++$i) {
@@ -486,12 +485,12 @@ class TourBookingPageController extends PageController
         if ($this->IsOnLocation()) {
             $this->Content = '
                 <h1>Self Check-In</h1>
-                <p class="message good">'.$this->OnLocationCheckinMessage.'</p>';
+                <p class="message good">' . $this->OnLocationCheckinMessage . '</p>';
             $this->Form = $this->SelfCheckInForm();
         } else {
             $this->Content = '
                 <h1>Self Check-In</h1>
-                <p class="message warning">'.$this->NotOnLocationCheckinMessage.'</p>';
+                <p class="message warning">' . $this->NotOnLocationCheckinMessage . '</p>';
         }
 
         //this page will always render without a header/footer -
@@ -516,7 +515,7 @@ class TourBookingPageController extends PageController
         return $this->currentTour;
     }
 
-    public function TourLinks(?string $className = '') : ArrayList
+    public function TourLinks(?string $className = ''): ArrayList
     {
         $modelAdmin = Injector::inst()->get(TourBookingsAdmin::class);
         $models = $modelAdmin->getManagedModels();
@@ -531,7 +530,7 @@ class TourBookingPageController extends PageController
         return $al;
     }
 
-    public function TourBookingsAdminLink() : string
+    public function TourBookingsAdminLink(): string
     {
         $member = Security::getCurrentUser();
         if ($member && $this->CurrentUserIsTourManager($member)) {
@@ -546,7 +545,7 @@ class TourBookingPageController extends PageController
         return (bool) $this->isCancellation;
     }
 
-    public function IsOnLocation() : bool
+    public function IsOnLocation(): bool
     {
         $hideHeader = (bool) $this->request->getVar('hideheader');
         //if hideheader get var has explicitly been set to false then pretend this is not the factory, even it if is
@@ -598,7 +597,7 @@ class TourBookingPageController extends PageController
         return $this->currentBooking;
     }
 
-    protected function getTourFromRequestOrIDParam() : ?Tour
+    protected function getTourFromRequestOrIDParam(): ?Tour
     {
         $this->currentTour = null;
         $id = ($id = $this->request->postVar('TourID')) ? (int) $id : (int) $this->request->param('ID');
@@ -607,7 +606,7 @@ class TourBookingPageController extends PageController
         return $this->currentTour;
     }
 
-    protected function getNumberOfGuestsFromRequestOrIDParam() : ?int
+    protected function getNumberOfGuestsFromRequestOrIDParam(): ?int
     {
         $this->totalNumberOfGuests = null;
         $guests1 = (int) $this->request->param('OtherID');

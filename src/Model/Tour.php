@@ -16,7 +16,6 @@ use Sunnysideup\Bookings\Cms\TourBookingsConfig;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
 use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPage;
-use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 use Sunnysideup\Bookings\Search\TourDayFilter;
 use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
@@ -337,14 +336,15 @@ class Tour extends TourBaseClass
         return DBField::create_field(DBBoolean::class, $v);
     }
 
-    public function getIsFuture() : bool
+    public function getIsFuture(): bool
     {
         $dateTime = date('Y-m-d', strtotime($this->StartDate)) . ' ' . $this->StartTime;
         $dateTimeTs = strtotime($dateTime);
+
         return $dateTimeTs > time();
     }
 
-    public function getIsPast() : bool
+    public function getIsPast(): bool
     {
         return ! $this->getIsFuture();
     }
@@ -405,7 +405,7 @@ class Tour extends TourBaseClass
         if ($this->getNumberOfGroups()->RAW() > 0) {
             return false;
         }
-        if($this->getIsPast()) {
+        if ($this->getIsPast()) {
             return false;
         }
 
@@ -479,7 +479,7 @@ class Tour extends TourBaseClass
 
     public function JoinLink()
     {
-        return Director::absoluteURL(TourBookingPage::find_link('jointour' .'/' . $this->ID));
+        return Director::absoluteURL(TourBookingPage::find_link('jointour' . '/' . $this->ID));
     }
 
     protected function onBeforeWrite()

@@ -7,17 +7,11 @@ use Colymba\BulkManager\BulkManager;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
-
-use SilverStripe\Forms\FieldList;
 use Sunnysideup\Bookings\Forms\Actions\CloseAction;
 use Sunnysideup\Bookings\Forms\Actions\OpenAction;
 use Sunnysideup\Bookings\Model\Booking;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\Waitlister;
-use Sunnysideup\Bookings\Model\TimesForTour;
-use Sunnysideup\Bookings\Model\TourBookingSettings;
-
-use Sunnysideup\Bookings\Cms\TourBookingsConfig;
 
 class TourBookingsAdmin extends ModelAdmin
 {
@@ -98,7 +92,7 @@ class TourBookingsAdmin extends ModelAdmin
                     'Sunnysideup-Bookings-Model-Tour-All',
                     new TabSet(
                         'ToursSetInner',
-                        new Tab('TodayTours', 'Today\'s Tours', $toursList1),
+                        new Tab('TodayTours', "Today's Tours", $toursList1),
                         new Tab('UpcomingTours', 'All Upcoming Tours', $toursList2)
                     )
                 );
@@ -111,7 +105,7 @@ class TourBookingsAdmin extends ModelAdmin
                             '<p style="margin-top: 15px">Above is a list of all the <strong>upcoming tours</strong> for each day, some are auto-generated, some have been manually added.</p>
                                 <p><strong>To set up regular tours</strong> (auto-generated), use the Tour Generator - Rules" tab in "Tour Config".</p>
                                 <p><strong>Deleting tours:</strong> To delete a tour as a once off, just close the tour. To delete a recurring tour, you need to change the rules first then manually close any tours that have already been added.</p>'
-                        )
+                        ),
                     ]
                 );
             }
@@ -119,7 +113,7 @@ class TourBookingsAdmin extends ModelAdmin
             $bookingGridfield = $fields->fieldByName('Sunnysideup-Bookings-Model-Booking');
 
             // Update form fields under 'Bookings'
-            if($bookingGridfield) {
+            if ($bookingGridfield) {
                 $fields->insertAfter(
                     'Sunnysideup-Bookings-Model-Booking',
                     LiteralField::create(
@@ -131,6 +125,7 @@ class TourBookingsAdmin extends ModelAdmin
                 );
             }
         }
+
         return $form;
     }
 }

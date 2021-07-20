@@ -4,7 +4,6 @@ namespace Sunnysideup\Bookings\Model;
 
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\LiteralField;
@@ -16,9 +15,6 @@ use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use Sunnysideup\Bookings\Cms\TourBookingsConfig;
-use Sunnysideup\Bookings\Pages\TourBookingPageController;
-use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
-use Sunnysideup\Bookings\Tasks\TourBuilder;
 use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 use Sunnysideup\PermissionProvider\Api\PermissionProviderFactory;

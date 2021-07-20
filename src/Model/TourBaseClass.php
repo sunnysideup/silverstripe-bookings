@@ -3,15 +3,14 @@
 namespace Sunnysideup\Bookings\Model;
 
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
-use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
 use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
 use Sunnysideup\Bookings\Cms\TourBookingsConfig;
 use Sunnysideup\Bookings\Pages\TourBookingPage;
-use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\SanitiseClassName\Sanitiser;
 use Sunnysideup\YesNoAnyFilter\FixBooleanSearch;
 

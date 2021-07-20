@@ -1,7 +1,7 @@
 <?php
 
 namespace Sunnysideup\Bookings\Model;
-use SilverStripe\Control\Controller;
+
 use Dynamic\CountryDropdownField\Fields\CountryDropdownField;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Email\Email;
@@ -23,7 +23,6 @@ use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Member;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPage;
-use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
 use SunnySideUp\EmailReminder\Model\EmailReminderEmailRecord;
@@ -591,16 +590,16 @@ class Booking extends TourBaseClass
         return $this->createLink('cancel');
     }
 
-    protected function createLink(?string $action = '') : string
+    protected function createLink(?string $action = ''): string
     {
         if ($this->Code) {
             $code = substr($this->Code, 0, 9);
             $link = TourBookingPage::find_link($action . '/' . $code);
         } else {
-            $link = 'error/in/'.$action.'/for/' . $this->ID.'/';
+            $link = 'error/in/' . $action . '/for/' . $this->ID . '/';
         }
-        return Director::absoluteURL($link);
 
+        return Director::absoluteURL($link);
     }
 
     protected function onBeforeWrite()

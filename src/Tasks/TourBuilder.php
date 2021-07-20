@@ -36,7 +36,7 @@ class TourBuilder extends BuildTask
             if ($myDateInfo) {
                 DB::alteration_message('... found rule: ' . $myDateInfo->Title);
                 $existingToursForThatDay = Tour::get()->filter(['Date' => $mysqlDate]);
-                if (!$existingToursForThatDay->exists()) {
+                if (! $existingToursForThatDay->exists()) {
                     DB::alteration_message('... no existing tours found for that day: ', 'deleted');
                 }
                 $existingTourTimesForThatDay = $myDateInfo->TourTimes();
