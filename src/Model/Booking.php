@@ -1,7 +1,7 @@
 <?php
 
 namespace Sunnysideup\Bookings\Model;
-
+use SilverStripe\Control\Controller;
 use Dynamic\CountryDropdownField\Fields\CountryDropdownField;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Email\Email;
@@ -22,6 +22,7 @@ use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Member;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
+use Sunnysideup\Bookings\Pages\TourBookingPage;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
@@ -465,11 +466,11 @@ class Booking extends TourBaseClass
             ]
         );
 
-        $this->AddUsefulLinkToFields($fields, 'Add New Booking', $this->AddLink());
+        $this->addUsefulLinkToFields($fields, 'Add New Booking', $this->AddLink());
         if ($this->Code) {
-            $this->AddUsefulLinkToFields($fields, 'Confirm Booking', $this->ConfirmLink());
-            $this->AddUsefulLinkToFields($fields, 'Edit Booking', $this->ConfirmLink());
-            $this->AddUsefulLinkToFields($fields, 'Cancel Booking', $this->CancelLink());
+            $this->addUsefulLinkToFields($fields, 'Confirm Booking', $this->ConfirmLink());
+            $this->addUsefulLinkToFields($fields, 'Edit Booking', $this->ConfirmLink());
+            $this->addUsefulLinkToFields($fields, 'Cancel Booking', $this->CancelLink());
         }
 
         DataObjectOneFieldAddEditAllLink::add_edit_links_to_checkboxes(self::class, $fields);
@@ -572,54 +573,34 @@ class Booking extends TourBaseClass
 
     public function AddLink($absolute = false): string
     {
-        $v = TourBookingPageController::find_link('signup');
-        if ($absolute) {
-            $v = Director::absoluteURL($v);
-        }
-
-        return $v;
+        return $this->createLink('signup');
     }
 
     public function ConfirmLink($absolute = false): string
     {
-        if ($this->Code) {
-            $v = TourBookingPageController::find_link('confirmsignup') . substr($this->Code, 0, 9) . '/';
-            if ($absolute) {
-                $v = Director::absoluteURL($v);
-            }
-
-            return $v;
-        }
-
-        return 'error';
+        return $this->createLink('confirmsignup');
     }
 
     public function EditLink($absolute = false): string
     {
-        if ($this->Code) {
-            $v = TourBookingPageController::find_link('update') . substr($this->Code, 0, 9) . '/';
-            if ($absolute) {
-                $v = Director::absoluteURL($v);
-            }
-
-            return $v;
-        }
-
-        return 'error';
+        return $this->createLink('update');
     }
 
     public function CancelLink($absolute = false): string
     {
+        return $this->createLink('cancel');
+    }
+
+    protected function createLink(?string $action = '') : string
+    {
         if ($this->Code) {
-            $v = TourBookingPageController::find_link('cancel') . substr($this->Code, 0, 9) . '/';
-            if ($absolute) {
-                $v = Director::absoluteURL($v);
-            }
-
-            return $v;
+            $code = substr($this->Code, 0, 9);
+            $link = TourBookingPage::find_link($action . '/' . $code);
+        } else {
+            $link = 'error/in/'.$action.'/for/' . $this->ID.'/';
         }
+        return Director::absoluteURL($link);
 
-        return 'error';
     }
 
     protected function onBeforeWrite()

@@ -115,33 +115,6 @@ class TourBookingPageController extends PageController
         return ['Content' => DBField::create_field('HTMLText', $this->Content)];
     }
 
-    /**
-     * @param string $action
-     *
-     * @return string
-     */
-    public static function find_link(?string $action = null): ?string
-    {
-        $actionToTest = null;
-        $allowedActions = [];
-        if ($action) {
-            $allowedActions = Config::inst()->get(TourBookingPageController::class, 'allowed_actions');
-            $actionToTest = explode('/', $action)[0];
-        }
-        if (null === $actionToTest || isset($allowedActions[$actionToTest])) {
-            $obj = Injector::inst()->get(TourBookingPageController::class);
-
-            return $obj->Link($action);
-        }
-        user_error('Action ' . $action . ' is not found. Available actions are: ' . implode(', ', array_keys($allowedActions)));
-
-        return 'error';
-    }
-
-    public function CalendarLink()
-    {
-        return $this->Link('calendar');
-    }
 
     public function canEdit($member = null, $context = [])
     {

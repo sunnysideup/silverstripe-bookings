@@ -15,6 +15,7 @@ use SilverStripe\ORM\FieldType\DBField;
 use Sunnysideup\Bookings\Cms\TourBookingsConfig;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
 use Sunnysideup\Bookings\Forms\Fields\TourDayFilterField;
+use Sunnysideup\Bookings\Pages\TourBookingPage;
 use Sunnysideup\Bookings\Pages\TourBookingPageController;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 use Sunnysideup\Bookings\Search\TourDayFilter;
@@ -476,14 +477,9 @@ class Tour extends TourBaseClass
         return $this->Bookings()->exclude(['Cancelled' => 1]);
     }
 
-    public function JoinLink($absolute = false)
+    public function JoinLink()
     {
-        $v = TourBookingPageController::find_link('jointour') . $this->ID . '/';
-        if ($absolute) {
-            $v = Director::absoluteURL($v);
-        }
-
-        return $v;
+        return Director::absoluteURL(TourBookingPage::find_link('jointour' .'/' . $this->ID));
     }
 
     protected function onBeforeWrite()

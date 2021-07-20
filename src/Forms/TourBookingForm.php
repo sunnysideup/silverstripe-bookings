@@ -251,7 +251,7 @@ class TourBookingForm extends Form
             $mailOut->runOne($confirmationEmail, $this->currentBooking, false, true);
         }
 
-        $redirect = $this->controller->Link('confirmsignup/' . $code);
+        $redirect = $this->currentBooking->ConfirmLink();
 
         return $this->controller->redirect($redirect);
     }
