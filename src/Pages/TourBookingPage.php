@@ -16,6 +16,8 @@ use Sunnysideup\Bookings\Pages\TourBookingPageController;
 class TourBookingPage extends Page
 {
 
+    private static $table_name = 'TourBookingPage';
+
     private static $db = [
         'OnLocationCheckinMessage' => 'Text',
         'NotOnLocationCheckinMessage' => 'Text',
@@ -62,7 +64,7 @@ class TourBookingPage extends Page
                     'OnLocationCheckinMessage',
                     'Checkin Message on location'
                 )
-                    ->setDescription('e.g. Complete the form below to check in for your tour.')
+                    ->setDescription('e.g. Complete the form below to check in for your tour.'),
                 TextareaField::create(
                     'NotOnLocationCheckinMessage',
                     'Checkin Message NOT on location'

@@ -50,16 +50,6 @@ class DateInfo extends TourBaseClass
         return $this->getCalculatedNiceDateFormated($this->UntilDate ,false);
     }
 
-    public function onBeforeWrite()
-    {
-        parent::onBeforeWrite()
-        if($this->SortOrder < 10000 && $this->NoTourTimes) {
-            $this->SortOrder = $this->SortOrder + 1000;
-        } elseif($this->SortOrder > 10000 && !$this->NoTourTimes) {
-            $this->SortOrder = $this->SortOrder - 1000;
-        }
-        //
-    }
 
     protected function getCalculatedNiceDateFormated($date, $fromDate = true)
     {
@@ -334,6 +324,10 @@ class DateInfo extends TourBaseClass
     public function requireDefaultRecords()
     {
         parent::requireDefaultRecords();
+        $list = DateInfo::get();
+        foreach($list as $item) {
+            $item->write();
+        }
         //...
     }
 
@@ -350,6 +344,7 @@ class DateInfo extends TourBaseClass
         $fields = parent::getCMSFields();
 
         $fields->removeByName('TourTimes');
+        $fields->removeByName('SortOrder');
 
         $fields->addFieldToTab(
             'Root.TourTimes',
@@ -393,6 +388,11 @@ class DateInfo extends TourBaseClass
     protected function onBeforeWrite()
     {
         parent::onBeforeWrite();
+        if($this->SortOrder < 10000 && $this->NoTourTimes) {
+            $this->SortOrder = $this->SortOrder + 1000;
+        } elseif($this->SortOrder > 10000 && !$this->NoTourTimes) {
+            $this->SortOrder = $this->SortOrder - 1000;
+        }
         if ($this->OneDayOnly || ! $this->UntilDate) {
             $this->UntilDate = $this->FromDate;
         }

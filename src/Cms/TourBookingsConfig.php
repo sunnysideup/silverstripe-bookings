@@ -93,7 +93,7 @@ class TourBookingsConfig extends ModelAdmin
                 $gridFieldConfig->removeComponentsByType(GridFieldPrintButton::class);
                 $gridFieldConfig->addComponent(new GridFieldSortableRows('SortOrder'));
             }
-            $this->addRulesExplanations();
+            $this->addRulesExplanations($fields);
         }
 
         if (self::is_model_class($this->modelClass, TourBookingSettings::class)) {
@@ -231,17 +231,4 @@ class TourBookingsConfig extends ModelAdmin
             )
         );
     }
-}
-
-$dateInfoGridfield = $fields->fieldByName('Sunnysideup-Bookings-Model-DateInfo');
-
-// Update form fields under 'Tour Dates'
-if ($dateInfoGridfield) {
-    $fields->insertAfter(
-        'Sunnysideup-Bookings-Model-DateInfo',
-        LiteralField::create('Bookings-Model-DateInfo-Description', '
-
-
-        ')
-    );
 }

@@ -7,6 +7,10 @@ use Colymba\BulkManager\BulkManager;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+use SilverStripe\Forms\TabSet;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\Tab;
 use Sunnysideup\Bookings\Forms\Actions\CloseAction;
 use Sunnysideup\Bookings\Forms\Actions\OpenAction;
 use Sunnysideup\Bookings\Model\Booking;
@@ -67,20 +71,23 @@ class TourBookingsAdmin extends ModelAdmin
     {
         $form = parent::getEditForm($id, $fields);
         if (TourBookingsConfig::is_model_class($this->modelClass, Tour::class)) {
-            $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass));
+            $fields = $form->Fields();
+            $gridField = $fields->dataFieldByName($this->sanitiseClassName($this->modelClass));
+
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
             if ($gridField && $gridField instanceof GridField) {
+                $gridFieldConfig = $gridField->getConfig();
                 $bmConfig = (new BulkManager([], false))
                     ->addBulkAction(EditHandler::class)
                     ->addBulkAction(CloseAction::class)
                     ->addBulkAction(OpenAction::class)
                 ;
-                $gridField->getConfig()->addComponent($bmConfig);
-                $paginator = $gridField->getConfig()->getComponentByType(GridFieldPaginator::class);
+                $gridFieldConfig->addComponent($bmConfig);
+                $paginator = $gridFieldConfig->getComponentByType(GridFieldPaginator::class);
                 if ($paginator) {
                     $paginator->setItemsPerPage(10);
                 }
-                $gridField->getConfig()->getComponentByType(GridFieldAddNewButton::class)->setButtonName('Add one-off tour');
+                $gridFieldConfig->getComponentByType(GridFieldAddNewButton::class)->setButtonName('Add one-off tour');
 
                 $toursList1 = $fields->fieldByName('Sunnysideup-Bookings-Model-Tour');
                 $fields->removeByName('Sunnysideup-Bookings-Model-Tour');
