@@ -53,11 +53,10 @@ class TourBookingsAdmin extends ModelAdmin
     public function getEditForm($id = null, $fields = null)
     {
         $form = parent::getEditForm($id, $fields);
-
-        //This check is simply to ensure you are on the managed model you want adjust accordingly
-        if (Tour::class === $this->modelClass && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
+        if (Tour::class === $this->modelClass) {
+            $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass));
             //This is just a precaution to ensure we got a GridField from dataFieldByName() which you should have
-            if ($gridField instanceof GridField) {
+            if ($gridField && $gridField instanceof GridField) {
                 $bmConfig = (new BulkManager([], false))
                     ->addBulkAction(EditHandler::class)
                     ->addBulkAction(CloseAction::class)
@@ -70,76 +69,5 @@ class TourBookingsAdmin extends ModelAdmin
                 }
             }
         }
-        if (TourBookingSettings::class === $this->modelClass) {
-
-                    $bookingSingleton = Injector::inst()->get(Booking::class);
-                    $timesForTourSingleton = Injector::inst()->get(TimesForTour::class);
-                    $tourSingleton = Injector::inst()->get(Tour::class);
-                    $createToursLink = Injector::inst()->get(TourBuilder::class)->Link();
-                    $page = TourBookingPage::get()->first();
-                    if($page) {
-                        $this->AddUsefulLinkToFields(
-                            $fields,
-                            'Open Tour Booking Page',
-                            $page->Link()
-                        );
-                    }
-
-                    $this->AddUsefulLinkToFields(
-                        $fields,
-                        'Create Future Tours Now',
-                        $createToursLink,
-                        'This task runs regularly, but you can run it now by clicking above link.'
-                    );
-
-                    $this->AddUsefulLinkToFields(
-                        $fields,
-                        'Monthly Tour Report',
-                        Injector::inst()->get(MonthlyTourReport::class)->Link(),
-                        'This task runs once a month, but you can get the report sent now by clicking above link.'
-                    );
-
-                    $this->AddUsefulLinkToFields(
-                        $fields,
-                        'Add New Booking',
-                        $bookingSingleton->AddLink()
-                    );
-
-                    $this->AddUsefulLinkToFields(
-                        $fields,
-                        'Add adhoc tour at regular time',
-                        $timesForTour->AddLink(),
-                        'Add new tour date(s) with all the details and then create the tours using the <a href="' . $createToursLink . '">create tours button</a>.'
-                    );
-
-                    $this->AddUsefulLinkToFields(
-                        $fields,
-                        'Add adhoc tour at irregular time',
-                        '/admin/tour-bookings-config/Sunnysideup-Bookings-Model-TimesForTour/EditForm/field/Sunnysideup-Bookings-Model-TimesForTour/item/new',
-                        'Add the new time first and then add the tour dates.
-                        After that you will have to create the tours using the <a href="' . Injector::inst()->get(TourBuilder::class)->Link() . '">create tours button</a>.'
-                    );
-
-                    $this->AddUsefulLinkToFields(
-                        $fields,
-                        'Find out what tour date rule applies on a certain day',
-                        '/admin/tour-bookings-admin/Sunnysideup-Bookings-Model-Tour/',
-                        'Click on the magnifying glass and search for a particular day.'
-                    );
-
-        }
-
-        return $form;
-    }
-
-    protected function AddUsefulLinkToFields(FieldList $fields, string $title, string $link, ?string $explanation = '')
-    {
-        $name = preg_replace('#[^A-Za-z0-9 ]#', '', $title);
-        $fields->push(
-            LiteralField::create(
-                $name . '_UseFulLink',
-                '<h2>› <a href="' . $link . '">' . $title . '</a></h2><p>' . $explanation . '</p>'
-            ),
-        );
     }
 }

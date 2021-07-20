@@ -61,9 +61,11 @@ class DateInfo extends TourBaseClass
         'Title' => true,
         'UntilDate' => true,
         'Archived' => true,
+        'NoTourTimes' => true,
     ];
 
     private static $default_sort = [
+        'NoTourTimes' => 'ASC',
         'Archived' => 'ASC',
         'SortOrder' => 'ASC',
         'ID' => 'ASC',

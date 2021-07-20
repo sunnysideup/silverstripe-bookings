@@ -336,6 +336,18 @@ class Tour extends TourBaseClass
         return DBField::create_field(DBBoolean::class, $v);
     }
 
+    public function getIsFuture() : bool
+    {
+        $dateTime = date('Y-m-d', strtotime($this->StartDate)) . ' ' . $this->StartTime;
+        $dateTimeTs = strtotime($dateTime);
+        return $dateTimeTs > time();
+    }
+
+    public function getIsPast() : bool
+    {
+        return ! $this->getIsFuture();
+    }
+
     public function NumberOfAdults()
     {
         return $this->getNumberOfAdults();
@@ -390,6 +402,9 @@ class Tour extends TourBaseClass
     public function canDelete($member = null, $context = [])
     {
         if ($this->getNumberOfGroups()->RAW() > 0) {
+            return false;
+        }
+        if($this->getIsPast()) {
             return false;
         }
 

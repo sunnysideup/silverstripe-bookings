@@ -10,12 +10,26 @@ use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
 use SilverStripe\Forms\GridField\GridFieldSortableHeader;
 use SilverStripe\Forms\LiteralField;
+use SilverStripe\Core\Injector\Injector;
 use Sunnysideup\Bookings\Model\DateInfo;
 use Sunnysideup\Bookings\Model\ReferralOption;
 use Sunnysideup\Bookings\Model\TimesForTour;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
+use Colymba\BulkManager\BulkAction\EditHandler;
+use Colymba\BulkManager\BulkManager;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
+
+use SilverStripe\Forms\FieldList;
+use Sunnysideup\Bookings\Forms\Actions\CloseAction;
+use Sunnysideup\Bookings\Forms\Actions\OpenAction;
+use Sunnysideup\Bookings\Model\Booking;
+use Sunnysideup\Bookings\Model\Waitlister;
+use Sunnysideup\Bookings\Tasks\TourBuilder;
+use Sunnysideup\Bookings\Tasks\MonthlyTourReport;
+use Sunnysideup\Bookings\Pages\TourBookingPage;
+
 
 class TourBookingsConfig extends ModelAdmin
 {
@@ -26,11 +40,34 @@ class TourBookingsConfig extends ModelAdmin
     ];
 
     private static $managed_models = [
-        TourBookingSettings::class,
-        TimesForTour::class,
-        DateInfo::class,
-        ReferralOption::class,
-        Tour::class,
+        TourBookingSettings::class => [
+            'dataClass' => TourBookingSettings::class,
+            'title' => 'Settings',
+        ],
+        DateInfo::class => [
+            'dataClass' => DateInfo::class,
+            'title' => 'Tour Generator - Rules',
+        ],
+        TimesForTour::class => [
+            'dataClass' => TimesForTour::class,
+            'title' => 'Tour Times',
+        ],
+        ReferralOption::class => [
+            'dataClass' => ReferralOption::class,
+            'title' => 'Referral options',
+        ],
+        Tour::class => [
+            'dataClass' => Tour::class,
+            'title' => 'Tour Archive',
+        ],
+        Booking::class => [
+            'dataClass' => Tour::class,
+            'title' => 'Booking Archive',
+        ],
+        Waitlister::class => [
+            'dataClass' => Waitlister::class,
+            'title' => 'Waitlists Archive',
+        ]
     ];
 
     private static $url_segment = 'tour-bookings-config';
@@ -75,7 +112,8 @@ class TourBookingsConfig extends ModelAdmin
         }
 
         if (is_subclass_of($this->modelClass, TourBookingSettings::class) || TourBookingSettings::class === $this->modelClass) {
-            $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass));
+            $fields = $form->Fields();
+            $gridField = $fields->dataFieldByName($this->sanitiseClassName($this->modelClass));
             if ($gridField && $gridField instanceof GridField) {
                 $config = $gridField->getConfig();
                 $config->removeComponentsByType(GridFieldExportButton::class);
@@ -84,6 +122,9 @@ class TourBookingsConfig extends ModelAdmin
                 $config->removeComponentsByType(GridFieldFilterHeader::class);
                 $config->removeComponentsByType(GridFieldSortableHeader::class);
             }
+            $this->addConfigExplanations($fields);
+
+            return $form;
         }
 
         if (ReferralOption::class === $this->modelClass && $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) {
@@ -96,5 +137,78 @@ class TourBookingsConfig extends ModelAdmin
         }
 
         return $form;
+    }
+
+
+    protected function addConfigExplanations($fields)
+    {
+        $bookingSingleton = Injector::inst()->get(Booking::class);
+        $timesForTourSingleton = Injector::inst()->get(TimesForTour::class);
+        $dateInfoSingleton = Injector::inst()->get(DateInfo::class);
+        $tourSingleton = Injector::inst()->get(Tour::class);
+        $createToursLink = Injector::inst()->get(TourBuilder::class)->Link();
+        $page = TourBookingPage::get()->first();
+        if($page) {
+            $this->AddUsefulLinkToFields(
+                $fields,
+                'Open Tour Booking Page',
+                $page->Link()
+            );
+        }
+
+        $this->AddUsefulLinkToFields(
+            $fields,
+            'Create Future Tours Now',
+            $createToursLink,
+            'This task runs regularly, but you can run it now by clicking above link.'
+        );
+
+        $this->AddUsefulLinkToFields(
+            $fields,
+            'Monthly Tour Report',
+            Injector::inst()->get(MonthlyTourReport::class)->Link(),
+            'This task runs once a month, but you can get the report sent now by clicking above link.'
+        );
+
+        $this->AddUsefulLinkToFields(
+            $fields,
+            'Add New Booking',
+            $page->Link(),
+            'The best way to add a booking is to use the front-end of the website.'
+        );
+
+        $this->AddUsefulLinkToFields(
+            $fields,
+            'Add new tour at an existing time slot, using your rules',
+            $dateInfoSingleton->CMSAddLink(),
+            'Add new tour date(s) with all the details and then create the tours using the <a href="' . $createToursLink . '">create tours button</a>.'
+        );
+
+        $this->AddUsefulLinkToFields(
+            $fields,
+            'Add new tour at an a new time slot, using your rules',
+            $timesForTourSingleton->CMSAddLink(),
+            'Add the new time first and then add the tour dates.
+            After that you will have to create the tours using the <a href="' . Injector::inst()->get(TourBuilder::class)->Link() . '">create tours button</a>.'
+        );
+
+        $this->AddUsefulLinkToFields(
+            $fields,
+            'Find out what tour date rule applies on a certain day',
+            $dateInfoSingleton->CMSListLink(),
+            'Click on the magnifying glass and search for a particular day.'
+        );
+
+    }
+
+    protected function AddUsefulLinkToFields(FieldList $fields, string $title, string $link, ?string $explanation = '')
+    {
+        $name = preg_replace('#[^A-Za-z0-9 ]#', '', $title);
+        $fields->push(
+            LiteralField::create(
+                $name . '_UseFulLink',
+                '<h2>› <a href="' . $link . '">' . $title . '</a></h2><p>' . $explanation . '</p>'
+            ),
+        );
     }
 }
