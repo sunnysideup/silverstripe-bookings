@@ -136,7 +136,7 @@ class TourBookingPageController extends PageController
     public function signup($request)
     {
         $this->Content = $this->BookingForm();
-        if ($this->IsFactory()) {
+        if ($this->IsOnLocation()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
 
@@ -168,7 +168,7 @@ class TourBookingPageController extends PageController
 
         $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/BookingConfirmationContent');
 
-        if ($this->IsFactory()) {
+        if ($this->IsOnLocation()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
 
@@ -234,7 +234,7 @@ class TourBookingPageController extends PageController
             $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/UpdateBookingContent');
         }
 
-        if ($this->IsFactory()) {
+        if ($this->IsOnLocation()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
 
@@ -254,7 +254,7 @@ class TourBookingPageController extends PageController
         }
         $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/BookingCancellationContent');
 
-        if ($this->IsFactory()) {
+        if ($this->IsOnLocation()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
 
@@ -287,7 +287,7 @@ class TourBookingPageController extends PageController
         $this->Title = 'Join the Waitlist';
         $this->Content = $this->WaitlistForm();
 
-        if ($this->IsFactory()) {
+        if ($this->IsOnLocation()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
 
@@ -307,7 +307,7 @@ class TourBookingPageController extends PageController
         $this->Title = 'Confirmation';
         $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/WaitlistConfirmationContent');
 
-        if ($this->IsFactory()) {
+        if ($this->IsOnLocation()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
 
@@ -326,7 +326,7 @@ class TourBookingPageController extends PageController
             $this->Content = $this->RenderWith('Sunnysideup/Bookings/Includes/TourFullMessage');
         }
 
-        if ($this->IsFactory()) {
+        if ($this->IsOnLocation()) {
             return $this->RenderWith(['Page_MainOnly', 'Page']);
         }
 
@@ -358,7 +358,9 @@ class TourBookingPageController extends PageController
 
             return $this->RenderWith(['Sunnysideup/Bookings/Layout/CalendarPage']);
         }
-        echo 'Sorry you don\'t have the required permissions to access this area. <a href="/Security/logout">LOG OUT</a>';
+        echo '
+            Sorry you don\'t have the required permissions to access this area,
+            please login with the right credentials. <a href="/Security/logout">LOG OUT NOW?</a>';
     }
 
     public function all($request)
@@ -391,7 +393,7 @@ class TourBookingPageController extends PageController
         $this->listOfToursUntilDate = date('Y-m-d', strtotime('+ ' . $numberOfDays . ' days'));
     }
 
-    public function ListOfTours()
+    public function ListOfTours() : DataList
     {
         return Tour::get()->filter(
             [
@@ -401,7 +403,7 @@ class TourBookingPageController extends PageController
         );
     }
 
-    public function TourDateAsArray()
+    public function TourDateAsArray() : array
     {
         $tours = $this->ListOfTours();
         $tourData = [];
@@ -422,7 +424,7 @@ class TourBookingPageController extends PageController
         return $tourData;
     }
 
-    public function ClosedDatesAsArray()
+    public function ClosedDatesAsArray() : array
     {
         $closedData = [];
         for ($i = 1; $i <= 365; ++$i) {
@@ -479,23 +481,21 @@ class TourBookingPageController extends PageController
         return SelfCheckInForm::create($this, SelfCheckInForm::class);
     }
 
-    public function selfcheckin()
+    public function selfcheckin($request)
     {
-        if ($this->IsFactory()) {
+        if ($this->IsOnLocation()) {
             $this->Content = '
                 <h1>Self Check-In</h1>
-                <p class="message good">Complete the form below to check in for your tour.</p>';
+                <p class="message good">'.$this->OnLocationCheckinMessage.'</p>';
             $this->Form = $this->SelfCheckInForm();
         } else {
             $this->Content = '
                 <h1>Self Check-In</h1>
-                <p class="message good">
-                    Please make your way to Pics to complete your check in.<br>
-                    If you are already there then connect to Pic\'s Really Good Free WiFi
-            ';
+                <p class="message warning">'.$this->NotOnLocationCheckinMessage.'</p>';
         }
 
-        //this page will always render without a header/footer - regardless of whether or not it is being accessed from the factory
+        //this page will always render without a header/footer -
+        //regardless of whether or not it is being accessed from the factory
         return $this->RenderWith(['Page_MainOnly', 'SelfCheckInPage']);
     }
 
@@ -511,12 +511,12 @@ class TourBookingPageController extends PageController
         return $this->RenderWith(['Page_MainOnly', 'Page']);
     }
 
-    public function CurrentTour()
+    public function CurrentTour(): ?Tour
     {
         return $this->currentTour;
     }
 
-    public function TourLinks($className = '')
+    public function TourLinks(?string $className = '') : ArrayList
     {
         $modelAdmin = Injector::inst()->get(TourBookingsAdmin::class);
         $models = $modelAdmin->getManagedModels();
@@ -531,22 +531,22 @@ class TourBookingPageController extends PageController
         return $al;
     }
 
-    public function TourBookingsAdminLink()
+    public function TourBookingsAdminLink() : string
     {
         $member = Security::getCurrentUser();
         if ($member && $this->CurrentUserIsTourManager($member)) {
             return $this->AbsoluteLink('calendar');
         }
 
-        return false;
+        return '';
     }
 
     public function IsCancellation()
     {
-        return $this->isCancellation;
+        return (bool) $this->isCancellation;
     }
 
-    public function IsFactory()
+    public function IsOnLocation() : bool
     {
         $hideHeader = (bool) $this->request->getVar('hideheader');
         //if hideheader get var has explicitly been set to false then pretend this is not the factory, even it if is
@@ -578,7 +578,7 @@ class TourBookingPageController extends PageController
     // protected functions
     //######################
 
-    protected function getBookingFromRequestOrIDParam()
+    protected function getBookingFromRequestOrIDParam(): ?Booking
     {
         $this->currentBooking = null;
         $code = '';
@@ -598,7 +598,7 @@ class TourBookingPageController extends PageController
         return $this->currentBooking;
     }
 
-    protected function getTourFromRequestOrIDParam()
+    protected function getTourFromRequestOrIDParam() : ?Tour
     {
         $this->currentTour = null;
         $id = ($id = $this->request->postVar('TourID')) ? (int) $id : (int) $this->request->param('ID');
@@ -607,7 +607,7 @@ class TourBookingPageController extends PageController
         return $this->currentTour;
     }
 
-    protected function getNumberOfGuestsFromRequestOrIDParam()
+    protected function getNumberOfGuestsFromRequestOrIDParam() : ?int
     {
         $this->totalNumberOfGuests = null;
         $guests1 = (int) $this->request->param('OtherID');

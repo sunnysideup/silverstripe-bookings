@@ -2,6 +2,7 @@
 
 namespace Sunnysideup\Bookings\Pages;
 
+use SilverStripe\Forms\TextareaField;
 use Page;
 
 use SilverStripe\Core\Config\Config;
@@ -15,6 +16,10 @@ use Sunnysideup\Bookings\Pages\TourBookingPageController;
 class TourBookingPage extends Page
 {
 
+    private static $db = [
+        'OnLocationCheckinMessage' => 'Text',
+        'NotOnLocationCheckinMessage' => 'Text',
+    ];
 
     /**
      * @param string $action
@@ -45,6 +50,28 @@ class TourBookingPage extends Page
     public function CalendarLink()
     {
         return $this->Link('calendar');
+    }
+
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
+        $fields->addFieldsToTab(
+            'Root.Messages',
+            [
+                TextareaField::create(
+                    'OnLocationCheckinMessage',
+                    'Checkin Message on location'
+                )
+                    ->setDescription('e.g. Complete the form below to check in for your tour.')
+                TextareaField::create(
+                    'NotOnLocationCheckinMessage',
+                    'Checkin Message NOT on location'
+                )
+                    ->setDescription('e.g. You can only check-in on location usign our amazing wifi. Please make your way ...'),
+
+            ]
+        );
+        return $fields;
     }
 
 }

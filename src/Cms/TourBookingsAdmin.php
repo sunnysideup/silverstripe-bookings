@@ -86,6 +86,49 @@ class TourBookingsAdmin extends ModelAdmin
                 if ($paginator) {
                     $paginator->setItemsPerPage(10);
                 }
+                $gridField->getConfig()->getComponentByType(GridFieldAddNewButton::class)->setButtonName('Add one-off tour');
+
+                $toursList1 = $fields->fieldByName('Sunnysideup-Bookings-Model-Tour');
+                $fields->removeByName('Sunnysideup-Bookings-Model-Tour');
+
+                $toursList2 = new GridField('Sunnysideup-Bookings-Model-Tour-Todays', '', $toursList1->getList()->filter('Date', date('Y-d-m')), $toursList1->getConfig());
+                $toursList2->setForm($form);
+
+                $fields->insertAfter(
+                    'Sunnysideup-Bookings-Model-Tour-All',
+                    new TabSet(
+                        'ToursSetInner',
+                        new Tab('TodayTours', 'Today\'s Tours', $toursList1),
+                        new Tab('UpcomingTours', 'All Upcoming Tours', $toursList2)
+                    )
+                );
+
+                $fields->addFieldsToTab(
+                    'ToursSetInner.UpcomingTours',
+                    [
+                        LiteralField::create(
+                            'Bookings-Model-Tour-Description',
+                            '<p style="margin-top: 15px">Above is a list of all the <strong>upcoming tours</strong> for each day, some are auto-generated, some have been manually added.</p>
+                                <p><strong>To set up regular tours</strong> (auto-generated), use the Tour Generator - Rules" tab in "Tour Config".</p>
+                                <p><strong>Deleting tours:</strong> To delete a tour as a once off, just close the tour. To delete a recurring tour, you need to change the rules first then manually close any tours that have already been added.</p>'
+                        )
+                    ]
+                );
+            }
+
+            $bookingGridfield = $fields->fieldByName('Sunnysideup-Bookings-Model-Booking');
+
+            // Update form fields under 'Bookings'
+            if($bookingGridfield) {
+                $fields->insertAfter(
+                    'Sunnysideup-Bookings-Model-Booking',
+                    LiteralField::create(
+                        'Bookings-Model-Booking-Description',
+                        '<p style="margin-top: 15px">Above is a list of all the bookings for upcoming tours.</p>
+                            <p><strong>To only see bookings for individual tours:</strong></p>
+                            <p>Click on a tour under the "Upcoming Tours" tab and click on the "Bookings" tab. From here you can click on a booking to see their personal details</p>'
+                    )
+                );
             }
         }
         return $form;
