@@ -61,11 +61,20 @@ class TourBookingsAdmin extends ModelAdmin
     {
         $list = parent::getList();
         if (TourBookingsConfig::is_model_class($this->modelClass, Tour::class)) {
-            $mysqlDate = date('Y-m-d', strtotime('-2 days'));
-            $list = $list->filter(['Date:GreaterThan' => $mysqlDate]);
+            $list = $list->filter($this->futureTourFilter());
+        }
+        elseif (TourBookingsConfig::is_model_class($this->modelClass, Booking::class) || TourBookingsConfig::is_model_class($this->modelClass, Waitlister::class)) {
+            $tourIds = Tour::get()->filter($this->futureTourFilter())->columnUnique();
+            $list = $list->filter(['TourID' => $tourIds]);
         }
 
         return $list;
+    }
+
+    protected function futureTourFilter() : array
+    {
+        $mysqlDate = date('Y-m-d', strtotime('-2 days'));
+        return ['Date:GreaterThan' => $mysqlDate];
     }
 
     public function getEditForm($id = null, $fields = null)

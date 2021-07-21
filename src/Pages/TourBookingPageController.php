@@ -8,6 +8,7 @@ use SilverStripe\Core\Convert;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\ORM\DataList;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
 use SilverStripe\View\ArrayData;
@@ -515,16 +516,24 @@ class TourBookingPageController extends PageController
         return $this->currentTour;
     }
 
+    public function TourLinksBooking(): string
+    {
+        return $this->TourLinks(Booking::class)->first();
+    }
+
     public function TourLinks(?string $className = ''): ArrayList
     {
         $modelAdmin = Injector::inst()->get(TourBookingsAdmin::class);
         $models = $modelAdmin->getManagedModels();
         $al = ArrayList::create();
         foreach (array_keys($models) as $key) {
-            if ($className && $className === $key) {
-                return Injector::inst()->get($key)->CMSListLink();
+            if($className) {
+                if ($className === $key) {
+                    $al->push(Injector::inst()->get($key)->CMSListLink());
+                }
+            } else {
+                $al->push(Injector::inst()->get($key));
             }
-            $al->push(Injector::inst()->get($key));
         }
 
         return $al;
