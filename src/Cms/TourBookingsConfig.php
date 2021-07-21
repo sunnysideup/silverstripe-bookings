@@ -30,6 +30,11 @@ class TourBookingsConfig extends ModelAdmin
 
     public $showSearchForm = [
         DateInfo::class,
+        TimesForTour::class,
+        ReferralOption::class,
+        Tour::class,
+        Booking::class,
+        Waitlister::class,
     ];
 
     private static $managed_models = [

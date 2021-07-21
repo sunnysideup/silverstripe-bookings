@@ -22,11 +22,7 @@ class TourBookingsAdmin extends ModelAdmin
 {
     public $showImportForm = false;
 
-    public $showSearchForm = [
-        Tour::class,
-        Booking::class,
-        Waitlister::class,
-    ];
+    public $showSearchForm = true;
 
     private static $managed_models = [
         // Tour::class => [
