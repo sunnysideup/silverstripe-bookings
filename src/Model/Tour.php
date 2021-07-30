@@ -7,6 +7,7 @@ use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\DateField;
+use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\ORM\DataList;
@@ -460,6 +461,7 @@ class Tour extends TourBaseClass
                 'GoogleEventID',
                 $fields->dataFieldByName('GoogleEventID')->performReadonlyTransformation()
             );
+            $fields->addFieldToTab('Root.Main', LiteralField::create('HTML-check-in-link', '<a style="text-decoration:underline" target="_blank" href="' . $this->CheckInLink() . '">Check-in page</a>'));
         }
         DataObjectOneFieldAddEditAllLink::add_edit_links_to_checkboxes(
             self::class,
@@ -480,6 +482,11 @@ class Tour extends TourBaseClass
     public function JoinLink()
     {
         return Director::absoluteURL(TourBookingPage::find_link('jointour' . '/' . $this->ID));
+    }
+
+    public function CheckInLink()
+    {
+        return Director::absoluteURL(TourBookingPage::find_link('checkinfortour' . '/' . $this->ID));
     }
 
     protected function onBeforeWrite()

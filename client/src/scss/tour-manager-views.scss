@@ -123,3 +123,10 @@
     }
   }
 }
+
+@media print {
+
+  #list-of-bookings li h3 {
+    page-break-inside: avoid;
+  }
+}

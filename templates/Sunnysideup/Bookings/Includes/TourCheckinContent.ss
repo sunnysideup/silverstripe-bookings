@@ -1,7 +1,19 @@
 <div class="tour-checkin-content row">
     <% with $CurrentTour %>
-        <div class="tour-info section-of-tour-info col-md-6">
-            <h3>Tour Details</h3>
+        <div class="booking-info section-of-tour-info col-9">
+            <p><a href="$Top.CalendarLink" class="btn btn--red btn--large d-print-none">Return to calendar</a></p>
+        </div>
+        <div class="booking-info section-of-tour-info col-3">
+            <% if $ValidBookings %>
+                <header class="tour-checkin-content__header d-print-none">
+                    <a href="#" id="print-bookings" class="tour-checkin-content__header-link">
+                        <% include Sunnysideup\Bookings\Includes\PrintIcon %>
+                    </a>
+                </header>
+            <% end_if %>
+        </div>
+        <div class="tour-info section-of-tour-info col-12">
+            <h3 class="mb-5">Tour Details</h3>
             <dl id="tour-info" class="clearfix">
                 <dd>Date:</dd>
                 <dt>$Date.Format('EEEE'), $Date.DayOfMonth(true) $Date.Format('MMM y')</dt>
@@ -20,27 +32,20 @@
                 <dd>Children:</dd>
                 <dt>$NumberOfChildren</dt>
                 <dd>Edit:</dd>
-                <dt><a href="$CMSEditLink" target="_blank">Edit in CMS</a></dt>
+                <dt class="d-print-none"><a href="$CMSEditLink" target="_blank">Edit in CMS</a></dt>
             </dl>
-            <p><a href="$Top.CalendarLink" class="btn btn--red btn--large">Return to calendar</a></p>
         </div>
-        <div class="booking-info section-of-tour-info col-md-6">
+        <div class="booking-info section-of-tour-info col-12">
             <% if $ValidBookings %>
                 <header class="tour-checkin-content__header">
-                    <h3>Bookings</h3>
-                    <a href="#" id="print-bookings" class="tour-checkin-content__header-link">
-                        <% include Sunnysideup\Bookings\Includes\PrintIcon %>
-                    </a>
+                    <h3 class="mt-5">Bookings</h3>
                 </header>
                 <ol id="list-of-bookings">
                     <% loop $ValidBookings %>
                         <li>
-                            <div class="tour-checkin-content__input-holder">
-                                <label for="check-in-$ID">Arrived</label>
-                                <input type="checkbox" class="tour-checkin-content__input-field" name='check-in-$ID' data-id="$ID" <% if $HasArrived %>checked="checked"<% end_if %>"/>
-                            </div>
+                            <h3><a href="$EditLink(true)">$InitiatingFirstName $InitiatingSurname</a></h3>
                             <% include Sunnysideup\Bookings\Includes\TourBookingsBookingDetailsForAdmin %>
-                            <a href="$CMSEditLink"  class="btn btn--red">Edit in CMS</a>
+                            <a href="$CMSEditLink" class="btn btn--red d-print-none">Edit in CMS</a>
                         </li>
                     <% end_loop %>
                 </ol>

@@ -1,6 +1,7 @@
 <div class="one-tour-booking">
-<h3><a href="$EditLink(true)">$InitiatingFirstName $InitiatingSurname</a></h3>
     <dl id="booking-info" class="clearfix">
+        <dd><label for="check-in-$ID">Arrived</label></dd>
+        <dt><input type="checkbox" class="tour-checkin-content__input-field" id="check-in-{$ID}" name="check-in-{$ID}" data-id="{$ID}" <% if $HasArrived %>checked="checked"<% end_if %>/></dt>
         <% with $Tour %>
             <dd>Date:</dd>
             <dt>$Date.Format('EEEE'), $Date.DayOfMonth(true) $Date.Format('MMM y')</dt>

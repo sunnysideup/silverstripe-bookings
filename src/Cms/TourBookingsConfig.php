@@ -7,6 +7,7 @@ use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
@@ -79,6 +80,13 @@ class TourBookingsConfig extends ModelAdmin
         $form = parent::getEditForm($id, $fields);
         $fields = $form->Fields();
         $gridField = $fields->dataFieldByName($this->sanitiseClassName($this->modelClass));
+
+        // extra check for pseudo managed model (Booking -> Tour)
+        if(!$gridField)
+        {
+            $gridField = $fields->dataFieldByName($this->sanitiseClassName(Booking::class));
+        }
+
         $gridFieldConfig = null;
         if ($gridField && $gridField instanceof GridField) {
             $gridFieldConfig = $gridField->getConfig();
@@ -122,6 +130,13 @@ class TourBookingsConfig extends ModelAdmin
             }
         }
 
+        if (self::is_model_class($this->modelClass, Tour::class)) {
+            // Remove Add new item button
+            if ($gridFieldConfig) {
+                $gridFieldConfig->removeComponentsByType(GridFieldAddNewButton::class);
+            }
+        }
+
         return $form;
     }
 
@@ -141,47 +156,33 @@ class TourBookingsConfig extends ModelAdmin
         if ($page) {
             $this->addUsefulLinkToFields(
                 $fields,
-                'Open Tour Booking Page',
+                'Open website tour page',
                 $page->Link()
             );
             $this->addUsefulLinkToFields(
                 $fields,
-                'Open Calendar',
+                'Open calendar',
                 $page->CalendarLink()
             );
         }
 
         $this->addUsefulLinkToFields(
             $fields,
-            'Create Future Tours Now',
-            $createToursLink,
-            'This task runs regularly, but you can run it now by clicking above link.'
-        );
-
-        $this->addUsefulLinkToFields(
-            $fields,
-            'Monthly Tour Report',
-            Injector::inst()->get(MonthlyTourReport::class)->Link(),
-            'This task runs once a month, but you can get the report sent now by clicking above link.'
-        );
-
-        $this->addUsefulLinkToFields(
-            $fields,
-            'Add New Booking',
+            'Create new booking',
             $page->Link(),
             'The best way to add a booking is to use the front-end of the website.'
         );
 
         $this->addUsefulLinkToFields(
             $fields,
-            'Add new tour at an existing time slot, using your rules',
+            'Create new tour rule',
             $dateInfoSingleton->CMSAddLink(),
             'Add new tour date(s) with all the details and then create the tours using the <a href="' . $createToursLink . '">create tours button</a>.'
         );
 
         $this->addUsefulLinkToFields(
             $fields,
-            'Add new tour at an a new time slot, using your rules',
+            'Create new tour time',
             $timesForTourSingleton->CMSAddLink(),
             'Add the new time first and then add the tour dates.
             After that you will have to create the tours using the <a href="' . Injector::inst()->get(TourBuilder::class)->Link() . '">create tours button</a>.'
@@ -189,9 +190,23 @@ class TourBookingsConfig extends ModelAdmin
 
         $this->addUsefulLinkToFields(
             $fields,
-            'Find out what tour date rule applies on a certain day',
+            'See which rule applies to a specific date',
             $dateInfoSingleton->CMSListLink(),
             'Click on the magnifying glass and search for a particular day.'
+        );
+
+        $this->addUsefulLinkToFields(
+            $fields,
+            'Run tour generator and create future tours',
+            $createToursLink,
+            'This task runs regularly, but you can run it now by clicking above link.'
+        );
+
+        $this->addUsefulLinkToFields(
+            $fields,
+            'Generate monthly tour report',
+            Injector::inst()->get(MonthlyTourReport::class)->Link(),
+            'This task runs once a month, but you can get the report sent now by clicking above link.'
         );
     }
 

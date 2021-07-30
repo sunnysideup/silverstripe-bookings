@@ -14,6 +14,7 @@ use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
 use Sunnysideup\Bookings\Forms\Actions\CloseAction;
 use Sunnysideup\Bookings\Forms\Actions\OpenAction;
+use Sunnysideup\Bookings\Pages\TourBookingPage;
 use Sunnysideup\Bookings\Model\Booking;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\Waitlister;
@@ -39,7 +40,7 @@ class TourBookingsAdmin extends ModelAdmin
         ],
         Booking::class => [
             'dataClass' => Booking::class,
-            'title' => 'All future bookings',
+            'title' => 'All bookings',
         ],
         Waitlister::class => [
             'dataClass' => Waitlister::class,
@@ -114,6 +115,9 @@ class TourBookingsAdmin extends ModelAdmin
                         new Tab('UpcomingTours', 'All Upcoming Tours', $toursList1)
                     )
                 );
+
+                $tourBookingPage = TourBookingPage::get()->first();
+                $fields->insertBefore('ToursSetInner', LiteralField::create('HTMLCalendarLink', '<div style="position:absolute;margin-top:25px;text-decoration:underline"><a target="_blank" href="'.$tourBookingPage->CalendarLink().'">View Calendar</a></div>'));
 
                 $fields->addFieldsToTab(
                     'ToursSetInner.UpcomingTours',
