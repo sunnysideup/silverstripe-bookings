@@ -173,6 +173,7 @@ class TourBookingSettings extends TourBaseClass
             $baseURL = Director::absoluteBaseURL();
             $baseURL = str_replace('https://', '', $baseURL);
             $baseURL = str_replace('http://', '', $baseURL);
+            $baseURL = str_replace('www.', '', $baseURL);
             $baseURL = trim($baseURL, '/');
             $email = 'tours@' . $baseURL;
         }
