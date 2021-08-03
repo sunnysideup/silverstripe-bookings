@@ -117,16 +117,27 @@ class TourBookingsAdmin extends ModelAdmin
                 );
 
                 $tourBookingPage = TourBookingPage::get()->first();
-                $fields->insertBefore('ToursSetInner', LiteralField::create('HTMLCalendarLink', '<div style="position:absolute;margin-top:25px;text-decoration:underline"><a target="_blank" href="'.$tourBookingPage->CalendarLink().'">View Calendar</a></div>'));
+                $fields->insertBefore('ToursSetInner', LiteralField::create('HTMLCalendarLink', '<div style="position:relative;bottom:-40px;margin-top:-40px;text-decoration:underline"><a target="_blank" href="'.$tourBookingPage->CalendarLink().'">View Calendar</a></div>'));
 
+                $HTML_TourListNotes = '<p style="margin-top: 15px">Above is a list of all the <strong>upcoming tours</strong> for each day, some are auto-generated, some have been manually added.</p>
+                                <p><strong>To set up regular tours</strong> (auto-generated), use the Tour Generator - Rules" tab in "Tour Config".</p>
+                                <p><strong>Deleting tours:</strong> To delete a tour as a once off, just close the tour. To delete a recurring tour, you need to change the rules first then manually close any tours that have already been added.</p>';
+
+                $fields->addFieldsToTab(
+                    'ToursSetInner.TodayTours',
+                    [
+                        LiteralField::create(
+                            'Bookings-Model-Tour-Description',
+                            $HTML_TourListNotes
+                        ),
+                    ]
+                );
                 $fields->addFieldsToTab(
                     'ToursSetInner.UpcomingTours',
                     [
                         LiteralField::create(
                             'Bookings-Model-Tour-Description',
-                            '<p style="margin-top: 15px">Above is a list of all the <strong>upcoming tours</strong> for each day, some are auto-generated, some have been manually added.</p>
-                                <p><strong>To set up regular tours</strong> (auto-generated), use the Tour Generator - Rules" tab in "Tour Config".</p>
-                                <p><strong>Deleting tours:</strong> To delete a tour as a once off, just close the tour. To delete a recurring tour, you need to change the rules first then manually close any tours that have already been added.</p>'
+                            $HTML_TourListNotes
                         ),
                     ]
                 );
