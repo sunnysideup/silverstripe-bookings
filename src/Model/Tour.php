@@ -93,14 +93,14 @@ class Tour extends TourBaseClass
     ];
 
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: default_sort = [
-  * NEW: default_sort = [ ...  (COMPLEX)
-  * EXP: A string is preferred over an array
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+    /**
+      * ### @@@@ START REPLACEMENT @@@@ ###
+      * WHY: automated upgrade
+      * OLD: default_sort = [
+      * NEW: default_sort = [ ...  (COMPLEX)
+      * EXP: A string is preferred over an array
+      * ### @@@@ STOP REPLACEMENT @@@@ ###
+      */
     private static $default_sort = [
         'Date' => 'ASC',
         'StartTime' => 'ASC',
@@ -251,13 +251,13 @@ class Tour extends TourBaseClass
     public function getTitle(): DBVarchar
     {
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+          * ### @@@@ START REPLACEMENT @@@@ ###
+          * WHY: automated upgrade
+          * OLD: strtotime($
+          * EXP: SS5 change
+          * ### @@@@ STOP REPLACEMENT @@@@ ###
+          */
         $v = 'Tour on ' . date('D, jS M Y', strtotime((string) $this->Date)) . ' at ' . $this->StartTimeObj()->Nice() . ' until ' . $this->getEndTime()->Nice();
 
         return DBVarchar::create_field('Varchar', $v);
@@ -266,13 +266,13 @@ class Tour extends TourBaseClass
     public function getTourTimeAndDate()
     {
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+          * ### @@@@ START REPLACEMENT @@@@ ###
+          * WHY: automated upgrade
+          * OLD: strtotime($
+          * EXP: SS5 change
+          * ### @@@@ STOP REPLACEMENT @@@@ ###
+          */
         $v = date('l, jS F Y', strtotime((string) $this->Date)) . ' at ' . $this->StartTimeObj->Nice();
 
         return DBField::create_field('Varchar', $v);
@@ -323,13 +323,13 @@ class Tour extends TourBaseClass
     {
         $fakeDate = date('Y-m-d') . ' ' . $this->StartTime;
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+          * ### @@@@ START REPLACEMENT @@@@ ###
+          * WHY: automated upgrade
+          * OLD: strtotime($
+          * EXP: SS5 change
+          * ### @@@@ STOP REPLACEMENT @@@@ ###
+          */
         $fakeDateTS = strtotime((string) $fakeDate);
         $fakeDateTS = strtotime('+' . $this->Duration . ' minute', $fakeDateTS);
 
@@ -347,13 +347,13 @@ class Tour extends TourBaseClass
     {
         $fakeDate = date('Y-m-d') . ' ' . $this->StartTime;
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+          * ### @@@@ START REPLACEMENT @@@@ ###
+          * WHY: automated upgrade
+          * OLD: strtotime($
+          * EXP: SS5 change
+          * ### @@@@ STOP REPLACEMENT @@@@ ###
+          */
         $fakeDateTS = strtotime((string) $fakeDate);
         $v = date('H:i:s', $fakeDateTS);
 
@@ -368,6 +368,7 @@ class Tour extends TourBaseClass
     public function getNumberOfPlacesBooked()
     {
         $v = 0;
+        /** @var TourBooking $booking */
         foreach ($this->ValidBookings() as $booking) {
             $v += $booking->TotalNumberOfGuests;
         }
@@ -403,13 +404,13 @@ class Tour extends TourBaseClass
     {
         $dateTime = date('Y-m-d', strtotime((string) $this->StartDate)) . ' ' . $this->StartTime;
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+          * ### @@@@ START REPLACEMENT @@@@ ###
+          * WHY: automated upgrade
+          * OLD: strtotime($
+          * EXP: SS5 change
+          * ### @@@@ STOP REPLACEMENT @@@@ ###
+          */
         $dateTimeTs = strtotime((string) $dateTime);
 
         return $dateTimeTs > time();
@@ -474,13 +475,13 @@ class Tour extends TourBaseClass
         if (isset($settings->BookingTimeCutOff) && $settings->BookingTimeCutOff && $this->Date === date('Y-m-d')) {
             $time      = strtotime("-" . (int)$settings->BookingTimeCutOff . " minutes");
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+            /**
+              * ### @@@@ START REPLACEMENT @@@@ ###
+              * WHY: automated upgrade
+              * OLD: strtotime($
+              * EXP: SS5 change
+              * ### @@@@ STOP REPLACEMENT @@@@ ###
+              */
             $startTime = strtotime((string) $this->StartTime);
 
             if ($startTime < $time) {

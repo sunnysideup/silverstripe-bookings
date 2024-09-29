@@ -408,11 +408,11 @@ class Booking extends TourBaseClass
           * ### @@@@ STOP REPLACEMENT @@@@ ###
           */
         $fields->insertBefore(
+            'InitiatingFirstName',
             CheckboxField::create(
                 'TotalGuestsAdminOverride',
                 'Total Guests Override (Admin Only)'
             )->setDescription('If this is checked, it will allow you create a booking with more guests than spaces available on the tour. Useful when you need to add bookings for large groups.'),
-            'InitiatingFirstName'
         );
 
         if ($this->TourID) {
