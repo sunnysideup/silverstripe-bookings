@@ -91,13 +91,13 @@ class MonthlyTourReport extends BuildTask
             $yearMonth = $this->request->getVar('yearmonth') ?: date('Y-m');
             if ($yearMonth) {
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+                /**
+                  * ### @@@@ START REPLACEMENT @@@@ ###
+                  * WHY: automated upgrade
+                  * OLD: strtotime($
+                  * EXP: SS5 change
+                  * ### @@@@ STOP REPLACEMENT @@@@ ###
+                  */
                 $monthTs = strtotime((string) $yearMonth . '-01');
                 $monthStart = new DateTime(date('Y-m-d', $monthTs));
                 $monthEnd = new DateTime('last day of ' . date('F', $monthTs) . ' ' . date('Y', $monthTs));
@@ -137,13 +137,13 @@ class MonthlyTourReport extends BuildTask
             $baseURL = str_replace('http://', '', $baseURL);
             $baseURL = str_replace('www.', '', $baseURL);
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: trim(
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+            /**
+              * ### @@@@ START REPLACEMENT @@@@ ###
+              * WHY: automated upgrade
+              * OLD: trim(
+              * EXP: SS5 change
+              * ### @@@@ STOP REPLACEMENT @@@@ ###
+              */
             $baseURL = trim((string) $baseURL, '/');
             $fromEmail = 'tours@' . $baseURL;
         }
@@ -164,14 +164,14 @@ class MonthlyTourReport extends BuildTask
             $email->setBody($this->generateReport());
 
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: send(
-  * NEW: send( ...  (COMPLEX)
-  * EXP: Changed parameter name in ... SilverStripe\Dev\TestMailer::send() from $email to $message
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+            /**
+              * ### @@@@ START REPLACEMENT @@@@ ###
+              * WHY: automated upgrade
+              * OLD: send(
+              * NEW: send( ...  (COMPLEX)
+              * EXP: Changed parameter name in ... SilverStripe\Dev\TestMailer::send() from $email to $message
+              * ### @@@@ STOP REPLACEMENT @@@@ ###
+              */
             $result = $email->send();
             if ($result || Director::isDev()) {
                 echo 'Email was succesfully sent to ' . $myToEmail;
@@ -212,6 +212,7 @@ class MonthlyTourReport extends BuildTask
         foreach ($tours as $tour) {
             $totalNumberOfPlacesBooked += $tour->NumberOfPlacesBooked()->value;
             $totalNumberOfGroups += $tour->NumberOfGroups()->value;
+            /** @var Booking $booking */
             foreach ($tour->Bookings() as $booking) {
                 $countryCode = strtoupper((string) $booking->CountryOfOrigin);
                 if (isset($nationalities[$countryCode])) {
@@ -221,21 +222,21 @@ class MonthlyTourReport extends BuildTask
                     $nationalities[$countryCode] = 1;
                 }
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: trim(
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+                /**
+                  * ### @@@@ START REPLACEMENT @@@@ ###
+                  * WHY: automated upgrade
+                  * OLD: trim(
+                  * EXP: SS5 change
+                  * ### @@@@ STOP REPLACEMENT @@@@ ###
+                  */
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: (string) (string) 
-  * EXP: Removed double code ... (string) (string) - use (string) instead
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+                /**
+                  * ### @@@@ START REPLACEMENT @@@@ ###
+                  * WHY: automated upgrade
+                  * OLD: (string) (string)
+                  * EXP: Removed double code ... (string) (string) - use (string) instead
+                  * ### @@@@ STOP REPLACEMENT @@@@ ###
+                  */
                 $cityTown = ucwords(strtolower(trim((string) $booking->CityTown)));
                 if ('' !== $cityTown) {
                     if (isset($citiesAndTowns[$cityTown])) {

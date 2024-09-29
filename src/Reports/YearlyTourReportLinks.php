@@ -26,7 +26,7 @@ class YearlyTourReportLinks extends Report
     /**
      * {@inheritDoc}
      */
-    public function sourceRecords($params = [])
+    public function sourceRecords($params = [], $sort = null, $limit = null): ArrayList
     {
         $years = [];
 

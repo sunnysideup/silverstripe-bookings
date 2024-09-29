@@ -292,12 +292,12 @@ class Tour extends TourBaseClass
         } elseif ('<br>' === $v) {
             $v = '';
         }
-        if ($this->IsFull()->value) {
+        if ($this->IsFull()->raw()) {
             $settings = TourBookingSettings::inst();
             $v .= $settings->TourFullMessage;
         } else {
-            $singularPlural = $this->NumberOfPlacesAvailable()->value > 1 ? ' spaces' : ' space';
-            $v .= '<strong>' . $this->NumberOfPlacesAvailable()->value . $singularPlural . ' left</strong>';
+            $singularPlural = $this->NumberOfPlacesAvailable()->raw() > 1 ? ' spaces' : ' space';
+            $v .= '<strong>' . $this->NumberOfPlacesAvailable()->raw() . $singularPlural . ' left</strong>';
         }
 
         return DBField::create_field('HTMLText', $v);
@@ -606,6 +606,7 @@ class Tour extends TourBaseClass
         }
 
         if ($this->Date && $this->isChanged('Date')) {
+            /** @var Booking $booking */
             foreach ($this->Bookings() as $booking) {
                 $booking->Date = $this->Date;
                 $booking->write();
@@ -662,7 +663,7 @@ class Tour extends TourBaseClass
             $spacesAvailableEmail = $settings->TourSpacesAvailableEmail();
             $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
 
-            $placesAvailable = $this->NumberOfPlacesAvailable()->value;
+            $placesAvailable = $this->NumberOfPlacesAvailable()->raw();
             $waitlisters = $this->Waitlisters()->filter(['TotalNumberOfGuests:LessThanOrEqual' => $placesAvailable]);
 
             foreach ($waitlisters as $waitlister) {
