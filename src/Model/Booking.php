@@ -21,6 +21,7 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Member;
+use SilverStripe\Security\Security;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
 use Sunnysideup\Bookings\Pages\TourBookingPage;
 use Sunnysideup\Bookings\Search\TourDateFilter;
@@ -108,14 +109,14 @@ class Booking extends TourBaseClass
     ];
 
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: default_sort = [
-  * NEW: default_sort = [ ...  (COMPLEX)
-  * EXP: A string is preferred over an array
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+    /**
+      * ### @@@@ START REPLACEMENT @@@@ ###
+      * WHY: automated upgrade
+      * OLD: default_sort = [
+      * NEW: default_sort = [ ...  (COMPLEX)
+      * EXP: A string is preferred over an array
+      * ### @@@@ STOP REPLACEMENT @@@@ ###
+      */
     private static $default_sort = [
         'ID' => 'DESC',
     ];
@@ -248,13 +249,13 @@ class Booking extends TourBaseClass
     public function getBookingReference()
     {
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: substr($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+          * ### @@@@ START REPLACEMENT @@@@ ###
+          * WHY: automated upgrade
+          * OLD: substr($
+          * EXP: SS5 change
+          * ### @@@@ STOP REPLACEMENT @@@@ ###
+          */
         $v = strtoupper(substr((string) $this->Code, 0, 5));
 
         return DBField::create_field('Varchar', $v);
@@ -311,7 +312,7 @@ class Booking extends TourBaseClass
         $result = parent::validate();
         //check for other bookings with same email ....
         if ($this->TourID) {
-            if((bool) $this->Cancelled !== true) {
+            if ((bool) $this->Cancelled !== true) {
                 $errorCount = Booking::get()
                     ->filter(['InitiatingEmail' => $this->InitiatingEmail,  'TourID' => $this->TourID])
                     ->exclude(['ID' => $this->ID])
@@ -398,14 +399,14 @@ class Booking extends TourBaseClass
 
         $fields->removeByName('TotalGuestsAdminOverride');
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: ->insertBefore(
-  * NEW: ->insertBefore( ...  (COMPLEX)
-  * EXP: Name of the field to insert before is listed first, then the field - just check this.
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+        /**
+          * ### @@@@ START REPLACEMENT @@@@ ###
+          * WHY: automated upgrade
+          * OLD: ->insertBefore(
+          * NEW: ->insertBefore( ...  (COMPLEX)
+          * EXP: Name of the field to insert before is listed first, then the field - just check this.
+          * ### @@@@ STOP REPLACEMENT @@@@ ###
+          */
         $fields->insertBefore(
             CheckboxField::create(
                 'TotalGuestsAdminOverride',
@@ -472,17 +473,17 @@ class Booking extends TourBaseClass
                 ['Date:GreaterThanOrEqual' => $today]
             )->map()->toArray();
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: ->insertBefore(
-  * NEW: ->insertBefore( ...  (COMPLEX)
-  * EXP: Name of the field to insert before is listed first, then the field - just check this.
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+            /**
+              * ### @@@@ START REPLACEMENT @@@@ ###
+              * WHY: automated upgrade
+              * OLD: ->insertBefore(
+              * NEW: ->insertBefore( ...  (COMPLEX)
+              * EXP: Name of the field to insert before is listed first, then the field - just check this.
+              * ### @@@@ STOP REPLACEMENT @@@@ ###
+              */
             $fields->insertBefore(
+                'TotalNumberOfGuests',
                 DropdownField::create('TourID', 'Tour', $tours),
-                'TotalNumberOfGuests'
             );
         }
 
@@ -657,13 +658,13 @@ class Booking extends TourBaseClass
     {
         if ($this->Code) {
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: substr($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
+            /**
+              * ### @@@@ START REPLACEMENT @@@@ ###
+              * WHY: automated upgrade
+              * OLD: substr($
+              * EXP: SS5 change
+              * ### @@@@ STOP REPLACEMENT @@@@ ###
+              */
             $code = substr((string) $this->Code, 0, 9);
             $link = TourBookingPage::find_link($action . '/' . $code);
         } else {
@@ -721,13 +722,13 @@ class Booking extends TourBaseClass
     protected function CurrentMemberIsOwner(): bool
     {
 
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: Member::currentUserID(
-  * EXP: Removed deprecated method ... SilverStripe\Security\Member::currentUserID() - use SilverStripe\Security\Security::getCurrentUser() instead
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-        return Security::getCurrentUser()?->ID) === $this->BookingMemberID;
+        /**
+          * ### @@@@ START REPLACEMENT @@@@ ###
+          * WHY: automated upgrade
+          * OLD: Member::currentUserID(
+          * EXP: Removed deprecated method ... SilverStripe\Security\Member::currentUserID() - use SilverStripe\Security\Security::getCurrentUser() instead
+          * ### @@@@ STOP REPLACEMENT @@@@ ###
+          */
+        return (int) Security::getCurrentUser()?->ID === (int) $this->BookingMemberID;
     }
 }
