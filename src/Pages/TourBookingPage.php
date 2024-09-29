@@ -36,6 +36,15 @@ class TourBookingPage extends Page
             $actionToTest = explode('/', $action)[0];
         }
         if (null === $actionToTest || isset($allowedActions[$actionToTest])) {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ::get_one(
+  * NEW: ::get_one( ...  (COMPLEX)
+  * EXP: Changed parameter name in ... SilverStripe\ORM\DataObject::get_one() from $orderby to $sort. TBC
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             $obj = DataObject::get_one(TourBookingPage::class);
             if ($obj) {
                 return $obj->Link($action);

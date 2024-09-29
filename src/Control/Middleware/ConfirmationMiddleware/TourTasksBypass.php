@@ -20,7 +20,15 @@ class TourTasksBypass implements Bypass
     public function checkRequestForBypass(HTTPRequest $request)
     {
         $url = $request->getUrl();
-        if (strpos($url, 'tourreport')) {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strpos($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        if (strpos((string) $url, 'tourreport')) {
             return true;
         }
     }

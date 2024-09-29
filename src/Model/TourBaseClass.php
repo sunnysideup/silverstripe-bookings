@@ -84,8 +84,24 @@ class TourBaseClass extends DataObject
                 $value = $this->{$field};
                 if (! $value) {
                     $fieldWithoutID = $field;
-                    if ('ID' === substr($fieldWithoutID, -2)) {
-                        $fieldWithoutID = substr($fieldWithoutID, 0, -2);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: substr($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                    if ('ID' === substr((string) $fieldWithoutID, -2)) {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: substr($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                        $fieldWithoutID = substr((string) $fieldWithoutID, 0, -2);
                     }
                     $myName = isset($fieldLabels[$fieldWithoutID]) ? $fieldLabels[$fieldWithoutID] : $fieldWithoutID;
                     $result->addError(
