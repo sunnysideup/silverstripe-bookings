@@ -157,7 +157,15 @@ class TourBookingPageController extends PageController
         // hack!
         // $dateAsString = str_replace(' (New Zealand Standard Time)', '', $dateAsString);
         $dateAsString = preg_replace('#\\([^)]+\\)#', '', $dateAsString);
-        $this->availabilityDateAsTS = strtotime($dateAsString);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $this->availabilityDateAsTS = strtotime((string) $dateAsString);
 
         $this->bookingCode = Convert::raw2sql($request->getVar('bookingcode'));
         if ($this->bookingCode) {
@@ -595,7 +603,15 @@ class TourBookingPageController extends PageController
                 if(typeof TourBookingsInPageData === "undefined") {
                     var TourBookingsInPageData = {};
                 }
-                TourBookingsInPageData.url = "' . trim($this->Link(), '/') . '";
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: trim(
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                TourBookingsInPageData.url = "' . trim((string) $this->Link(), '/') . '";
                 TourBookingsInPageData.maxPerGroup = "' . $settings->MaximumNumberPerGroup . '";
                 TourBookingsInPageData.emailContact = "' . $settings->Administrator()->Email . '";
                 TourBookingsInPageData.showCityTownForCountries = ' . $countries . ';
@@ -676,6 +692,15 @@ class TourBookingPageController extends PageController
             'IsClosed' => false,
         ];
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->sort(
+  * NEW: ->sort( ...  (COMPLEX)
+  * EXP: This method no longer accepts raw sql, only known field names.  If you have raw SQL then use ->orderBy
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $tours = Tour::get()->filter($filters)->sort(['StartTime' => 'ASC', 'ID' => 'ASC']);
 
         if (isset($settings->BookingTimeCutOff) && $settings->BookingTimeCutOff) {

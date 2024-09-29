@@ -80,6 +80,15 @@ class DateInfo extends TourBaseClass
         'NoTourTimes' => true,
     ];
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: default_sort = [
+  * NEW: default_sort = [ ...  (COMPLEX)
+  * EXP: A string is preferred over an array
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
     private static $default_sort = [
         'NoTourTimes' => 'ASC',
         'Archived' => 'ASC',
@@ -169,6 +178,15 @@ class DateInfo extends TourBaseClass
      */
     public static function best_match_for_date($dateTS)
     {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->sort(
+  * NEW: ->sort( ...  (COMPLEX)
+  * EXP: This method no longer accepts raw sql, only known field names.  If you have raw SQL then use ->orderBy
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
         $dateInfos = DateInfo::get()->exclude(['Archived' => 1])->sort(['SortOrder' => 'DESC']);
         foreach ($dateInfos as $dateInfo) {
             //archive ...
@@ -201,7 +219,15 @@ class DateInfo extends TourBaseClass
         if ($this->OneDayOnly) {
             return 1;
         }
-        $v = round(((strtotime($this->UntilDate) - strtotime($this->FromDate)) / 86400) + 1);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $v = round(((strtotime((string) $this->UntilDate) - strtotime((string) $this->FromDate)) / 86400) + 1);
 
         return DBField::create_field('Int', $v);
     }
@@ -247,8 +273,24 @@ class DateInfo extends TourBaseClass
      */
     public function IsDateMatch($dateTS)
     {
-        $fromDateTS = strtotime($this->FromDate);
-        $untilDateTS = strtotime($this->UntilDate);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $fromDateTS = strtotime((string) $this->FromDate);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $untilDateTS = strtotime((string) $this->UntilDate);
         switch ($this->RepeatEvery) {
             case 'Week':
                 $toAdd = '+1 week';
@@ -277,8 +319,24 @@ class DateInfo extends TourBaseClass
             if ($fromDateTS <= $dateTS && $untilDateTS >= $dateTS) {
                 return true;
             }
-            $fromDateTS = strtotime($toAdd, $fromDateTS);
-            $untilDateTS = strtotime($toAdd, $untilDateTS);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            $fromDateTS = strtotime((string) $toAdd, $fromDateTS);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            $untilDateTS = strtotime((string) $toAdd, $untilDateTS);
         }
 
         return false;
@@ -355,7 +413,15 @@ class DateInfo extends TourBaseClass
                 $prefix = 'Every second ';
                 $format = 'l';
                 if ($fromDate) {
-                    $postfix = ' starting ' . date('D jS M', strtotime($date));
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                    $postfix = ' starting ' . date('D jS M', strtotime((string) $date));
                 }
 
                 break;
@@ -368,7 +434,15 @@ class DateInfo extends TourBaseClass
                 $format = 'D jS';
                 $postfix = ' of the month';
                 if ($fromDate) {
-                    $postfix .= ' starting from ' . date('M', strtotime($date));
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                    $postfix .= ' starting from ' . date('M', strtotime((string) $date));
                 }
 
                 break;
@@ -383,9 +457,25 @@ class DateInfo extends TourBaseClass
         }
 
         if ($fromDate) {
-            $value = $prefix . date($format, strtotime($date)) . $postfix;
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            $value = $prefix . date($format, strtotime((string) $date)) . $postfix;
         } elseif (! $fromDate && ! $this->OneDayOnly) {
-            $value = $prefix . date($format, strtotime($date)) . $postfix;
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            $value = $prefix . date($format, strtotime((string) $date)) . $postfix;
         }
 
         return DBField::create_field('Varchar', $value);
@@ -411,7 +501,15 @@ class DateInfo extends TourBaseClass
             $this->UntilDate = $this->FromDate;
         }
         if ('No Repeat' === $this->RepeatEvery) {
-            if (strtotime('today') > strtotime($this->UntilDate)) {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            if (strtotime('today') > strtotime((string) $this->UntilDate)) {
                 $this->Archived = true;
             }
         }
@@ -441,7 +539,15 @@ class DateInfo extends TourBaseClass
                 $prefix = 'Every second ';
                 $format = 'l';
                 if ($fromDate) {
-                    $postfix = ' starting ' . date('jS M', strtotime($date));
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                    $postfix = ' starting ' . date('jS M', strtotime((string) $date));
                 }
 
                 break;
@@ -454,7 +560,15 @@ class DateInfo extends TourBaseClass
                 $format = 'jS';
                 $postfix = ' of the month';
                 if ($fromDate) {
-                    $postfix .= ' starting from ' . date('M', strtotime($date));
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                    $postfix .= ' starting from ' . date('M', strtotime((string) $date));
                 }
 
                 break;
@@ -469,9 +583,25 @@ class DateInfo extends TourBaseClass
         }
 
         if ($fromDate) {
-            $value = $prefix . date($format, strtotime($date)) . $postfix;
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            $value = $prefix . date($format, strtotime((string) $date)) . $postfix;
         } elseif (! $fromDate && ! $this->OneDayOnly) {
-            $value = $prefix . date($format, strtotime($date)) . $postfix;
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            $value = $prefix . date($format, strtotime((string) $date)) . $postfix;
         }
 
         return DBField::create_field('Varchar', $value);

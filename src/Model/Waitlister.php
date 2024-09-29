@@ -99,6 +99,15 @@ class Waitlister extends TourBaseClass
         'PrimaryPhone',
     ];
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: default_sort = [
+  * NEW: default_sort = [ ...  (COMPLEX)
+  * EXP: A string is preferred over an array
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
     private static $default_sort = [
         'Created' => 'DESC',
     ];
@@ -178,6 +187,15 @@ class Waitlister extends TourBaseClass
                     'TourDate:GreaterThanOrEqual' => date('Y-m-d'),
                 ]
             )
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: ->sort(
+  * NEW: ->sort( ...  (COMPLEX)
+  * EXP: This method no longer accepts raw sql, only known field names.  If you have raw SQL then use ->orderBy
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             ->sort('TourDate', 'ASC')
         ;
     }

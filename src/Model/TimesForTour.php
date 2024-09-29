@@ -57,6 +57,15 @@ class TimesForTour extends TourBaseClass
         'NumberOfSpacesAvailable' => 15,
     ];
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: default_sort = [
+  * NEW: default_sort = [ ...  (COMPLEX)
+  * EXP: A string is preferred over an array
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
     private static $default_sort = [
         'StartTime' => 'ASC',
         'ID' => 'ASC',
@@ -120,7 +129,15 @@ class TimesForTour extends TourBaseClass
     public function getEndTime()
     {
         $fakeDate = date('Y-m-d') . ' ' . $this->StartTime;
-        $fakeDateTS = strtotime($fakeDate);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+        $fakeDateTS = strtotime((string) $fakeDate);
         $fakeDateTS = strtotime('+' . $this->Duration . ' minute', $fakeDateTS);
 
         $v = date('H:i:s', $fakeDateTS);

@@ -44,6 +44,15 @@ class ReferralOption extends TourBaseClass
     //## Further DB Field Details
     //######################
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: default_sort = [
+  * NEW: default_sort = [ ...  (COMPLEX)
+  * EXP: A string is preferred over an array
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
     private static $default_sort = [
         'Title' => 'ASC',
     ];

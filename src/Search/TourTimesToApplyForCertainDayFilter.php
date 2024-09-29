@@ -19,7 +19,7 @@ class TourTimesToApplyForCertainDayFilter extends ExactMatchFilter
         $value = $this->getValue();
         if ($value) {
             $where = '"DateInfo"."ID" = 0';
-            if (false === $value || null === $value || (is_string($value) && ! strlen($value))) {
+            if (false === $value || null === $value || (is_string($value) && ! strlen((string) $value))) {
                 // don't try to evaluate empty values with strtotime() below, as it returns "1970-01-01" when it should be
                 // saved as NULL in database
                 $this->value = null;
@@ -56,7 +56,15 @@ class TourTimesToApplyForCertainDayFilter extends ExactMatchFilter
             $date = new DBDate();
             $date->setValue($value);
             $formattedDate = $date->format('y-MM-dd');
-            $dateTS = strtotime($formattedDate);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: strtotime($
+  * EXP: SS5 change
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+            $dateTS = strtotime((string) $formattedDate);
             if ($dateTS > time()) {
                 $dateInfo = DateInfo::best_match_for_date($dateTS);
                 if ($dateInfo) {
