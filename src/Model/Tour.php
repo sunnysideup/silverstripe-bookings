@@ -43,6 +43,7 @@ use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
  * @method DateInfo DateInfo()
  * @method DataList|Booking[] Bookings()
  * @method DataList|Waitlister[] Waitlisters()
+ * @method DataList|Bookings[] ValidBookings()
  */
 class Tour extends TourBaseClass
 {
@@ -368,7 +369,7 @@ class Tour extends TourBaseClass
     public function getNumberOfPlacesBooked()
     {
         $v = 0;
-        /** @var TourBooking $booking */
+        /** @var Booking $booking */
         foreach ($this->ValidBookings() as $booking) {
             $v += $booking->TotalNumberOfGuests;
         }
@@ -429,6 +430,8 @@ class Tour extends TourBaseClass
     public function getNumberOfAdults()
     {
         $v = 0;
+        /** @var Booking $booking */
+
         foreach ($this->ValidBookings() as $booking) {
             $v += (int) $booking->getNumberOfAdults()->Raw();
         }
@@ -444,6 +447,8 @@ class Tour extends TourBaseClass
     public function getNumberOfChildren()
     {
         $v = 0;
+        /** @var Booking $booking */
+
         foreach ($this->ValidBookings() as $booking) {
             $v += (int) $booking->NumberOfChildren;
         }
