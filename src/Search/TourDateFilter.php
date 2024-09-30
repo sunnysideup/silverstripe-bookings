@@ -14,14 +14,6 @@ class TourDateFilter extends ExactMatchFilter
     {
         $value = $this->getValue();
         if ($value) {
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
             $value = strtotime((string) $value);
             $query->where(
                 ['Date' => date('Y-m-d', $value)]

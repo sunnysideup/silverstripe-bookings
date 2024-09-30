@@ -64,15 +64,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     protected function FirstName($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->InitiatingFirstName;
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: str_replace($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         return str_replace((string) $searchString, $replace, $str);
     }
 
@@ -83,15 +74,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     protected function LastName($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->InitiatingSurname;
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: str_replace($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         return str_replace((string) $searchString, $replace, $str);
     }
 
@@ -106,14 +88,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
             $replace = '<table>
                             <tr>
                                 <th>Date:</th>
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
                                 <td>' . date('l, jS F Y', strtotime((string) $booking->Tour()->Date)) . '</td>
                             </tr>
                             <tr>
@@ -144,15 +118,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
             }
             $replace .= '</table>';
         }
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: str_replace($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         return str_replace((string) $searchString, $replace, $str);
     }
 
@@ -163,15 +128,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     protected function TourTime($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->Tour()->TourTimeAndDate;
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: str_replace($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         return str_replace((string) $searchString, $replace, $str);
     }
 
@@ -182,15 +138,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     protected function TourDuration($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->Tour()->Duration . ' minutes';
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: str_replace($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         return str_replace((string) $searchString, $replace, $str);
     }
 
@@ -204,15 +151,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
         if ($booking instanceof Booking) {
             $replace = $booking->ConfirmLink(true);
         }
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: str_replace($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         return str_replace((string) $searchString, $replace, $str);
     }
 
@@ -226,15 +164,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
         if ($booking instanceof Booking) {
             $replace = $booking->EditLink(true);
         }
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: str_replace($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         return str_replace((string) $searchString, $replace, $str);
     }
 
@@ -248,15 +177,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
         if ($booking instanceof Booking) {
             $replace = $booking->CancelLink(true);
         }
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: str_replace($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         return str_replace((string) $searchString, $replace, $str);
     }
 
@@ -270,15 +190,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
         if ($waitlister instanceof Waitlister) {
             $replace = $waitlister->Tour()->JoinLink();
         }
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: str_replace($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         return str_replace((string) $searchString, $replace, $str);
     }
 }

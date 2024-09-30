@@ -69,25 +69,8 @@ class TourWaitlistForm extends Form
         $fieldList->push(
             $leftColumn
         );
-
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         $tourDateAsTimeStamp = strtotime((string) $this->currentTour->Date);
         $oneWeekEarlier = date('Y-m-d', strtotime('-7 day', $tourDateAsTimeStamp));
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         if (strtotime((string) $oneWeekEarlier) < strtotime('+1 day', strtotime('now'))) {
             $oneWeekEarlier = date('Y-m-d', strtotime('+1 day', strtotime('now')));
         }

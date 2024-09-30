@@ -56,14 +56,6 @@ class TourTimesToApplyForCertainDayFilter extends ExactMatchFilter
             $date = new DBDate();
             $date->setValue($value);
             $formattedDate = $date->format('y-MM-dd');
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: strtotime($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
             $dateTS = strtotime((string) $formattedDate);
             if ($dateTS > time()) {
                 $dateInfo = DateInfo::best_match_for_date($dateTS);
