@@ -152,15 +152,6 @@ class TourBookingsAdmin extends ModelAdmin
 
             // Update form fields under 'Bookings'
             if ($bookingGridfield) {
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: ->insertAfter(
-  * NEW: ->insertAfter( ...  (COMPLEX)
-  * EXP: Name of the field to insert after is listed first, then the field - just check this.
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
                 $fields->insertAfter(
                     'Sunnysideup-Bookings-Model-Booking',
                     LiteralField::create(

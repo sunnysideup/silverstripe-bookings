@@ -100,15 +100,6 @@ class TourBookingForm extends Form
                 $referralOptionsField = CheckboxSetField::create(
                     'ReferralOptions',
                     'How did you hear about our tours?',
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: ->sort(
-  * NEW: ->sort( ...  (COMPLEX)
-  * EXP: This method no longer accepts raw sql, only known field names.  If you have raw SQL then use ->orderBy
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
                     $referralOptions->sort('SortOrder', 'ASC')->map('ID', 'Title')
                 );
 
@@ -262,14 +253,6 @@ class TourBookingForm extends Form
         }
         $this->currentBooking->write();
         //$this->currentBooking->Tour()->write();
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: substr($
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         $code = substr((string) $this->currentBooking->Code, 0, 9);
         $settings = TourBookingSettings::inst();
         $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);

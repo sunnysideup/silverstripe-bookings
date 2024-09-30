@@ -97,18 +97,7 @@ class TourBookingSettings extends TourBaseClass
         'NumberOfDaysToGenerateToursInAdvance' => 60,
     ];
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: default_sort = [
-  * NEW: default_sort = [ ...  (COMPLEX)
-  * EXP: A string is preferred over an array
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    private static $default_sort = [
-        'ID' => 'ASC',
-    ];
+    private static $default_sort = 'ID ASC';
 
     private static $required_fields = [
         'AdministratorID',
@@ -168,15 +157,6 @@ class TourBookingSettings extends TourBaseClass
 
     public static function inst()
     {
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: ::get_one(
-  * NEW: ::get_one( ...  (COMPLEX)
-  * EXP: Changed parameter name in ... SilverStripe\ORM\DataObject::get_one() from $orderby to $sort. TBC
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         $obj = DataObject::get_one(TourBookingSettings::class);
         if (null === $obj) {
             $obj = TourBookingSettings::create();
@@ -192,15 +172,6 @@ class TourBookingSettings extends TourBaseClass
 
     public function canCreate($member = null, $context = [])
     {
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: ::get_one(
-  * NEW: ::get_one( ...  (COMPLEX)
-  * EXP: Changed parameter name in ... SilverStripe\ORM\DataObject::get_one() from $orderby to $sort. TBC
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         return !(bool) DataObject::get_one(static::class);
     }
 
@@ -229,14 +200,6 @@ class TourBookingSettings extends TourBaseClass
             $baseURL = str_replace('https://', '', $baseURL);
             $baseURL = str_replace('http://', '', $baseURL);
             $baseURL = str_replace('www.', '', $baseURL);
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: trim(
-  * EXP: SS5 change
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
             $baseURL = trim((string) $baseURL, '/');
             $email = 'tours@' . $baseURL;
         }

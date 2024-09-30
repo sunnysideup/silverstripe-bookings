@@ -234,15 +234,6 @@ class TourBookingsConfig extends ModelAdmin
 
     protected function addRulesExplanations($fields)
     {
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: ->insertAfter(
-  * NEW: ->insertAfter( ...  (COMPLEX)
-  * EXP: Name of the field to insert after is listed first, then the field - just check this.
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
         $fields->insertAfter(
             $this->sanitiseClassName($this->modelClass),
             LiteralField::create(
