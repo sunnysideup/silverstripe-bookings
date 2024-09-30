@@ -255,14 +255,13 @@ class TourBookingForm extends Form
         //$this->currentBooking->Tour()->write();
         $code = substr((string) $this->currentBooking->Code, 0, 9);
         $settings = TourBookingSettings::inst();
-        $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
 
         if ($newBooking) {
             $confirmationEmail = $settings->BookingConfirmationEmail();
-            $mailOut->runOne($confirmationEmail, $this->currentBooking);
+            $confirmationEmail->sendOne($this->currentBooking);
         } else {
             $confirmationEmail = $settings->UpdateConfirmationEmail();
-            $mailOut->runOne($confirmationEmail, $this->currentBooking, false, true);
+            $confirmationEmail->sendOne($this->currentBooking);
         }
 
         $redirect = $this->currentBooking->ConfirmLink();
