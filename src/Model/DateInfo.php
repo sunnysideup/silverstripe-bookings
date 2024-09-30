@@ -80,9 +80,7 @@ class DateInfo extends TourBaseClass
         'NoTourTimes' => true,
     ];
 
-    private static $default_sort = [
-        'NoTourTimes ASC, Archived ASC, SortOrder ASC, ID ASC',
-    ];
+    private static $default_sort = 'NoTourTimes ASC, Archived ASC, SortOrder ASC, ID ASC';
 
     private static $required_fields = [
         'Title',
