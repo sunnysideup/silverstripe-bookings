@@ -64,7 +64,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     protected function FirstName($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->InitiatingFirstName;
-        return str_replace((string) $searchString, $replace, $str);
+        return str_replace((string) $searchString, (string) $replace, $str);
     }
 
     /**
@@ -74,7 +74,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     protected function LastName($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->InitiatingSurname;
-        return str_replace((string) $searchString, $replace, $str);
+        return str_replace((string) $searchString, (string) $replace, $str);
     }
 
     /**
@@ -118,7 +118,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
             }
             $replace .= '</table>';
         }
-        return str_replace((string) $searchString, $replace, $str);
+        return str_replace((string) $searchString, (string) $replace, $str);
     }
 
     /**
@@ -128,7 +128,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     protected function TourTime($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->Tour()->TourTimeAndDate;
-        return str_replace((string) $searchString, $replace, $str);
+        return str_replace((string) $searchString, (string) $replace, $str);
     }
 
     /**
@@ -138,7 +138,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     protected function TourDuration($reminder, $booking, string $searchString, string $str): string
     {
         $replace = $booking->Tour()->Duration . ' minutes';
-        return str_replace((string) $searchString, $replace, $str);
+        return str_replace((string) $searchString, (string) $replace, $str);
     }
 
     /**
@@ -151,7 +151,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
         if ($booking instanceof Booking) {
             $replace = $booking->ConfirmLink(true);
         }
-        return str_replace((string) $searchString, $replace, $str);
+        return str_replace((string) $searchString, (string) $replace, $str);
     }
 
     /**
@@ -164,7 +164,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
         if ($booking instanceof Booking) {
             $replace = $booking->EditLink(true);
         }
-        return str_replace((string) $searchString, $replace, $str);
+        return str_replace((string) $searchString, (string) $replace, $str);
     }
 
     /**
@@ -177,7 +177,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
         if ($booking instanceof Booking) {
             $replace = $booking->CancelLink(true);
         }
-        return str_replace((string) $searchString, $replace, $str);
+        return str_replace((string) $searchString, (string) $replace, $str);
     }
 
     /**
@@ -190,6 +190,6 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
         if ($waitlister instanceof Waitlister) {
             $replace = $waitlister->Tour()->JoinLink();
         }
-        return str_replace((string) $searchString, $replace, $str);
+        return str_replace((string) $searchString, (string) $replace, $str);
     }
 }
