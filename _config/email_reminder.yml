@@ -1,7 +1,7 @@
 ---
 name: EmailReminder
 ---
-SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut:
+SunnySideUp\EmailReminder\Api\EmailReminderMailOut:
   daily_limit: 100
   replacer_class: Sunnysideup\Bookings\Api\TourBookingsEmailReminderReplacerClass
 SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule:
