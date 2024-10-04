@@ -43,7 +43,6 @@ use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
  * @method DateInfo DateInfo()
  * @method DataList|Booking[] Bookings()
  * @method DataList|Waitlister[] Waitlisters()
- * @method DataList|Bookings[] ValidBookings()
  */
 class Tour extends TourBaseClass
 {
@@ -600,14 +599,13 @@ class Tour extends TourBaseClass
         if ($this->Waitlisters()->count() && $tourDate->getTimestamp() >= $now->getTimestamp()) {
             $settings = TourBookingSettings::inst();
             $spacesAvailableEmail = $settings->TourSpacesAvailableEmail();
-            $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
 
             $placesAvailable = $this->NumberOfPlacesAvailable()->raw();
             $waitlisters = $this->Waitlisters()->filter(['TotalNumberOfGuests:LessThanOrEqual' => $placesAvailable]);
 
             foreach ($waitlisters as $waitlister) {
                 //send an email to the waitlister containing link to booking form
-                $mailOut->runOne($spacesAvailableEmail, $waitlister);
+                $spacesAvailableEmail->sendOne($waitlister);
             }
         }
     }

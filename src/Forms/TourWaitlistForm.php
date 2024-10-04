@@ -155,8 +155,7 @@ class TourWaitlistForm extends Form
         $waitlister->write();
         $settings = TourBookingSettings::inst();
         $confirmationEmail = $settings->WaitlistConfirmationEmail();
-        $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
-        $mailOut->runOne($confirmationEmail, $waitlister);
+        $confirmationEmail->sendOne($waitlister);
 
         $redirect = $this->controller->Link('confirmwaitlist/' . $waitlister->Code);
         //extra tours have been selected
