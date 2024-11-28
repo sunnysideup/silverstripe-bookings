@@ -384,7 +384,7 @@ class TourBookingSettings extends TourBaseClass
         foreach ($messageFields as $field) {
             $formField = $fields->DataFieldByName($field);
             if ($formField instanceof HTMLEditorField) {
-                $formField->setRows(5);
+                $formField->setRows(10);
             }
             $fields->addFieldsToTab(
                 'Root.Messages',

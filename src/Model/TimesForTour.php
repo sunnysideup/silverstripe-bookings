@@ -143,8 +143,8 @@ class TimesForTour extends TourBaseClass
     {
         $fields = parent::getCMSFields();
 
-        $fields->dataFieldByName('PublicContent')->setRows(7);
-        $fields->dataFieldByName('PrivateContent')->setRows(7);
+        $fields->dataFieldByName('PublicContent');
+        $fields->dataFieldByName('PrivateContent');
         if (null !== $fields->fieldByName('Root.DateInfos')) {
             $fields->fieldByName('Root.DateInfos')->setTitle('Info and Rules');
         }

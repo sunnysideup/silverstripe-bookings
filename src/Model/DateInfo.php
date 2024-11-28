@@ -323,8 +323,8 @@ class DateInfo extends TourBaseClass
             );
         }
 
-        $fields->dataFieldByName('PublicContent')->setRows(7);
-        $fields->dataFieldByName('PrivateContent')->setRows(7);
+        $fields->dataFieldByName('PublicContent');
+        $fields->dataFieldByName('PrivateContent');
 
         // $link = Injector::inst()->get(TourBuilder::class)->Link();
 

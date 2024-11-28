@@ -494,8 +494,8 @@ class Tour extends TourBaseClass
             $timesForTour = Injector::inst()->get(TimesForTour::class);
             $tourTimeField->setDescription('<a href="' . $timesForTour->CMSAddLink() . '" target="_blank">Create a new tour time</a>.');
         } else {
-            $fields->dataFieldByName('PublicContentForTour')->setRows(7);
-            $fields->dataFieldByName('PrivateContentForTour')->setRows(7);
+            $fields->dataFieldByName('PublicContentForTour');
+            $fields->dataFieldByName('PrivateContentForTour');
             $fields->replaceField(
                 'GoogleEventID',
                 $fields->dataFieldByName('GoogleEventID')->performReadonlyTransformation()
