@@ -593,7 +593,7 @@ class Tour extends TourBaseClass
             }
         }
 
-        $tourDate = new DateTime($this->Date);
+        $tourDate = new DateTime((string) $this->Date);
         $now = new DateTime(date('Y-m-d'));
         //we only want to do this if the the tour is not in the past
         if ($this->Waitlisters()->count() && $tourDate->getTimestamp() >= $now->getTimestamp()) {
