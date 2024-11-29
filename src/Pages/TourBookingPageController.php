@@ -434,7 +434,7 @@ class TourBookingPageController extends PageController
             $array = [];
             $array['title'] = $tour->FullCalendarTitle();
             $array['abrv-title'] = $tour->AbrvCalendarTitle();
-            $array['url'] = $this->Link('checkinfortour/') . $tour->ID . '/';
+            $array['url'] = $this->Link('checkinfortour/'. $tour->ID . '/') ;
             $array['start'] = $tour->Date . 'T' . $tour->StartTime;
             $array['end'] = $tour->Date . 'T' . $tour->EndTime()->Value;
             $array['backgroundColor'] = '#16a335';
@@ -675,7 +675,7 @@ class TourBookingPageController extends PageController
             'Date' => $dateMysql,
             'IsClosed' => false,
         ];
-        
+
         $tours = Tour::get()->filter($filters)->sort(['StartTime' => 'ASC', 'ID' => 'ASC']);
 
         if (isset($settings->BookingTimeCutOff) && $settings->BookingTimeCutOff) {

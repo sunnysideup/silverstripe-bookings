@@ -3,6 +3,7 @@
 namespace Sunnysideup\Bookings\Model;
 
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
@@ -146,7 +147,7 @@ class TourBaseClass extends DataObject
     {
         $controller = $this->getModelAdminController();
 
-        return $controller->Link() . Sanitiser::sanitise($this->ClassName);
+        return $controller->getLinkForModelClass($this->ClassName);
     }
 
     public function getCMSFields()
@@ -232,10 +233,10 @@ class TourBaseClass extends DataObject
     protected function getModelAdminController()
     {
         if ($this->isOperationalClass()) {
-            return \Singleton(TourBookingsAdmin::class);
+            return Injector::inst()->get(TourBookingsAdmin::class);
         }
 
-        return \Singleton(TourBookingsConfig::class);
+        return Injector::inst()->get(TourBookingsConfig::class);
     }
 
     protected function CurrentMemberIsOwner()

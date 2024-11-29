@@ -122,7 +122,13 @@ class TourBookingsAdmin extends ModelAdmin
                 );
 
                 $tourBookingPage = TourBookingPage::get()->first();
-                $fields->insertBefore('ToursSetInner', LiteralField::create('HTMLCalendarLink', '<div style="position:relative;bottom:-40px;margin-top:-40px;text-decoration:underline"><a target="_blank" href="' . $tourBookingPage->CalendarLink() . '">View Calendar</a></div>'));
+                $fields->insertBefore(
+                    'ToursSetInner',
+                    LiteralField::create(
+                        'HTMLCalendarLink',
+                        '<div style="text-decoration:underline"><a target="_blank" href="' . $tourBookingPage->CalendarLink() . '">View Calendar</a></div>'
+                    )
+                );
 
                 $HTML_TourListNotes = '<p style="margin-top: 15px">Above is a list of all the <strong>upcoming tours</strong> for each day, some are auto-generated, some have been manually added.</p>
                                 <p><strong>To set up regular tours</strong> (auto-generated), use the Tour Generator - Rules" tab in "Tour Config".</p>
