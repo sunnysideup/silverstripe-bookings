@@ -434,7 +434,7 @@ class TourBookingPageController extends PageController
             $array = [];
             $array['title'] = $tour->FullCalendarTitle();
             $array['abrv-title'] = $tour->AbrvCalendarTitle();
-            $array['url'] = $this->Link('checkinfortour/'. $tour->ID . '/') ;
+            $array['url'] = $this->Link('checkinfortour/' . $tour->ID . '/');
             $array['start'] = $tour->Date . 'T' . $tour->StartTime;
             $array['end'] = $tour->Date . 'T' . $tour->EndTime()->Value;
             $array['backgroundColor'] = '#16a335';
@@ -590,12 +590,13 @@ class TourBookingPageController extends PageController
         $this->locationIP = Config::inst()->get(TourBookingSettings::class, 'tour_location_ip');
         $countries = json_encode(Config::inst()->get(TourBookingForm::class, 'show_city_field_for_countries'));
         $settings = TourBookingSettings::inst();
+        $linkWithoutGetVars = explode('?', $this->Link())[0];
         Requirements::customScript(
             '
                 if(typeof TourBookingsInPageData === "undefined") {
                     var TourBookingsInPageData = {};
                 }
-                TourBookingsInPageData.url = "' . trim((string) $this->Link(), '/') . '";
+                TourBookingsInPageData.url = "' . trim((string) $linkWithoutGetVars, '/') . '";
                 TourBookingsInPageData.maxPerGroup = "' . $settings->MaximumNumberPerGroup . '";
                 TourBookingsInPageData.emailContact = "' . $settings->Administrator()->Email . '";
                 TourBookingsInPageData.showCityTownForCountries = ' . $countries . ';
