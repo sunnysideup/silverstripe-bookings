@@ -9,15 +9,19 @@
             <dt>$StartTime.Nice - $EndTime.Nice</dt>
         <% end_with %>
         <dd>Booking Code:</dd>
-        <dt>$Code</dt>
+            <dt>$Code</dt>
+
         <dd>Total number of guests:</dd>
-        <dt>$TotalNumberOfGuests</dt>
+            <dt>$TotalNumberOfGuests</dt>
+
         <dd>Number of adults:</dd>
-        <dt>$NumberOfAdults</dt>
+            <dt>$NumberOfAdults</dt>
+
         <dd>Number of children:</dd>
-        <dt>$NumberOfChildren</dt>
+            <dt>$NumberOfChildren</dt>
+
         <% if $SpecialAssistanceRequired %>
-            <dd>Assistance Requested:</dd>
+        <dd>Assistance Requested:</dd>
             <dt>$SpecialAssistanceRequiredInfo</dt>
         <% end_if %>
     </dl>
