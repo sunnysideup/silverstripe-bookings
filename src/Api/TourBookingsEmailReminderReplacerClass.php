@@ -96,7 +96,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
                                 <td>' . $booking->Tour()->StartTimeObj->Nice() . ' - ' . $booking->Tour()->EndTime->Nice() . '</td>
                             </tr>
                             <tr>
-                                <th scope="row" style="text-align: left">Booking Code:</th>
+                                <th scope="row" style="text-align: left">Booking code:</th>
                                 <td>' . $booking->BookingReference . '</td>
                             </tr>
                             <tr>
