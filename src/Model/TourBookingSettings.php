@@ -248,7 +248,7 @@ class TourBookingSettings extends TourBaseClass
     {
         $controller = \Singleton(TourBookingsConfig::class);
 
-        return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/' . $this->ID . '/edit';
+        return $controller->Link() . '/' . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/' . $this->ID . '/edit';
     }
 
     public function CMSAddLink()

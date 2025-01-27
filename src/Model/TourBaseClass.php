@@ -102,8 +102,7 @@ class TourBaseClass extends DataObject
                     $count = self::get()
                         ->filter([$field => $value, 'ClassName' => $this->ClassName])
                         ->exclude(['ID' => $id])
-                        ->count()
-                    ;
+                        ->count();
                     if ($count > 0) {
                         $myName = $fieldLabels['$field'];
                         $result->addError(
@@ -133,7 +132,7 @@ class TourBaseClass extends DataObject
     {
         $controller = $this->getModelAdminController();
 
-        return $controller->Link() . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/' . $this->ID . '/edit';
+        return $controller->Link() . '/' . Sanitiser::sanitise($this->ClassName) . '/EditForm/field/' . Sanitiser::sanitise($this->ClassName) . '/item/' . $this->ID . '/edit';
     }
 
     public function CMSAddLink()
