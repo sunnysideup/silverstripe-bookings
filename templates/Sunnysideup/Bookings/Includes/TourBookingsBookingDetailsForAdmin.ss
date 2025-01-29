@@ -8,10 +8,10 @@
                 <dt>$Date.Format('EEEE'), $Date.DayOfMonth(true) $Date.Format('MMM y')</dt>
 
             <dd>Time:</dd>
-                <dt>$StartTime.Nice - $EndTime.Nice</dt>
+                <dt>$StartTime.Short - $EndTime.Short</dt>
         <% end_with %>
 
-        <dd>Booking Code:</dd>
+        <dd>Booking code:</dd>
             <dt>$Code</dt>
 
         <dd>Contact:</dd>
@@ -33,8 +33,8 @@
             <dt>$NumberOfChildren</dt>
 
         <% if $SpecialAssistanceRequired %>
-            <dd>Assistance Requested:</dd>
-                <dt>$SpecialAssistanceRequiredInfo</dt>
+        <dd>Assistance Requested:</dd>
+            <dt>$SpecialAssistanceRequiredInfo</dt>
         <% end_if %>
     </dl>
 </div>

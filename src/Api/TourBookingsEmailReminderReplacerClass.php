@@ -59,7 +59,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
 
     /**
      * @param EmailReminderNotificationSchedule $reminder
-     * @param DataObject                        $booking
+     * @param Booking                           $booking
      */
     protected function FirstName($reminder, $booking, string $searchString, string $str): string
     {
@@ -69,7 +69,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
 
     /**
      * @param EmailReminderNotificationSchedule $reminder
-     * @param DataObject                        $booking
+     * @param Booking                           $booking
      */
     protected function LastName($reminder, $booking, string $searchString, string $str): string
     {
@@ -79,40 +79,41 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
 
     /**
      * @param EmailReminderNotificationSchedule $reminder
-     * @param DataObject                        $booking
+     * @param Booking                           $booking
      */
     protected function BookingInfoHTML($reminder, $booking, string $searchString, string $str): string
     {
         $replace = '';
+        /** @var Booking $booking */
         if ($booking instanceof Booking) {
             $replace = '<table>
                             <tr>
-                                <th>Date:</th>
+                                <th scope="row" style="text-align: left">Date:</th>
                                 <td>' . date('l, jS F Y', strtotime((string) $booking->Tour()->Date)) . '</td>
                             </tr>
                             <tr>
-                                <th>Time:</th>
+                                <th scope="row" style="text-align: left">Time:</th>
                                 <td>' . $booking->Tour()->StartTimeObj->Nice() . ' - ' . $booking->Tour()->EndTime->Nice() . '</td>
                             </tr>
                             <tr>
-                                <th>Booking Code:</th>
+                                <th scope="row" style="text-align: left">Booking code:</th>
                                 <td>' . $booking->BookingReference . '</td>
                             </tr>
                             <tr>
-                                <th>Total number of guests:</th>
+                                <th scope="row" style="text-align: left">Total number of guests:</th>
                                 <td>' . $booking->TotalNumberOfGuests . '</td>
                             </tr>
                             <tr>
-                                <th>Number of adults:</th>
+                                <th scope="row" style="text-align: left">Number of adults:</th>
                                 <td>' . $booking->NumberOfAdults . '</td>
                             </tr>
                             <tr>
-                                <th>Number of children:</th>
+                                <th scope="row" style="text-align: left">Number of children:</th>
                                 <td>' . $booking->NumberOfChildren . '</td>
                             </tr>';
             if ($booking->SpecialAssistanceRequired) {
                 $replace .= '<tr>
-                                <th>Special Assistance Requested:</th>
+                                <th scope="row" style="text-align: left">Special Assistance Requested:</th>
                                 <td>' . $booking->SpecialAssistanceRequiredInfo . '</td>
                             </tr>';
             }
@@ -123,9 +124,9 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
 
     /**
      * @param EmailReminderNotificationSchedule $reminder
-     * @param DataObject                        $booking
+     * @param Booking                           $booking
      */
-    protected function TourTime($reminder, $booking, string $searchString, string $str): string
+    protected function TourTime($reminder, Booking $booking, string $searchString, string $str): string
     {
         $replace = $booking->Tour()->TourTimeAndDate;
         return str_replace((string) $searchString, (string) $replace, $str);
@@ -133,7 +134,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
 
     /**
      * @param EmailReminderNotificationSchedule $reminder
-     * @param DataObject                        $booking
+     * @param Booking                           $booking
      */
     protected function TourDuration($reminder, $booking, string $searchString, string $str): string
     {
@@ -143,7 +144,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
 
     /**
      * @param EmailReminderNotificationSchedule $reminder
-     * @param DataObject                        $booking
+     * @param Booking                           $booking
      */
     protected function BookingConfirmationLink($reminder, $booking, string $searchString, string $str): string
     {
@@ -156,7 +157,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
 
     /**
      * @param EmailReminderNotificationSchedule $reminder
-     * @param DataObject                        $booking
+     * @param Booking                           $booking
      */
     protected function BookingUpdateLink($reminder, $booking, string $searchString, string $str): string
     {
@@ -169,7 +170,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
 
     /**
      * @param EmailReminderNotificationSchedule $reminder
-     * @param DataObject                        $booking
+     * @param Booking                           $booking
      */
     protected function BookingCancellationLink($reminder, $booking, string $searchString, string $str): string
     {
@@ -182,7 +183,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
 
     /**
      * @param EmailReminderNotificationSchedule $reminder
-     * @param DataObject                        $waitlister
+     * @param Waitlister                        $waitlister
      */
     protected function SingleTourBookingForm($reminder, $waitlister, string $searchString, string $str): string
     {
