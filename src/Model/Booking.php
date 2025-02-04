@@ -175,10 +175,10 @@ class Booking extends TourBaseClass
 
     private static $summary_fields = [
         'Cancelled.NiceAndColourfullInvertedColours' => 'Cancelled',
-        'Tour.Date.Nice' => 'Date',
-        'Tour.StartTime.Nice' => 'Time',
-        'Created' => 'Created',
-        'LastEdited' => 'Edited',
+        'Tour.Date.Short' => 'Date',
+        'Tour.StartTime.Short' => 'Time',
+        'Created.Short' => 'Created',
+        'LastEdited.Ago' => 'Edited',
         'Code' => 'Reference',
         'TotalNumberOfGuests' => 'Guests',
         'InitiatingEmail' => 'Email',

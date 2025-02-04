@@ -68,8 +68,8 @@ class Waitlister extends TourBaseClass
     ];
 
     private static $summary_fields = [
-        'Tour.Date.Nice' => 'Date',
-        'Tour.StartTime.Nice' => 'Time',
+        'Tour.Date.Short' => 'Date',
+        'Tour.StartTime.Short' => 'Time',
         'Code' => 'Code',
         'TotalNumberOfGuests' => 'Number of Spaces',
         'InitiatingFirstName' => 'First Name',
