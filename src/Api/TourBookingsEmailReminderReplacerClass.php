@@ -126,7 +126,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
      * @param EmailReminderNotificationSchedule $reminder
      * @param Booking                           $booking
      */
-    protected function TourTime($reminder, Booking $booking, string $searchString, string $str): string
+    protected function TourTime($reminder, Booking|Waitlister $booking, string $searchString, string $str): string
     {
         $replace = $booking->Tour()->TourTimeAndDate;
         return str_replace((string) $searchString, (string) $replace, $str);
