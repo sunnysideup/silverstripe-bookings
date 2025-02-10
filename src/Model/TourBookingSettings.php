@@ -212,6 +212,7 @@ class TourBookingSettings extends TourBaseClass
             ->setGroupName('Tour Managers')
             ->setPermissionCode('CMS_ACCESS_TOUR_ADMIN')
             ->setRoleTitle('Tour Manager Privileges')
+            ->setForcePasswordReset(false)
             ->setPermissionArray(['CMS_ACCESS_TourBookingsAdmin', 'CMS_ACCESS_TourBookingsConfig'])
             ->CreateGroupAndMember();
         $member = $group->Members()->last();
