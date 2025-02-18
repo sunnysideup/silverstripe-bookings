@@ -15,7 +15,10 @@ use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
+use Sunnysideup\Bookings\Cms\TourBookingsAdmin;
 use Sunnysideup\Bookings\Cms\TourBookingsConfig;
+use SunnySideUp\EmailReminder\Cms\EmailReminderModelAdmin;
+use SunnySideUp\EmailReminder\Model\EmailReminderEmailRecord;
 use SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 use Sunnysideup\PermissionProvider\Api\PermissionProviderFactory;
@@ -212,7 +215,12 @@ class TourBookingSettings extends TourBaseClass
             ->setGroupName('Tour Managers')
             ->setPermissionCode('CMS_ACCESS_TOUR_ADMIN')
             ->setRoleTitle('Tour Manager Privileges')
-            ->setPermissionArray(['CMS_ACCESS_TourBookingsAdmin', 'CMS_ACCESS_TourBookingsConfig'])
+            ->setPermissionArray([
+                'CMS_ACCESS_' . TourBookingsAdmin::class,
+                'CMS_ACCESS_' . TourBookingsConfig::class,
+                'CMS_ACCESS_' . EmailReminderModelAdmin::class,
+                EmailReminderModelAdmin::PERMISSION_PROVIDER_CODE,
+            ])
             ->CreateGroupAndMember();
         $member = $group->Members()->last();
 

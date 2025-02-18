@@ -7,7 +7,7 @@ use Colymba\BulkManager\BulkManager;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
-use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\Tab;
@@ -108,7 +108,7 @@ class TourBookingsAdmin extends ModelAdmin
                     'Sunnysideup-Bookings-Model-Tour-Todays',
                     '',
                     Tour::get()->filter(['Date' => date('Y-m-d')]),
-                    GridFieldConfig_RecordViewer::create()
+                    GridFieldConfig_RecordEditor::create()
                 );
                 $toursList2->setForm($form);
 
