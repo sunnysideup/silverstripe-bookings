@@ -215,12 +215,13 @@ class TourBookingSettings extends TourBaseClass
             ->setGroupName('Tour Managers')
             ->setPermissionCode('CMS_ACCESS_TOUR_ADMIN')
             ->setRoleTitle('Tour Manager Privileges')
+            ->setForcePasswordReset(false)
             ->setPermissionArray([
                 'CMS_ACCESS_' . TourBookingsAdmin::class,
                 'CMS_ACCESS_' . TourBookingsConfig::class,
                 'CMS_ACCESS_' . EmailReminderModelAdmin::class,
                 EmailReminderModelAdmin::PERMISSION_PROVIDER_CODE,
-            ])
+            ])            
             ->CreateGroupAndMember();
         $member = $group->Members()->last();
 
