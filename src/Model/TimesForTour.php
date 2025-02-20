@@ -96,7 +96,7 @@ class TimesForTour extends TourBaseClass
     //######################
 
     private static $casting = [
-        'EndTime' => 'Time',
+        'EndTimeObj' => 'Time',
     ];
 
     public function i18n_singular_name()
@@ -109,12 +109,12 @@ class TimesForTour extends TourBaseClass
         return _t('TimesForTour.PLURAL_NAME', 'Tour Times');
     }
 
-    public function EndTime()
+    public function EndTimeObj()
     {
         return $this->getEndTime();
     }
 
-    public function getEndTime()
+    public function getEndTimeObj()
     {
         $fakeDate = date('Y-m-d') . ' ' . $this->StartTime;
         $fakeDateTS = strtotime((string) $fakeDate);
@@ -122,7 +122,7 @@ class TimesForTour extends TourBaseClass
 
         $v = date('H:i:s', $fakeDateTS);
 
-        return DBField::create_field('Time', $v);
+        return DBTime::create_field('Time', $v);
     }
 
     public function requireDefaultRecords()
