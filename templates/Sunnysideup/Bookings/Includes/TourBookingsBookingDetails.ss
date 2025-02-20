@@ -6,7 +6,7 @@
             <dd>Date:</dd>
             <dt>$Date.Format('EEEE'), $Date.DayOfMonth(true) $Date.Format('MMM y')</dt>
             <dd>Time:</dd>
-            <dt>$StartTime.Short - $EndTime.Short</dt>
+            <dt>$StartTimeObj.Short - $EndTimeObj.Short</dt>
         <% end_with %>
         <dd>Booking code:</dd>
             <dt>$Code</dt>

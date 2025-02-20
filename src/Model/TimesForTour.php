@@ -3,6 +3,7 @@
 namespace Sunnysideup\Bookings\Model;
 
 use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\ORM\FieldType\DBTime;
 
 /**
  * Class \Sunnysideup\Bookings\Model\TimesForTour
