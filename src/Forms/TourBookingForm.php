@@ -20,7 +20,6 @@ use Sunnysideup\Bookings\Model\Booking;
 use Sunnysideup\Bookings\Model\ReferralOption;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
-use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 
 class TourBookingForm extends Form
 {
@@ -54,9 +53,9 @@ class TourBookingForm extends Form
         $column2 = CompositeField::create()->addExtraClass('right-column');
 
         if ($this->currentBooking) {
-            $LeftColHeader = HeaderField::create('UpdateBookingHeader', 'Update your booking.', 1);
+            $LeftColHeader = HeaderField::create('UpdateBookingHeader', 'Update your booking.', 5);
         } else {
-            $LeftColHeader = HeaderField::create('LeftColHeader', _t('TourBookingForm.SELECT_DATE_AND_NUMBER_OF_GUESTS', 'Select your date and number of guests.'), 1);
+            $LeftColHeader = HeaderField::create('LeftColHeader', _t('TourBookingForm.SELECT_DATE_AND_NUMBER_OF_GUESTS', 'Select your date and number of guests.'), 5);
         }
 
         $column1->push(
@@ -82,7 +81,7 @@ class TourBookingForm extends Form
         }
 
         $column2->push(
-            HeaderField::create('RightColHeader', 'Your personal details.')
+            HeaderField::create('RightColHeader', 'Your personal details.', 5)
         );
 
         foreach ($fields as $field) {

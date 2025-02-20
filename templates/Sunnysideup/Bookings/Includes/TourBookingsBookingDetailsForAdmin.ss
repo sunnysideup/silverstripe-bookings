@@ -24,13 +24,7 @@
             <dt>$PrimaryPhone</dt>
 
         <dd>Total number of guests:</dd>
-            <dt>$TotalNumberOfGuests</dt>
-
-        <dd>Number of adults:</dd>
-            <dt>$NumberOfAdults</dt>
-
-        <dd>Number of children:</dd>
-            <dt>$NumberOfChildren</dt>
+            <dt>$TotalNumberOfGuests<% if $NumberOfChildren %>, $NumberOfAdults adults and $NumberOfChildren child / children<% else %>, all adults<% end_if %></dt>
 
         <% if $SpecialAssistanceRequired %>
         <dd>Assistance Requested:</dd>
