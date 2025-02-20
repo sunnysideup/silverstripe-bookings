@@ -96,7 +96,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
                                 <th scope="row" style="text-align: left">Time:</th>
                                 <td>' .
                 $tour->getStartTimeObj()->Short() . ' - ' .
-                $tour->getEndTime()->Short() . '
+                $tour->getEndTimeObj()->Short() . '
                                 </td>
                             </tr>
                             <tr>

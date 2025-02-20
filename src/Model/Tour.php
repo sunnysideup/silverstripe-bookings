@@ -22,7 +22,6 @@ use Sunnysideup\Bookings\Pages\TourBookingPage;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 use Sunnysideup\Bookings\Search\TourDayFilter;
 use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
-use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 
 /**
@@ -246,7 +245,7 @@ class Tour extends TourBaseClass
             ' at ' .
             $this->getStartTimeObj()->Short() .
             ' until ' .
-            $this->getEndTime()->Short();
+            $this->getEndTimeObj()->Short();
 
         return DBVarchar::create_field('Varchar', $v);
     }

@@ -112,7 +112,7 @@ class TimesForTour extends TourBaseClass
 
     public function EndTimeObj()
     {
-        return $this->getEndTime();
+        return $this->getEndTimeObj();
     }
 
     public function getEndTimeObj()

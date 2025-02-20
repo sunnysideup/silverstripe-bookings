@@ -75,7 +75,6 @@ class TourBookingCancellationForm extends Form
             $booking->write();
 
             $settings = TourBookingSettings::inst();
-            $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
 
             $confirmationEmail = $settings->CancellationConfirmationEmail();
             $confirmationEmail->sendOne($booking);
