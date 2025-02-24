@@ -17,7 +17,6 @@ use SilverStripe\Forms\ReadonlyField;
 use Sunnysideup\Bookings\Model\Tour;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
 use Sunnysideup\Bookings\Model\Waitlister;
-use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 
 class TourWaitlistForm extends Form
 {

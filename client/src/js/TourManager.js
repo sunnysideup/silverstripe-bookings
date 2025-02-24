@@ -1,4 +1,3 @@
-
 import { Calendar } from 'fullcalendar'
 
 var TourManager = {
@@ -31,8 +30,12 @@ var TourManager = {
   },
 
   activateCalendar: function () {
-
-    const calendarEl = document.getElementById(TourManager.calendarIDwithoutHash)
+    const calendarEl = document.getElementById(
+      TourManager.calendarIDwithoutHash
+    )
+    if (!calendarEl) {
+      return
+    }
     const calendar = new Calendar(
       calendarEl,
       // {
@@ -45,23 +48,21 @@ var TourManager = {
           month: 'Month',
           basicWeek: 'Week',
           basicDay: 'Day',
-          listYear: 'List',
+          listYear: 'List'
         },
         views: {
           basicDay: {
-            timeFormat: 'H:mm a',
+            timeFormat: 'H:mm a'
           },
           basicWeek: {
             columnFormat: 'ddd D/M',
-            timeFormat: 'H:mm a',
-          },
+            timeFormat: 'H:mm a'
+          }
         },
         allDaySlot: false,
-        events: '/' + TourManager.url + '/all',
-
+        events: '/' + TourManager.url + '/all'
       }
-
-    );
+    )
     calendar.render()
   },
 
@@ -82,7 +83,7 @@ var TourManager = {
         dataType: 'json',
         data: {
           id: bookingID,
-          arrived: hasArrived,
+          arrived: hasArrived
         },
         error: function (jqXHR, textStatus, errorThrown) {
           console.log(errorThrown)
@@ -92,7 +93,7 @@ var TourManager = {
             el.parent().removeClass('loading')
           }
         },
-        url: jsonURL,
+        url: jsonURL
       })
     })
   },
@@ -112,7 +113,7 @@ var TourManager = {
       window.print()
       return false
     })
-  },
+  }
 }
 
 export default TourManager

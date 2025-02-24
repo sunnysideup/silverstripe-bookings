@@ -84,16 +84,20 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
     protected function BookingInfoHTML($reminder, $booking, string $searchString, string $str): string
     {
         $replace = '';
+        $tour = $booking->Tour();
         /** @var Booking $booking */
         if ($booking instanceof Booking) {
             $replace = '<table>
                             <tr>
                                 <th scope="row" style="text-align: left">Date:</th>
-                                <td>' . date('l, jS F Y', strtotime((string) $booking->Tour()->Date)) . '</td>
+                                <td>' . date('l, jS F Y', strtotime((string) $tour->Date)) . '</td>
                             </tr>
                             <tr>
                                 <th scope="row" style="text-align: left">Time:</th>
-                                <td>' . $booking->Tour()->StartTimeObj->Nice() . ' - ' . $booking->Tour()->EndTime->Nice() . '</td>
+                                <td>' .
+                $tour->getStartTimeObj()->Short() . ' - ' .
+                $tour->getEndTimeObj()->Short() . '
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row" style="text-align: left">Booking code:</th>
@@ -128,7 +132,7 @@ class TourBookingsEmailReminderReplacerClass extends EmailReminderReplacerClassB
      */
     protected function TourTime($reminder, Booking|Waitlister $booking, string $searchString, string $str): string
     {
-        $replace = $booking->Tour()->TourTimeAndDate;
+        $replace = $booking->Tour()->getTourTimeAndDate();
         return str_replace((string) $searchString, (string) $replace, $str);
     }
 

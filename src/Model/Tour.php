@@ -13,6 +13,7 @@ use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBBoolean;
 use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\ORM\FieldType\DBTime;
 use SilverStripe\ORM\FieldType\DBVarchar;
 use Sunnysideup\Bookings\Cms\TourBookingsConfig;
 use Sunnysideup\Bookings\Forms\Fields\TourDateFilterField;
@@ -21,7 +22,6 @@ use Sunnysideup\Bookings\Pages\TourBookingPage;
 use Sunnysideup\Bookings\Search\TourDateFilter;
 use Sunnysideup\Bookings\Search\TourDayFilter;
 use Sunnysideup\DataobjectSorter\Api\DataObjectOneFieldAddEditAllLink;
-use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 use Sunnysideup\GoogleCalendarInterface\GoogleCalendarInterface;
 
 /**
@@ -178,7 +178,7 @@ class Tour extends TourBaseClass
 
     private static $casting = [
         'Title' => 'Varchar',
-        'EndTime' => 'Time',
+        'EndTimeObj' => 'Time',
         'NumberOfPlacesBooked' => 'Int',
         'NumberOfPlacesAvailable' => 'Int',
         'IsFull' => 'Boolean',
@@ -237,7 +237,15 @@ class Tour extends TourBaseClass
 
     public function getTitle(): DBVarchar
     {
-        $v = 'Tour on ' . date('D, jS M Y', strtotime((string) $this->Date)) . ' at ' . $this->StartTimeObj()->Nice() . ' until ' . $this->getEndTime()->Nice();
+        $v = 'Tour on ' .
+            date(
+                'D, jS M Y',
+                strtotime((string) $this->Date)
+            ) .
+            ' at ' .
+            $this->getStartTimeObj()->Short() .
+            ' until ' .
+            $this->getEndTimeObj()->Short();
 
         return DBVarchar::create_field('Varchar', $v);
     }
@@ -285,12 +293,12 @@ class Tour extends TourBaseClass
         return DBField::create_field('HTMLText', $v);
     }
 
-    public function EndTime()
+    public function EndTimeObj(): DBField
     {
-        return $this->getEndTime();
+        return $this->getEndTimeObj();
     }
 
-    public function getEndTime()
+    public function getEndTimeObj(): DBTime
     {
         $fakeDate = date('Y-m-d') . ' ' . $this->StartTime;
         $fakeDateTS = strtotime((string) $fakeDate);
@@ -298,21 +306,21 @@ class Tour extends TourBaseClass
 
         $v = date('H:i:s', $fakeDateTS);
 
-        return DBField::create_field('Time', $v);
+        return DBTime::create_field('Time', $v);
     }
 
-    public function StartTimeObj()
+    public function StartTimeObj(): DBTime
     {
         return $this->getStartTimeObj();
     }
 
-    public function getStartTimeObj()
+    public function getStartTimeObj(): DBTime
     {
         $fakeDate = date('Y-m-d') . ' ' . $this->StartTime;
         $fakeDateTS = strtotime((string) $fakeDate);
         $v = date('H:i:s', $fakeDateTS);
 
-        return DBField::create_field('Time', $v);
+        return DBTime::create_field('Time', $v);
     }
 
     public function NumberOfPlacesBooked()
@@ -576,7 +584,7 @@ class Tour extends TourBaseClass
                         'timeZone' => $timeZone,
                     ],
                     'end' => [
-                        'dateTime' => $this->Date . 'T' . $this->EndTime(),
+                        'dateTime' => $this->Date . 'T' . $this->EndTimeObj(),
                         'timeZone' => $timeZone,
                     ],
                 ];

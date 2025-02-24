@@ -18,7 +18,7 @@
                 <dd>Date:</dd>
                     <dt>$Date.Format('EEEE'), $Date.DayOfMonth(true) $Date.Format('MMM y')</dt>
                 <dd>Time:</dd>
-                    <dt>$StartTime.Short - $EndTime.Short</dt>
+                    <dt>$StartTimeObj.Short - $EndTimeObj.Short</dt>
                 <dd>Booking up to:</dd>
                     <dt><% if IsFull %>Full<% else %>$TotalSpacesAtStart<% end_if %></dt>
                 <dd>Booked:</dd>
@@ -43,9 +43,12 @@
                 <ol id="list-of-bookings">
                     <% loop $ValidBookings %>
                         <li>
-                            <h3><a href="$EditLink(true)">$InitiatingFirstName $InitiatingSurname</a></h3>
+                            <h3>
+                                <a href="$EditLink(true)">$InitiatingFirstName $InitiatingSurname</a>
+                                <a href="$CMSEditLink" class="btn btn--red d-print-none" style="float: right;">Edit in CMS</a>
+                            </h3>
                             <% include Sunnysideup\Bookings\Includes\TourBookingsBookingDetailsForAdmin %>
-                            <a href="$CMSEditLink" class="btn btn--red d-print-none">Edit in CMS</a>
+
                         </li>
                     <% end_loop %>
                 </ol>

@@ -7,7 +7,7 @@
                     <dd>Date:</dd>
                         <dt>$Date.Format('EEEE'), $Date.DayOfMonth(true) $Date.Format('MMM y')</dt>
                     <dd>Time:</dd>
-                        <dt>$StartTime.Short - $EndTime.Short</dt>
+                        <dt>$StartTimeObj.Short - $EndTimeObj.Short</dt>
                 <% end_with %>
                 <dd>Total number of guests:</dd>
                 <dt>$TotalNumberOfGuests</dt>

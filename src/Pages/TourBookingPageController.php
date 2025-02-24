@@ -436,7 +436,7 @@ class TourBookingPageController extends PageController
             $array['abrv-title'] = $tour->AbrvCalendarTitle();
             $array['url'] = $this->Link('checkinfortour/' . $tour->ID . '/');
             $array['start'] = $tour->Date . 'T' . $tour->StartTime;
-            $array['end'] = $tour->Date . 'T' . $tour->EndTime()->Value;
+            $array['end'] = $tour->Date . 'T' . $tour->EndTimeObj()->Value;
             $array['backgroundColor'] = '#16a335';
             if ($tour->IsFull()->value) {
                 $array['backgroundColor'] = '#e83333';

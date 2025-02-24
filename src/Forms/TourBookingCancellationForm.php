@@ -14,7 +14,6 @@ use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\RequiredFields;
 use Sunnysideup\Bookings\Model\Booking;
 use Sunnysideup\Bookings\Model\TourBookingSettings;
-use SunnySideUp\EmailReminder\Tasks\EmailReminderDailyMailOut;
 
 class TourBookingCancellationForm extends Form
 {
@@ -75,7 +74,6 @@ class TourBookingCancellationForm extends Form
             $booking->write();
 
             $settings = TourBookingSettings::inst();
-            $mailOut = Injector::inst()->get(EmailReminderDailyMailOut::class);
 
             $confirmationEmail = $settings->CancellationConfirmationEmail();
             $confirmationEmail->sendOne($booking);

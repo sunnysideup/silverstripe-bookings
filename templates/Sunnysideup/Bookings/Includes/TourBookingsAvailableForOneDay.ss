@@ -11,7 +11,7 @@
             <% loop $ListOfToursForOneDay %>
                 <li class="clearfix">
                     <div class="details-section list-of-tours-subsection">
-                        $StartTime.Short - $EndTime.Short<br>
+                        $StartTimeObj.Short - $EndTimeObj.Short<br>
                         $CalculatedPublicContent
                     </div>
                     <div class="book-now-section list-of-tours-subsection">
