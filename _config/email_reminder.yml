@@ -2,7 +2,7 @@
 name: EmailReminder
 ---
 SunnySideUp\EmailReminder\Api\EmailReminderMailOut:
-  daily_limit: 100
+  daily_limit: 200
   replacer_class: Sunnysideup\Bookings\Api\TourBookingsEmailReminderReplacerClass
 SunnySideUp\EmailReminder\Model\EmailReminderNotificationSchedule:
   default_data_object: Sunnysideup\Bookings\Model\Booking
